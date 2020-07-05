@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.example.tesla_restapiclient.ui.rest.RestViewModel" />
+    </data>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.drawerlayout.widget.DrawerLayout
+
+                android:id="@+id/drawerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/clRootView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false">
+
+                    <LinearLayout
+                        android:id="@+id/activityMain"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <RelativeLayout
+                            android:orientation="vertical"
+                            android:background="#303030"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <include android:id="@+id/main_layout" layout="@layout/layout"/>
+
+                            <ScrollView
+                                android:layout_below="@id/main_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <FrameLayout
+                                    android:layout_below="@id/main_layout"
+                                    android:id="@+id/rly_container"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <RelativeLayout
+                                        android:background="@color/colorAccent"
+                                        android:id="@+id/rly_viewpager"
+
+                                        android:minHeight="420dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_marginTop="420dp"
+
+                                        android:background="@color/white"
+                                        android:id="@+id/rly_restcontainer"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                    </RelativeLayout>
+
+                                </FrameLayout>
+                            </ScrollView>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/navigationView"
+                    style="@style/Widget.Design.NavigationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:background="@color/white"
+                    app:itemBackground="@color/white"
+                    app:itemIconTint="@color/black_effective"
+                    app:itemTextColor="@color/black_effective"
+                    app:menu="@menu/drawer">
+
+
+                </com.google.android.material.navigation.NavigationView>
+
+            </androidx.drawerlayout.widget.DrawerLayout>
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/address_looking_up"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+
+        </FrameLayout>
+
+
+
+
+</layout>
