@@ -22,7 +22,9 @@ import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.utils.CommonUtils;
 import com.example.tesla_restapiclient.utils.NetworkUtils;
 
-public abstract class BaseActivity<T extends ViewDataBinding, N extends BaseViewModel> extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public abstract class BaseActivity<T extends ViewDataBinding, N extends BaseViewModel> extends DaggerAppCompatActivity implements BaseFragment.Callback{
 
     private ProgressDialog mProgressDialog;
 
@@ -55,7 +57,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, N extends BaseView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        performDependencyInjection();
+       // performDependencyInjection();
         super.onCreate(savedInstanceState);
         performDataBinding();
         changeStatusBarColor();
@@ -68,7 +70,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, N extends BaseView
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.my_statusbar_color));
     }
 
-    protected abstract void performDependencyInjection();
+//    protected abstract void performDependencyInjection();
 
     private void performDataBinding() {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
@@ -123,4 +125,15 @@ public abstract class BaseActivity<T extends ViewDataBinding, N extends BaseView
 
     @LayoutRes
     public abstract int getLayoutId();
+
+    @Override
+    public void onFragmentAttached() {
+
+
+    }
+
+    @Override
+    public void onFragmentDetached(String tag) {
+
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.tesla_restapiclient.di.builder;
 
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
+import com.example.tesla_restapiclient.ui.rest.RestActivityModule;
+import com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
 import com.example.tesla_restapiclient.ui.splash.SplashActivity;
 
 import dagger.Module;
@@ -23,7 +25,7 @@ public abstract class ActivityBuilder {
 //            RateUsDialogProvider.class})
 //    abstract MainActivity bindMainActivity();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = {RestRequestProvider.class, RestActivityModule.class})
     abstract RestActivity bindrestActivity();
 
     @ContributesAndroidInjector

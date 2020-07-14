@@ -34,47 +34,60 @@
 
 
                         <RelativeLayout
+                            android:id="@+id/appbarlayout"
                             android:orientation="vertical"
                             android:background="#303030"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="wrap_content">
 
-                            <include android:id="@+id/main_layout" layout="@layout/layout"/>
-
-                            <ScrollView
-                                android:layout_below="@id/main_layout"
+                            <com.google.android.material.appbar.AppBarLayout
+                                android:id="@+id/appbar"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <FrameLayout
-                                    android:layout_below="@id/main_layout"
-                                    android:id="@+id/rly_container"
+                                android:layout_height="wrap_content"
+                                app:elevation="5dp">
+
+                                <LinearLayout
+                                    android:orientation="vertical"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="wrap_content">
+                                    <androidx.appcompat.widget.Toolbar
+                                        android:id="@+id/toolbar"
+                                        android:background="@color/black"
+                                        app:subtitleTextColor="@color/white"
+                                        app:navigationIcon="@drawable/ic_baseline_dehaze_24"
+                                        app:titleTextColor="@color/white"
+                                        android:layout_height="50dp"
+                                        android:layout_width="match_parent" >
 
-                                    <RelativeLayout
-                                        android:background="@color/colorAccent"
-                                        android:id="@+id/rly_viewpager"
 
-                                        android:minHeight="420dp"
+
+                                    </androidx.appcompat.widget.Toolbar>
+                                    <com.google.android.material.tabs.TabLayout
+                                        android:background="@color/black"
+                                        android:id="@+id/tablayout"
+                                        app:tabTextColor="@color/white"
+                                        app:tabIndicatorColor="@color/white"
+
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+                                        android:layout_height="wrap_content"/>
+                                </LinearLayout>
 
-                                    </RelativeLayout>
 
-                                    <RelativeLayout
-                                        android:layout_marginTop="420dp"
 
-                                        android:background="@color/white"
-                                        android:id="@+id/rly_restcontainer"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+                            </com.google.android.material.appbar.AppBarLayout>
 
-                                    </RelativeLayout>
-
-                                </FrameLayout>
-                            </ScrollView>
 
                         </RelativeLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <androidx.viewpager.widget.ViewPager
+
+                                android:id="@+id/viewpager"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+                        </FrameLayout>
 
 
                     </LinearLayout>
@@ -86,10 +99,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
-                    android:background="@color/white"
-                    app:itemBackground="@color/white"
-                    app:itemIconTint="@color/black_effective"
-                    app:itemTextColor="@color/black_effective"
+                    android:background="@color/bg_color"
+                    app:itemBackground="@color/bg_color"
+                    app:itemIconTint="@color/white"
+                    app:itemTextColor="@color/white"
                     app:menu="@menu/drawer">
 
 

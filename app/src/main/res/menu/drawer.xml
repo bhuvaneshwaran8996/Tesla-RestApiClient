@@ -16,24 +16,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:id="@+id/navItemAbout"
+            android:id="@+id/navRest"
             android:checked="true"
 
-            android:title="@string/about" />
+            android:title="Rest Request" />
         <item
-            android:id="@+id/navItemRateUs"
+            android:id="@+id/navFCM"
             android:checked="true"
 
-            android:title="@string/rate_us" />
-        <item
-            android:id="@+id/navItemFeed"
-            android:checked="true"
+            android:title="FCM Request" />
 
-            android:title="@string/feed" />
-        <item
-            android:id="@+id/navItemLogout"
-            android:checked="true"
-
-            android:title="@string/logout" />
     </group>
 </menu>
