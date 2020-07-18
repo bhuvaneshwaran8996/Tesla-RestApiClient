@@ -16,11 +16,9 @@ public class RestActivityModule {
         return new RestFragmentAdapter(restActivity.getSupportFragmentManager());
     }
 
-
-
-
     @Provides
     public static FcmAdpater provideFcmAdapter(RestActivity restActivity){
         return new FcmAdpater(restActivity.getSupportFragmentManager());
     }
+
 }

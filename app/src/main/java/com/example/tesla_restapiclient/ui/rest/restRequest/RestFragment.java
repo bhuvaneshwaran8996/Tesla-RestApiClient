@@ -13,12 +13,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.FragmentRestBinding;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
 import com.example.tesla_restapiclient.ui.base.BaseFragment;
+import com.example.tesla_restapiclient.ui.body.DialogBody;
+import com.example.tesla_restapiclient.ui.header.HeaderFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,6 +91,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
             httpdata = (ArrayList<String>) savedInstanceState.get("spinnerhttp");
             spinnerdata = (ArrayList<String>) savedInstanceState.get("spinner");
         }
+
     }
 
     @Override
@@ -109,8 +113,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
         }
         if(httpdata == null){
             httpdata = new ArrayList<>();
-            httpdata.add("http");
-            httpdata.add("https");
+            httpdata.add("http://");
+            httpdata.add("https://");
         }
 
 
@@ -159,6 +163,11 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
             }
         });
 
+        binding.keycheckbox.setOnClickListener(new OnClick());
+        binding.rawcheckbox.setOnClickListener(new OnClick());
+        binding.txtAddheader.setOnClickListener(new OnClick());
+        binding.txtAddbody.setOnClickListener(new OnClick());
+
 
 
     }
@@ -173,5 +182,38 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
     @Override
     public void fuckKaviya() {
 
+    }
+
+    public class OnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+
+                case R.id.txt_addbody:
+                    DialogBody dialogBody = DialogBody.newInstance();
+                    dialogBody.show(getChildFragmentManager(),"");
+                    break;
+                case R.id.txt_addheader:
+                    HeaderFragment headerFragment = HeaderFragment.newInstance();
+                    headerFragment.show(getChildFragmentManager(),"");
+                    break;
+
+                case R.id.rawcheckbox:
+                    binding.keycheckbox.setChecked(false);
+                    binding.rlyBodyedt.setVisibility(View.VISIBLE);
+                    binding.rlyKey.setVisibility(View.GONE);
+                    binding.recyclerKey.setVisibility(View.GONE);
+                    break;
+
+                case R.id.keycheckbox:
+                    binding.rawcheckbox.setChecked(false);
+
+                    binding.rlyBodyedt.setVisibility(View.GONE);
+                    binding.rlyKey.setVisibility(View.VISIBLE);
+                    binding.recyclerKey.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
     }
 }
