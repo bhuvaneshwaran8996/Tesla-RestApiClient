@@ -2,9 +2,7 @@ package com.example.tesla_restapiclient.ui.rest.restRequest;
 
 import android.os.Bundle;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -13,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.FragmentRestBinding;
@@ -22,16 +20,12 @@ import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
 import com.example.tesla_restapiclient.ui.base.BaseFragment;
 import com.example.tesla_restapiclient.ui.body.DialogBody;
 import com.example.tesla_restapiclient.ui.header.HeaderFragment;
+import com.example.tesla_restapiclient.ui.header.HeadersAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
 
 
 public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestViewModel> implements RestResquestNavigtor{
@@ -46,6 +40,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
     ViewModelProviderFactory viewModelProviderFactory;
     FragmentRestBinding fragmentRestBinding;
     RestRequestViewModel viewModel;
+    @Inject
+    HeadersAdapter headerAdapter;
     public RestFragment() {
         // Required empty public constructor
     }
@@ -117,7 +113,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
             httpdata.add("https://");
         }
 
-
+        initHeaderAdapter();
         arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerdata);
         spinner.setAdapter(arrayAdapter);
         spinner.setSelection(1);
@@ -143,7 +139,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
 
         arrayAdapterhttp = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,httpdata);
         binding.spinnerHttp.setAdapter(arrayAdapterhttp);
-        spinner.setSelection(1);
+        spinner.setSelection(0);
 
 
 
@@ -215,5 +211,11 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
                     break;
             }
         }
+    }
+
+    public void initHeaderAdapter(){
+        binding.recyclerHeader.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerHeader.setHasFixedSize(true);
+        binding.recyclerHeader.setAdapter(headerAdapter);
     }
 }

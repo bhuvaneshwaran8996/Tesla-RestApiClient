@@ -65,13 +65,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentResponseBinding = getBinding();
-        fragmentResponseBinding.response.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HeaderFragment headerFragment = HeaderFragment.newInstance();
-                headerFragment.show(getChildFragmentManager(),"");
-            }
-        });
+
     }
 
     @Override

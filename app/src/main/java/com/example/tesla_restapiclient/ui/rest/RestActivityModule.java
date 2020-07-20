@@ -1,7 +1,12 @@
 package com.example.tesla_restapiclient.ui.rest;
 
 
-import com.example.tesla_restapiclient.di.qualifier.fcmadapter;
+import android.content.Context;
+
+import com.example.tesla_restapiclient.di.qualifier.BodyAdapter;
+import com.example.tesla_restapiclient.di.qualifier.HeaderAdapter;
+import com.example.tesla_restapiclient.ui.body.BodyRecyclerAdapter;
+import com.example.tesla_restapiclient.ui.header.HeadersAdapter;
 import com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
 
 import dagger.Module;
@@ -20,5 +25,19 @@ public class RestActivityModule {
     public static FcmAdpater provideFcmAdapter(RestActivity restActivity){
         return new FcmAdpater(restActivity.getSupportFragmentManager());
     }
+
+    @Provides
+    @HeaderAdapter
+    public static HeadersAdapter provideHeadersAdapter(Context context){
+        return new HeadersAdapter(context);
+    }
+
+    @Provides
+    @BodyAdapter
+    public static BodyRecyclerAdapter provideBodyAdapter(Context context){
+      return  new BodyRecyclerAdapter(context);
+    }
+
+
 
 }
