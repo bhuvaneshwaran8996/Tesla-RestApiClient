@@ -23,10 +23,17 @@ import com.example.tesla_restapiclient.utils.rx.SchedulerProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
@@ -88,12 +95,57 @@ public class AppModule {
         return appPreferencesHelper;
     }
 
-
-
     @Provides
+    @Singleton
     SchedulerProvider provideSchedulerProvider() {
         return new AppSchedulerProvider();
     }
+
+
+    @Provides
+    @Singleton
+    GsonConverterFactory provideGsonConverterFactory(){
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setLenient();
+        Gson gson = gsonBuilder.create();
+       return GsonConverterFactory.create(gson);
+    }
+
+    @Provides
+    @Singleton
+    RxJava2CallAdapterFactory provideRxJava2CallAdapterFactory(){
+      return   RxJava2CallAdapterFactory.create();
+    }
+
+
+    @Provides
+    @Singleton
+     OkHttpClient provideOkHttpClient(Gson gson){
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                .callTimeout(2, TimeUnit.MINUTES)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS);
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(httpLoggingInterceptor);
+        return httpClient.build();
+
+    }
+
+    @Provides
+    @Singleton
+    Retrofit provideRetrofit(RxJava2CallAdapterFactory rxJava2CallAdapterFactory, OkHttpClient okHttpClient,GsonConverterFactory gsonConverterFactory){
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(rxJava2CallAdapterFactory)
+                .addConverterFactory(gsonConverterFactory)
+                .client(okHttpClient)
+                .build();
+    }
+
+
 
 
 

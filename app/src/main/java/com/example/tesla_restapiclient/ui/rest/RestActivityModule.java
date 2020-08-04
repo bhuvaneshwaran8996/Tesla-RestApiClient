@@ -3,6 +3,8 @@ package com.example.tesla_restapiclient.ui.rest;
 
 import android.content.Context;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.example.tesla_restapiclient.di.qualifier.BodyAdapter;
 import com.example.tesla_restapiclient.di.qualifier.HeaderAdapter;
 import com.example.tesla_restapiclient.ui.body.BodyRecyclerAdapter;
@@ -32,6 +34,7 @@ public class RestActivityModule {
         return new HeadersAdapter(context);
     }
 
+
     @Provides
     @BodyAdapter
     public static BodyRecyclerAdapter provideBodyAdapter(Context context){
@@ -39,5 +42,9 @@ public class RestActivityModule {
     }
 
 
+    @Provides
+    public static FragmentManager provideFragmentManager(RestActivity restActivity){
+        return restActivity.getSupportFragmentManager();
+    }
 
 }

@@ -109,6 +109,7 @@
                     <com.example.tesla_restapiclient.controls.TextViewMedium
                         android:layout_width="match_parent"
                         android:text="OK"
+                        android:id="@+id/ok"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:layout_margin="20dp"

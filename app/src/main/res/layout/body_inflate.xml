@@ -1,55 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
 
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="#303030"
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_corner_header">
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.example.tesla_restapiclient.controls.TextViewMedium
+                    android:id="@+id/txt_key"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Authorization"
+                    android:textColor="#fff" />
+                <ImageView
+
+                    android:layout_margin="5dp"
+                    android:id="@+id/ic_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_baseline_edit_24"
+                    android:tint="@color/white" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewline"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/title"
+                android:background="#fff" />
+
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/ic_delete"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/ic_baseline_delete_24"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <com.example.tesla_restapiclient.controls.TextViewBlack
-                    android:text="Authorization"
-                    android:textColor="#000"
-                    android:id="@+id/title"
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <View
-                    android:layout_below="@id/title"
-                    android:background="#000"
-                    android:id="@+id/viewline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                <com.example.tesla_restapiclient.controls.TextViewBlack
+
+                <com.example.tesla_restapiclient.controls.TextViewMedium
+                    android:id="@+id/txt_value"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
                     android:text="token:sdsdsdsdsdsd"
-                    android:layout_below="@+id/viewline"
-                    android:textColor="#000"
-                    android:id="@+id/content"
-                    android:layout_margin="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="#fff" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:layout_margin="2dp"
+                    android:id="@+id/ic_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    android:tint="@color/white" />
+            </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>

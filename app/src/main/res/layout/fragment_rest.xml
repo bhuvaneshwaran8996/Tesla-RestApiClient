@@ -6,12 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mindorks.framework.mvvm.ui.feed.FeedActivity">
 
-    <data>
 
-        <!--        <variable-->
-        <!--            name="viewModel"-->
-        <!--            type="com.mindorks.framework.mvvm.ui.feed.FeedViewModel" />-->
-    </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -105,6 +100,7 @@
                             android:layout_weight="1">
 
                             <com.example.tesla_restapiclient.controls.EditTextRegular
+                                android:id="@+id/url"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
@@ -188,6 +184,7 @@
                         android:layout_height="wrap_content">
 
                         <com.example.tesla_restapiclient.controls.EditTextRegular
+                            android:id="@+id/editBody"
                             android:layout_width="match_parent"
                             android:textColor="@color/white"
                             android:cursorVisible="true"
@@ -198,6 +195,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:layout_marginTop="30dp"
 
                         android:id="@+id/rly_key"
                         android:layout_width="match_parent"
@@ -231,6 +229,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerbody"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>

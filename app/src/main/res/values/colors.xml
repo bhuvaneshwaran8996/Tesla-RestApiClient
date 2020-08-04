@@ -5,9 +5,9 @@
     <color name="my_statusbar_color">#90303030</color>
     <color name="colorPrimary">@color/blue_black_light</color>
     <color name="colorPrimaryDark">@color/black</color>
-    <color name="colorAccent">#FFF</color>
+    <color name="colorAccent">#FFA500</color>
     <color name="light_gray">#dbdbdb</color>
-    <color name="gray">#7e7e7e</color>
+    <color name="graangy">#7e7e7e</color>
     <color name="semi_gray">#979797</color>
     <color name="dark_gray">#696969</color>
 
