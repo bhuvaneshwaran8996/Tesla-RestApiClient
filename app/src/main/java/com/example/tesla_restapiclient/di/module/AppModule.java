@@ -160,6 +160,7 @@ public class AppModule {
                 .addCallAdapterFactory(rxJava2CallAdapterFactory)
                 .addConverterFactory(gsonConverterFactory)
                 .client(okHttpClient)
+
                 .build();
     }
 

@@ -127,119 +127,131 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp">
-
-                        <com.example.tesla_restapiclient.controls.TextViewMedium
-                            android:id="@+id/body"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="15dp"
-                            android:text="BODY"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/rawcheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:buttonTint="@color/white" />
-
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:id="@+id/raw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/rawcheckbox"
-                            android:gravity="center_vertical"
-                            android:text="Raw"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/keycheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/raw"
-                            android:buttonTint="@color/white" />
-
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/keycheckbox"
-                            android:gravity="center_vertical"
-                            android:text="Key"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-
-                        android:id="@+id/rly_bodyedt"
-                        android:background="@drawable/background_edt"
-                        android:layout_margin="15dp"
+                    <LinearLayout
+                        android:id="@+id/lnr_inner_body"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
-                        <com.example.tesla_restapiclient.controls.EditTextRegular
-                            android:id="@+id/editBody"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:textColor="@color/white"
-                            android:cursorVisible="true"
-                            android:padding="10dp"
-                            android:gravity="top|left"
-                            android:background="@null"
-                            android:layout_height="100dp"/>
-                    </RelativeLayout>
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
 
-                    <RelativeLayout
-                        android:layout_marginTop="30dp"
-                        android:id="@+id/rly_key"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.example.tesla_restapiclient.controls.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:text="Key"
-                            android:textSize="18sp"
-                            android:layout_marginLeft="15dp"
-                            android:textColor="@color/white"
-                            android:layout_height="wrap_content"/>
+                            <com.example.tesla_restapiclient.controls.TextViewMedium
+                                android:id="@+id/body"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="15dp"
+                                android:text="BODY"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
 
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:layout_width="wrap_content"
-                            android:text="Add new"
-                            android:id="@+id/txt_addbody"
-                            android:textSize="18sp"
-                            android:layout_marginRight="15dp"
-                            android:paddingBottom="3dp"
-                            android:textColor="@color/white"
-                            android:background="@drawable/rounded_cornor"
-                            android:layout_alignParentEnd="true"
-                            android:paddingRight="5dp"
-                            android:paddingLeft="5dp"
-                            android:layout_height="wrap_content"/>
-                    </RelativeLayout>
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:id="@+id/rawcheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:buttonTint="@color/white" />
 
-                    <RelativeLayout
+                            <com.example.tesla_restapiclient.controls.TextViewRegular
+                                android:id="@+id/raw"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@id/rawcheckbox"
+                                android:gravity="center_vertical"
+                                android:text="Raw"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
 
-                        android:id="@+id/recycler_key"
-                        android:layout_margin="15dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerbody"
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:id="@+id/keycheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@+id/raw"
+                                android:buttonTint="@color/white" />
+
+                            <com.example.tesla_restapiclient.controls.TextViewRegular
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@id/keycheckbox"
+                                android:gravity="center_vertical"
+                                android:text="Key"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:id="@+id/rly_bodyedt"
+                            android:background="@drawable/background_edt"
+                            android:layout_margin="15dp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </RelativeLayout>
+                            android:layout_height="wrap_content">
+
+
+                                <com.example.tesla_restapiclient.controls.EditTextRegular
+                                    android:id="@+id/editBody"
+                                    android:layout_width="match_parent"
+                                    android:textColor="@color/white"
+                                    android:cursorVisible="true"
+                                    android:padding="10dp"
+                                    android:gravity="top|left"
+                                    android:background="@null"
+                                    android:layout_height="150dp"/>
+
+
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="30dp"
+                            android:id="@+id/rly_key"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <com.example.tesla_restapiclient.controls.TextViewMedium
+                                android:layout_width="wrap_content"
+                                android:text="Key"
+                                android:textSize="18sp"
+                                android:layout_marginLeft="15dp"
+                                android:textColor="@color/white"
+                                android:layout_height="wrap_content"/>
+
+                            <com.example.tesla_restapiclient.controls.TextViewRegular
+                                android:layout_width="wrap_content"
+                                android:text="Add new"
+                                android:id="@+id/txt_addbody"
+                                android:textSize="18sp"
+                                android:layout_marginRight="15dp"
+                                android:paddingBottom="3dp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/rounded_cornor"
+                                android:layout_alignParentEnd="true"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:id="@+id/recycler_key"
+                            android:layout_margin="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerbody"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
                     <RelativeLayout
                         android:layout_margin="15dp"
                         android:id="@+id/rly_header"

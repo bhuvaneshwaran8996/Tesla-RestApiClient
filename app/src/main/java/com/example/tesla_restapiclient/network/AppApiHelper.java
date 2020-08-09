@@ -60,4 +60,22 @@ public class AppApiHelper implements ApiHelper {
 
 
     }
+    public Observable<Response<ResponseBody>> processPatchWithRaw(String urlPath, HashMap<String, String> heafermap, JsonObject bodyList) {
+        return restService.processPatchRaw(urlPath,heafermap,bodyList)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<Response<ResponseBody>> processPatchWithKey(String url, HashMap<String, String> headerModelList, Map<String, String> bodyList) {
+        return restService.processPatchKey(url,headerModelList,bodyList)
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<Response<ResponseBody>> processDeleteRequest(String urlPath, HashMap<String, String> headermap) {
+
+        return  restService.processDeleteRequest(urlPath, headermap).subscribeOn(Schedulers.io());
+
+
+    }
+
 }

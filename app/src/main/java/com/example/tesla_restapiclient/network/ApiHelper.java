@@ -18,9 +18,6 @@ import retrofit2.http.Url;
 public interface ApiHelper {
 
 
-
-
-
     Observable<Response<ResponseBody>> processGetRequest(String urlPath, HashMap<String, String> headermap);
 
     Observable<Response<ResponseBody>> processBodyWithKey(String url, HashMap<String, String> headerModelList, Map<String, String> bodyList);
@@ -31,5 +28,11 @@ public interface ApiHelper {
 
     Observable<Response<ResponseBody>> processPutWithRaw( String urlPath,  HashMap<String, String> heafermap,  JsonObject bodyList);
 
+    Observable<Response<ResponseBody>> processPatchWithKey(String url, HashMap<String, String> headerModelList, Map<String, String> bodyList);
+
+    Observable<Response<ResponseBody>> processPatchWithRaw( String urlPath,  HashMap<String, String> heafermap,  JsonObject bodyList);
+
+
+    Observable<Response<ResponseBody>> processDeleteRequest(String urlPath, HashMap<String, String> headermap);
 
 }

@@ -60,8 +60,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("body",body);
-        outState.putString("header",header);
+
     }
 
     public static ResponseFragment newInstance() {
@@ -77,10 +76,8 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState!=null){
-         header =    savedInstanceState.getString("header");
-          body =   savedInstanceState.getString("body");
-        }
+        setRetainInstance(true);
+
     }
 
     @Override
@@ -90,8 +87,10 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
 
 
 
-        fragmentResponseBinding.bodyText.setText(body);
-        fragmentResponseBinding.headerText.setText(header);
+        fragmentResponseBinding.bodyText.setText(restActivity.bodyResponse);
+        fragmentResponseBinding.headerText.setText(restActivity.headerResponse);
+        fragmentResponseBinding.txtResponsetime.setText(restActivity.requesttime);
+        fragmentResponseBinding.txtRequestcode.setText(restActivity.requestCode);
         fragmentResponseBinding.header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,9 +123,15 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
 
     }
 
-    public void setRestSuccessResults(String body, String headers) {
-        binding.bodyText.setText(body);
-        binding.headerText.setText(headers);
+    public void setRestSuccessResults(String body, String headers, String requestCod, String requestTime) {
+       // if(fragmentResponseBinding!=null &&  fragmentResponseBinding.bodyText!=null && fragmentResponseBinding.headerText!=null){
+
+            fragmentResponseBinding.bodyText.setText(body);
+            fragmentResponseBinding.headerText.setText(headers);
+            fragmentResponseBinding.txtRequestcode.setText(requestCod);
+            fragmentResponseBinding.txtResponsetime.setText(requestTime);
+       // }
+
 
     }
 }

@@ -61,6 +61,8 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     ProgressDialog progressDialog;
     public String  bodyResponse;
     public String headerResponse;
+    public String requestCode;
+    public String  requesttime;
 
 
     public int currentPagerPostion;
@@ -76,6 +78,8 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //        restBundle.putString("Header",headerResponse);
         if(savedInstanceState!=null){
             currentPagerPostion =     savedInstanceState.getInt("position",0);
+            requesttime = savedInstanceState.getString("requesttime");
+            requestCode = savedInstanceState.getString("requestCode");
         }
 
 
@@ -93,6 +97,10 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("position",currentPagerPostion);
+        outState.putString("requestCode",requestCode);
+        outState.putString("requesttime",requesttime);
+        outState.putString("bodyResponse",bodyResponse);
+        outState.putString("headerResponse",headerResponse);
     }
 
     private void setUpViewPager() {
@@ -153,12 +161,16 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
     private List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
+
         fragmentList.clear();
-         responseFragment = ResponseFragment.newInstance();
+        RestFragment restFragment = RestFragment.newInstance();
+        restFragment.setRetainInstance(true);
+        responseFragment = ResponseFragment.newInstance();
+         responseFragment.setRetainInstance(true);
         responseFragment.setArguments(restBundle);
 
         if(selected.equalsIgnoreCase("rest")){
-            fragmentList.add(RestFragment.newInstance());
+            fragmentList.add(restFragment);
             fragmentList.add(responseFragment);
         }else{
             fragmentList.add(FcmFragment.newInstance());
@@ -378,8 +390,8 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
 
 
-    public void setResponseFragmentSuccesRsult(String body, String headers){
+    public void setResponseFragmentSuccesRsult(){
 
-        responseFragment.setRestSuccessResults(body,headers);
+        responseFragment.setRestSuccessResults(bodyResponse,headerResponse, requestCode, requesttime);
     }
 }

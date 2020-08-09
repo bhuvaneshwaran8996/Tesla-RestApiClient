@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.rest.RestActivity"></activity>
+        <activity android:name=".ui.rest.RestActivity"
+            android:configChanges="orientation|screenSize"></activity>
 
         <activity
             android:theme="@style/AppTheme"
