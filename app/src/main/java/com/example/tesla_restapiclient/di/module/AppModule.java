@@ -15,6 +15,8 @@ import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
 import com.example.tesla_restapiclient.di.qualifier.ApiInfo;
 import com.example.tesla_restapiclient.di.qualifier.DatabaseInfo;
 import com.example.tesla_restapiclient.di.qualifier.PreferenceInfo;
+import com.example.tesla_restapiclient.di.qualifier.bodyResponse;
+import com.example.tesla_restapiclient.di.qualifier.headerResponse;
 import com.example.tesla_restapiclient.network.ApiHelper;
 import com.example.tesla_restapiclient.network.AppApiHelper;
 import com.example.tesla_restapiclient.utils.AppConstants;
@@ -49,6 +51,21 @@ public class AppModule {
 //    String provideApiKey() {
 //        return BuildConfig.API_KEY;
 //    }
+
+    @Provides
+    @bodyResponse
+    @Singleton
+    String provideBodyResponse(){
+        return "";
+    }
+    @Provides
+    @headerResponse
+    @Singleton
+    String provideHeaderResponse(){
+        return "";
+    }
+
+
 
     @Provides
     @Singleton
@@ -139,6 +156,7 @@ public class AppModule {
     @Singleton
     Retrofit provideRetrofit(RxJava2CallAdapterFactory rxJava2CallAdapterFactory, OkHttpClient okHttpClient,GsonConverterFactory gsonConverterFactory){
         return new Retrofit.Builder()
+                .baseUrl("https://jsonplaceholder.typicode.com/")
                 .addCallAdapterFactory(rxJava2CallAdapterFactory)
                 .addConverterFactory(gsonConverterFactory)
                 .client(okHttpClient)

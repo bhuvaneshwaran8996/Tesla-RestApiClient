@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class RestRequestProvider {
 
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector
     public abstract RestFragment provideRestRequest();
 
     @ContributesAndroidInjector
@@ -18,6 +18,7 @@ public abstract class RestRequestProvider {
 
     @ContributesAndroidInjector
     public abstract FcmFragment providefcmfrgment();
+
 
 
 

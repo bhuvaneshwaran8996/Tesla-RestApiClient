@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
 
+
 import com.example.tesla_restapiclient.di.component.DaggerAppComponent;
 
 import javax.inject.Inject;

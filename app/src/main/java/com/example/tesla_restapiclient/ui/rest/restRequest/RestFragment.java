@@ -1,12 +1,15 @@
 package com.example.tesla_restapiclient.ui.rest.restRequest;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.FragmentRestBinding;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+import com.example.tesla_restapiclient.di.qualifier.bodyResponse;
+import com.example.tesla_restapiclient.di.qualifier.headerResponse;
 import com.example.tesla_restapiclient.model.Body;
 import com.example.tesla_restapiclient.ui.base.BaseFragment;
 import com.example.tesla_restapiclient.ui.body.BodyRecyclerAdapter;
@@ -24,6 +29,8 @@ import com.example.tesla_restapiclient.ui.body.DialogBody;
 import com.example.tesla_restapiclient.ui.header.HeaderFragment;
 import com.example.tesla_restapiclient.ui.header.HeaderModel;
 import com.example.tesla_restapiclient.ui.header.HeadersAdapter;
+import com.example.tesla_restapiclient.ui.rest.RestActivity;
+import com.example.tesla_restapiclient.utils.NetworkUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +45,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     public static final String TAG = "RestFragment";
 
+    @Inject
+    RestActivity restActivity;
     public ArrayAdapter<String> arrayAdapter;
     public ArrayAdapter<String> arrayAdapterhttp;
     List<String> spinnerdata;
@@ -60,6 +69,9 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     String url;
     String bodyText;
 
+    String body;
+    String header;
+    int postion;
 
     List<Body> bodyList;
 
@@ -67,7 +79,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         // Required empty public constructor
         headerModelList = new ArrayList<>();
         bodyList = new ArrayList<>();
-        ;
+
     }
 
     @Override
@@ -93,6 +105,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         outState.putInt("checkOrKey", checkSelection);
         outState.putString("url", binding.url.getText().toString().trim());
         outState.putString("bodyString",binding.editBody.getText().toString().trim());
+        outState.putString("body",body);
+        outState.putString("header",header);
 
 
     }
@@ -106,10 +120,18 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentRestBinding = getBinding();
         viewModel.setNavigator(this);
+
 
         if (savedInstanceState != null) {
 
@@ -120,7 +142,11 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
             checkSelection = savedInstanceState.getInt("checkOrKey");
             url = savedInstanceState.getString("url");
             bodyText = savedInstanceState.getString("bodyString");
+            body = savedInstanceState.getString("body");
+            header = savedInstanceState.getString("header");
+
         }
+
     }
 
     @Override
@@ -160,8 +186,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 TextView textView = (TextView) view;
                 if (textView != null)
                     textView.setTextColor(getResources().getColor(R.color.orange));
-
                 selectedRequestType = spinnerdata.get(position);
+              
 
 
             }
@@ -217,6 +243,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         if(bodyText !=null && !bodyText.isEmpty()){
             binding.editBody.setText(bodyText);
         }
+        binding.setViewModel(viewModel);
     }
 
     @Override
@@ -224,10 +251,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         return R.layout.fragment_rest;
     }
 
-    @Override
-    public void fuckKaviya() { //navigator
 
-    }
 
     public class OnClick implements View.OnClickListener {
         @Override
@@ -239,6 +263,18 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 case R.id.lnrfooter:
 
 
+                    Log.d(TAG, "onClick: "+SelectedHttp+""+binding.url.getText().toString().trim());
+                    if(bodyRecyclerAdapter!=null){
+                        Map<String, String> bodyList = bodyRecyclerAdapter.getBodyList();
+                        Log.d(TAG, "onClick: "+bodyList.size());
+
+                        
+                    }
+                    if(headerAdapter!=null){
+                        Map<String, String> headerModelList = headerAdapter.getHeaderModelList();
+                        Log.d(TAG, "onClick: "+headerModelList.size());
+                    }
+                    
                     processRequest(selectedRequestType);
 
                     break;
@@ -274,24 +310,124 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         }
     }
 
+    @Override
+    public void processErrorResult(String message) {
+
+        restActivity.bodyResponse = "";
+        restActivity.headerResponse ="";
+
+        restActivity.setResponseFragmentSuccesRsult("","");
+        restActivity.binding.viewpager.setCurrentItem(1);
+        restActivity.hideLoading();
+        Toast.makeText(restActivity,message,Toast.LENGTH_LONG).show();
+
+
+
+    }
+
+
+    @Override
+    public void processSuccessResult(String body, String header) {
+
+        this.body = body;
+        this.header = header;
+        if(restActivity!=null){
+            restActivity.headerResponse = header;
+            restActivity.bodyResponse = body;
+        }
+        restActivity.setResponseFragmentSuccesRsult(body, header);
+        restActivity.binding.viewpager.setCurrentItem(1);
+        restActivity.hideLoading();
+    }
+
+
     private void processRequest(String selectedRequestType) {
 
+        restActivity.showLoading();
         switch (selectedRequestType) {
 
+
+
             case "GET":
+                if(NetworkUtils.isNetworkConnected(restActivity)){
 
-                if(binding.keycheckbox.isChecked()){
-
-
+                    viewModel.processGetRequest(SelectedHttp+""+binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList());
+                }else{
+                    Toast.makeText(restActivity,"You're offline. Make sure the device is connected to the network",Toast.LENGTH_LONG).show();
+                    restActivity.hideLoading();
                 }
-
 
                 break;
 
 
             case "POST":
 
+
+                if(NetworkUtils.isNetworkConnected(restActivity)){
+                    if(binding.keycheckbox.isChecked()){
+                        if(bodyRecyclerAdapter.getBodyList() == null  || bodyRecyclerAdapter.getBodyList().size() == 0){
+                            Toast.makeText(restActivity,"Please type the body Key/Value pair",Toast.LENGTH_LONG).show();
+                            restActivity.hideLoading();
+                            return;
+                        }
+                        viewModel.processBodyWithKey(SelectedHttp+""+binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), bodyRecyclerAdapter.getBodyList());
+                        restActivity.hideLoading();
+
+                    }else{
+                        if(binding.rawcheckbox.isChecked()){
+                            if(binding.editBody.getText().toString().isEmpty()){
+                                Toast.makeText(restActivity,"Please enter the raw body ",Toast.LENGTH_LONG).show();
+                                restActivity.hideLoading();
+                                return;
+                            }
+                            viewModel.processBodywithRaw(SelectedHttp+""+binding.url.getText().toString().trim(),(HashMap<String, String>) headerAdapter.getHeaderModelList(),binding.editBody.getText().toString());
+                            restActivity.hideLoading();
+                        }
+
+                    }
+                }
+
+                else{
+                    Toast.makeText(restActivity,"You're offline. Make sure the device is connected to the network",Toast.LENGTH_LONG).show();
+                    restActivity.hideLoading();
+                }
+
                 break;
+            case "PUT":
+                if(NetworkUtils.isNetworkConnected(restActivity)){
+                    if(binding.keycheckbox.isChecked()){
+                        if(bodyRecyclerAdapter.getBodyList() == null  || bodyRecyclerAdapter.getBodyList().size() == 0){
+                            Toast.makeText(restActivity,"Please type the body Key/Value pair",Toast.LENGTH_LONG).show();
+                            restActivity.hideLoading();
+                            return;
+                        }
+                        viewModel.processPutWithKey(SelectedHttp+""+binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), bodyRecyclerAdapter.getBodyList());
+                        restActivity.hideLoading();
+
+                    }else{
+                        if(binding.rawcheckbox.isChecked()){
+                            if(binding.editBody.getText().toString().isEmpty()){
+                                Toast.makeText(restActivity,"Please enter the raw body ",Toast.LENGTH_LONG).show();
+                                restActivity.hideLoading();
+                                return;
+                            }
+                            viewModel.processPutwithRaw(SelectedHttp+""+binding.url.getText().toString().trim(),(HashMap<String, String>) headerAdapter.getHeaderModelList(),binding.editBody.getText().toString());
+                            restActivity.hideLoading();
+                        }
+
+                    }
+                }
+
+                else{
+                    Toast.makeText(restActivity,"You're offline. Make sure the device is connected to the network",Toast.LENGTH_LONG).show();
+                    restActivity.hideLoading();
+                }
+
+                break;
+
+
+
+
         }
     }
 

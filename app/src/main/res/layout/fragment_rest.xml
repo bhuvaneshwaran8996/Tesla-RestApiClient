@@ -6,6 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mindorks.framework.mvvm.ui.feed.FeedActivity">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestViewModel" />
+    </data>
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -177,6 +183,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+
                         android:id="@+id/rly_bodyedt"
                         android:background="@drawable/background_edt"
                         android:layout_margin="15dp"
@@ -196,7 +203,6 @@
 
                     <RelativeLayout
                         android:layout_marginTop="30dp"
-
                         android:id="@+id/rly_key"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -224,6 +230,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+
                         android:id="@+id/recycler_key"
                         android:layout_margin="15dp"
                         android:layout_width="match_parent"

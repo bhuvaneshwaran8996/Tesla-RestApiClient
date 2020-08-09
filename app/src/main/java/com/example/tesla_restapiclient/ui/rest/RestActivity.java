@@ -2,6 +2,7 @@ package com.example.tesla_restapiclient.ui.rest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -12,10 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.ActivityRestBinding;
@@ -54,15 +58,41 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     ActivityRestBinding activityRestBinding;
     @Inject
     ViewModelProviderFactory factory;
+    ProgressDialog progressDialog;
+    public String  bodyResponse;
+    public String headerResponse;
+
+
+    public int currentPagerPostion;
+    ResponseFragment responseFragment;
+   public Bundle restBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRestBinding = getBinding();
+//        restBundle  = new Bundle();
+//        restBundle.putString("Body",bodyResponse);
+//        restBundle.putString("Header",headerResponse);
+        if(savedInstanceState!=null){
+            currentPagerPostion =     savedInstanceState.getInt("position",0);
+        }
+
 
         setUp();
         setUpViewPager();
+        if(currentPagerPostion > 0){
+            binding.viewpager.setCurrentItem(currentPagerPostion);
+        }
 
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position",currentPagerPostion);
     }
 
     private void setUpViewPager() {
@@ -76,6 +106,8 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
         activityRestBinding.tablayout.removeAllTabs();
         restFragmentAdapter.setFragmentList(getFragmentList());
         activityRestBinding.viewpager.setAdapter(restFragmentAdapter);
+        activityRestBinding.viewpager.setOffscreenPageLimit(2);
+
         activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.request)));
         activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.response)));
         activityRestBinding.tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -106,6 +138,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
             @Override
             public void onPageSelected(int position) {
 
+                currentPagerPostion =  position;
                 activityRestBinding.tablayout.getTabAt(position).select();
             }
 
@@ -114,18 +147,22 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
             }
         });
+
     }
+
 
     private List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-
         fragmentList.clear();
+         responseFragment = ResponseFragment.newInstance();
+        responseFragment.setArguments(restBundle);
+
         if(selected.equalsIgnoreCase("rest")){
             fragmentList.add(RestFragment.newInstance());
-            fragmentList.add(ResponseFragment.newInstance());
+            fragmentList.add(responseFragment);
         }else{
             fragmentList.add(FcmFragment.newInstance());
-            fragmentList.add(ResponseFragment.newInstance());
+            fragmentList.add(responseFragment);
         }
 
 
@@ -336,6 +373,13 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     public void fuckKaviya() {
 
 
+
     }
 
+
+
+    public void setResponseFragmentSuccesRsult(String body, String headers){
+
+        responseFragment.setRestSuccessResults(body,headers);
+    }
 }

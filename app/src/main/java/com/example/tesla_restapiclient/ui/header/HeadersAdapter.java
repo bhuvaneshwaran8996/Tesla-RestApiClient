@@ -127,8 +127,8 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
 
     public Map<String,String> getHeaderModelList(){
         for(HeaderModel headerModel: headerModelList){
-            if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)")){
-                headerModel.title = "Authorization";
+            if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)") || headerModel.title.equalsIgnoreCase("Authorization")){
+                headerModel.title = "authorization";
             }
             headerMap.put(headerModel.title,headerModel.value);
 

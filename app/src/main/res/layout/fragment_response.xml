@@ -85,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <com.example.tesla_restapiclient.controls.TextViewMedium
+                        android:id="@+id/header"
                         android:layout_width="wrap_content"
                         android:text="Header"
                         android:textColor="@color/white"
@@ -92,10 +93,12 @@
                         android:layout_margin="10dp"
                         android:layout_height="wrap_content"/>
                     <ScrollView
+                        android:id="@+id/header_scroll"
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.example.tesla_restapiclient.controls.TextViewCourgette
+                        <com.example.tesla_restapiclient.controls.TextViewRegular
+                            android:padding="10dp"
                             android:layout_width="match_parent"
                             android:id="@+id/header_text"
                             android:textColor="@color/white"
@@ -117,19 +120,20 @@
                         android:layout_margin="10dp"
                         android:layout_height="wrap_content"/>
 
-                    <androidx.core.widget.NestedScrollView
+                    <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
                         <com.example.tesla_restapiclient.controls.TextViewRegular
+                            android:padding="10dp"
                             android:id="@+id/body_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="@string/bost_text"
                             android:textAlignment="textStart"
                             android:textColor="@color/white" />
-                    </androidx.core.widget.NestedScrollView>
+                    </ScrollView>
 
                 </LinearLayout>
             </LinearLayout>

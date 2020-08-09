@@ -3,6 +3,7 @@ package com.example.tesla_restapiclient.di.builder;
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
 import com.example.tesla_restapiclient.ui.rest.RestActivityModule;
 import com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
+import com.example.tesla_restapiclient.ui.rest.restRequest.RestRetrofitModule;
 import com.example.tesla_restapiclient.ui.splash.SplashActivity;
 
 import dagger.Module;

@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestFragmentAdapter extends FragmentPagerAdapter {
+public class RestFragmentAdapter extends FragmentStatePagerAdapter {
 
 
     public List<Fragment> fragmentList;
@@ -28,12 +28,14 @@ public class RestFragmentAdapter extends FragmentPagerAdapter {
         this.fragmentList = fragmentList;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
 
 
         return fragmentList.get(position);
+
     }
 
 

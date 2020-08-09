@@ -16,8 +16,11 @@ import android.view.ViewGroup;
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.FragmentResponseBinding;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+import com.example.tesla_restapiclient.di.qualifier.bodyResponse;
+import com.example.tesla_restapiclient.di.qualifier.headerResponse;
 import com.example.tesla_restapiclient.ui.base.BaseFragment;
 import com.example.tesla_restapiclient.ui.header.HeaderFragment;
+import com.example.tesla_restapiclient.ui.rest.RestActivity;
 
 import javax.inject.Inject;
 
@@ -30,6 +33,17 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
     ResponseViewModel responseViewModel;
+    @Inject
+    @com.example.tesla_restapiclient.di.qualifier.bodyResponse
+    String bodyResponse;
+    @Inject
+    @com.example.tesla_restapiclient.di.qualifier.headerResponse
+    String headerResponse;
+    String body;
+    String header;
+
+    @Inject
+    RestActivity restActivity;
 
     @Override
     public ResponseViewModel getViewmodel() {
@@ -43,12 +57,16 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     }
 
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("body",body);
+        outState.putString("header",header);
+    }
+
     public static ResponseFragment newInstance() {
         ResponseFragment fragment = new ResponseFragment();
-        Bundle args = new Bundle();
 
-
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -59,12 +77,33 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(savedInstanceState!=null){
+         header =    savedInstanceState.getString("header");
+          body =   savedInstanceState.getString("body");
+        }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentResponseBinding = getBinding();
+
+
+
+        fragmentResponseBinding.bodyText.setText(body);
+        fragmentResponseBinding.headerText.setText(header);
+        fragmentResponseBinding.header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(fragmentResponseBinding.headerScroll.getVisibility() == View.GONE){
+                    fragmentResponseBinding.headerScroll.setVisibility(View.VISIBLE);
+
+                }else{
+                    fragmentResponseBinding.headerScroll.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 
@@ -82,6 +121,12 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
 
     @Override
     public void fuckKaviya() {
+
+    }
+
+    public void setRestSuccessResults(String body, String headers) {
+        binding.bodyText.setText(body);
+        binding.headerText.setText(headers);
 
     }
 }
