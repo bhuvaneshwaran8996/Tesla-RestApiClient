@@ -18,13 +18,21 @@
         <item
             android:id="@+id/navRest"
             android:checked="true"
-
-            android:title="Rest Request" />
+            android:title="REST Request" />
         <item
             android:id="@+id/navFCM"
             android:checked="true"
-
             android:title="FCM Request" />
+        <item
+            android:id="@+id/navSettings"
+            android:checked="true"
+            android:title="Settings" />
+        <item
+            android:id="@+id/navHistory"
+            android:checked="true"
+            android:title="History" />
+
+
 
     </group>
 </menu>

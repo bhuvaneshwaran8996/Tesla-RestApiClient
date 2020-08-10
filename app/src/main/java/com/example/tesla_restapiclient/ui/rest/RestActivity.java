@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
 import com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;
 import com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
 import com.example.tesla_restapiclient.ui.rest.restRequest.RestFragment;
+import com.example.tesla_restapiclient.ui.settings.SettingsActivity;
 import com.example.tesla_restapiclient.ui.splash.SplashViewModel;
 import com.example.tesla_restapiclient.utils.AppLogger;
 import com.example.tesla_restapiclient.utils.ScreenUtils;
@@ -206,6 +208,10 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
             }
         };
         mDrawer.addDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+//
         mDrawerToggle.setDrawerIndicatorEnabled(false);
         mDrawerToggle.syncState();
         mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
@@ -293,29 +299,21 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                                 if(!selected.equalsIgnoreCase("rest")){
                                     selected = "rest";
                                     setUpViewPager();
-
                                 }
-
-
-
                                 return true;
                             case R.id.navFCM:
 
                                 if(!selected.equalsIgnoreCase("fcm")){
                                     selected = "fcm";
-                                    setUpViewPagerForFCM();
+                                 //   setUpViewPagerForFCM();
+                                    Toast.makeText(RestActivity.this,"coming soon!",Toast.LENGTH_LONG).show();
 
                                 }
-
-
-
                                 return true;
-//                            case R.id.navItemFeed:
-////
-//                                return true;
-//                            case R.id.navItemLogout:
-//
-//                                return true;
+                            case R.id.navSettings:
+                                Intent intent  = new Intent(RestActivity.this, SettingsActivity.class);
+                                startActivity(intent);
+                                return true;
                             default:
                                 return false;
                         }

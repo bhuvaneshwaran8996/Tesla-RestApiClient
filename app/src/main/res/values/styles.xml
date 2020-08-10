@@ -13,4 +13,13 @@
 
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="AppTheme.NavigationView" >
+        <item name="colorPrimary">@color/orange</item>
+        <item name="android:textColorPrimary">@color/white</item>
+
+    </style>
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">#fff</item>
+    </style>
 </resources>

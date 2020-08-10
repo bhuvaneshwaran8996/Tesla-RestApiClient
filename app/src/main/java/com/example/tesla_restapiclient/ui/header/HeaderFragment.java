@@ -128,8 +128,9 @@ public class HeaderFragment extends DialogFragment {
         }
 
 
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.support_simple_spinner_dropdown_item,requestlist);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,requestlist);
         spinner.setAdapter(arrayAdapter);
+        binding.spinner.setSelection(0);
         if(from.equalsIgnoreCase("editHeader")){
             spinner.setSelection(requestlist.indexOf(type));
 
@@ -219,6 +220,7 @@ public class HeaderFragment extends DialogFragment {
 
             }
         });
+
         binding.cancel.setOnClickListener(new OnClick());
         binding.ok.setOnClickListener(new OnClick());
     }

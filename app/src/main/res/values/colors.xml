@@ -3,7 +3,7 @@
 <resources>
     <color name="bg_color">#303030</color>
     <color name="my_statusbar_color">#90303030</color>
-    <color name="colorPrimary">@color/blue_black_light</color>
+    <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#FFA500</color>
     <color name="light_gray">#dbdbdb</color>

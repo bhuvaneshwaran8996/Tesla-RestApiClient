@@ -3,6 +3,7 @@ package com.example.tesla_restapiclient.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.databinding.library.baseAdapters.BuildConfig;
 import androidx.room.Room;
@@ -40,6 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
 
+    public  String pref_name = "RestPreference";
     @Provides
     @Singleton
     ApiHelper provideApiHelper(AppApiHelper appApiHelper) {
@@ -167,6 +169,14 @@ public class AppModule {
 
 
 
+    @Singleton
+    @Provides
+    SharedPreferences provideSharedPreferences(Context context, String pref_name){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE);
+        return sharedPreferences;
+
+
+    }
 
 
 

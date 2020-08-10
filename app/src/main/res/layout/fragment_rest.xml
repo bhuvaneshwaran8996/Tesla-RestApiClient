@@ -69,6 +69,7 @@
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinner"
                                 style="@style/Spinner"
+                                android:popupBackground="#000"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -93,6 +94,7 @@
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinner_http"
                                 style="@style/Spinner"
+                                android:popupBackground="#000"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"

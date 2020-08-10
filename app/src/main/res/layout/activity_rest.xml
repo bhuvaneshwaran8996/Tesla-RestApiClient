@@ -57,6 +57,7 @@
                                         app:navigationIcon="@drawable/ic_baseline_dehaze_24"
                                         app:titleTextColor="@color/white"
                                         android:layout_height="50dp"
+                                        style="@style/ToolbarColoredBackArrow"
                                         android:layout_width="match_parent" >
 
 
@@ -95,13 +96,18 @@
 
                 <com.google.android.material.navigation.NavigationView
                     android:id="@+id/navigationView"
-                    style="@style/Widget.Design.NavigationView"
+
+
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:background="@color/bg_color"
                     app:itemBackground="@color/bg_color"
                     app:itemIconTint="@color/white"
+                    android:maxLines="1"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="22sp"
+                    android:textAppearance="?attr/textAppearanceListItem"
                     app:itemTextColor="@color/white"
                     app:menu="@menu/drawer">
 
