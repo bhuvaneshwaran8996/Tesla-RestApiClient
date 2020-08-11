@@ -2,11 +2,8 @@ package com.example.tesla_restapiclient.ui.rest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -14,26 +11,23 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.ActivityRestBinding;
+import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
 import com.example.tesla_restapiclient.ui.base.BaseActivity;
+import com.example.tesla_restapiclient.ui.history.HistoryFragment;
 import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
 import com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;
 import com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
 import com.example.tesla_restapiclient.ui.rest.restRequest.RestFragment;
 import com.example.tesla_restapiclient.ui.settings.SettingsActivity;
-import com.example.tesla_restapiclient.ui.splash.SplashViewModel;
-import com.example.tesla_restapiclient.utils.AppLogger;
-import com.example.tesla_restapiclient.utils.ScreenUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -42,12 +36,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
+import static android.view.View.GONE;
 
 public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewModel> implements RestNavigator {
 
     public RestViewModel restViewModel;
     public String selected = "rest";
+
+    @Inject
+    HistoryDao historyDao;
 
     Toolbar mToolbar;
     DrawerLayout mDrawer;
@@ -66,6 +63,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     public String requestCode;
     public String  requesttime;
 
+    ActionBarDrawerToggle mDrawerToggle;
 
     public int currentPagerPostion;
     ResponseFragment responseFragment;
@@ -93,8 +91,35 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
 
 
+//        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                HistoryFragment historyFragment  =(HistoryFragment) getSupportFragmentManager().findFragmentByTag("HistoryFragment");
+//                if(historyFragment!=null && historyFragment.isVisible()){
+////                    getSupportFragmentManager().popBackStack();
+//                    historyFragment.destroy();
+//                    binding.lnrMain.setVisibility(GONE);
+//                    binding.lnrViewpager.setVisibility(View.VISIBLE);
+//                    getSupportActionBar().setTitle("Tesla-Restclient");
+//                    mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
+//                    historyFragment = null;
+//
+//                }else{
+//
+//                    if (mDrawer != null) {
+//                        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+//                    }
+//                }
+//            }
+//        });
     }
 
+    public void opendrawer(){
+                            if (mDrawer != null) {
+                        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+                    }
+    }
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -166,8 +191,10 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
         fragmentList.clear();
         RestFragment restFragment = RestFragment.newInstance();
+
         restFragment.setRetainInstance(true);
         responseFragment = ResponseFragment.newInstance();
+
          responseFragment.setRetainInstance(true);
         responseFragment.setArguments(restBundle);
 
@@ -190,7 +217,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
 
         setSupportActionBar(mToolbar);
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawer,
                 mToolbar,
@@ -213,7 +240,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
         getSupportActionBar().setHomeButtonEnabled(true);
 //
         mDrawerToggle.setDrawerIndicatorEnabled(false);
-        mDrawerToggle.syncState();
+      //  mDrawerToggle.syncState();
         mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
@@ -296,8 +323,13 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                         mDrawer.closeDrawer(GravityCompat.START);
                         switch (item.getItemId()) {
                             case R.id.navRest:
+                                binding.lnrViewpager.setVisibility(View.VISIBLE);
+                                binding.lnrMain.setVisibility(GONE);
+
+
                                 if(!selected.equalsIgnoreCase("rest")){
                                     selected = "rest";
+
                                     setUpViewPager();
                                 }
                                 return true;
@@ -313,6 +345,24 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                             case R.id.navSettings:
                                 Intent intent  = new Intent(RestActivity.this, SettingsActivity.class);
                                 startActivity(intent);
+                                return true;
+
+                            case R.id.navHistory:
+
+//                                Intent intenthistory  = new Intent(RestActivity.this, HistoryActivity.class);
+//                                startActivity(intenthistory);
+                             //   binding.viewpager.setVisibility(GONE);
+
+                                binding.lnrViewpager.setVisibility(GONE);
+                                binding.lnrMain.setVisibility(View.VISIBLE);
+//                                getSupportActionBar().setTitle("Settings");
+//                                mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+
+                                HistoryFragment historyFragment = HistoryFragment.newInstance();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.lnr_main, historyFragment,"HistoryFragment")
+                                        .addToBackStack(null)
+                                        .commit();
+
                                 return true;
                             default:
                                 return false;
@@ -391,5 +441,8 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     public void setResponseFragmentSuccesRsult(){
 
         responseFragment.setRestSuccessResults(bodyResponse,headerResponse, requestCode, requesttime);
+    }
+    public HistoryDao getHistoryDao(){
+        return historyDao;
     }
 }

@@ -30,6 +30,7 @@ import com.example.tesla_restapiclient.R;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -55,6 +56,11 @@ public final class CommonUtils {
 
     public static boolean isEmailValid(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+    public static String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public static String loadJSONFromAsset(Context context, String jsonFileName) throws IOException {

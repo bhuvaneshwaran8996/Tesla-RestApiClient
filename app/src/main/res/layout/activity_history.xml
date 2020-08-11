@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#303030"
+    android:layout_height="match_parent"
+    tools:context=".ui.history.HistoryFragment">
+
+
+    <LinearLayout
+        android:background="#303030"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_history"
+        android:layout_width="match_parent"
+        android:background="#000"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="History"
+        app:titleTextColor="#fff"
+        android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:background="#303030"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvhistory"
+                android:background="#303030"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+            <RelativeLayout
+                android:background="#303030"
+                android:id="@+id/rlynohistories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/lblnohostories"
+                    android:layout_width="match_parent"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="No Histories found"
+                    android:layout_height="match_parent"></TextView>
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

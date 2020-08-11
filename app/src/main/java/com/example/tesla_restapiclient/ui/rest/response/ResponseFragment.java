@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -15,12 +16,16 @@ import android.view.ViewGroup;
 
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.FragmentResponseBinding;
+import com.example.tesla_restapiclient.db.AppDatabase;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
 import com.example.tesla_restapiclient.di.qualifier.bodyResponse;
 import com.example.tesla_restapiclient.di.qualifier.headerResponse;
+import com.example.tesla_restapiclient.model.History;
 import com.example.tesla_restapiclient.ui.base.BaseFragment;
 import com.example.tesla_restapiclient.ui.header.HeaderFragment;
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,6 +46,8 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     String headerResponse;
     String body;
     String header;
+    @Inject
+    AppDatabase appDatabase;
 
     @Inject
     RestActivity restActivity;
@@ -50,6 +57,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
         responseViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(ResponseViewModel.class);
 
         return responseViewModel;
+
     }
 
     public ResponseFragment() {
@@ -130,6 +138,10 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
             fragmentResponseBinding.headerText.setText(headers);
             fragmentResponseBinding.txtRequestcode.setText(requestCod);
             fragmentResponseBinding.txtResponsetime.setText(requestTime);
+
+
+
+
        // }
 
 

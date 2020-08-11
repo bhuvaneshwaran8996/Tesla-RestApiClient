@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tesla_restapiclient.db.DbHelper;
 import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
 import com.example.tesla_restapiclient.network.ApiHelper;
+import com.example.tesla_restapiclient.ui.history.HistoryViewModel;
 import com.example.tesla_restapiclient.ui.rest.RestViewModel;
 import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel;
 import com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel;
@@ -48,6 +49,8 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
         }else if(modelClass.isAssignableFrom(FcmViewModel.class)){
             return (T) new FcmViewModel(apiHelper, dbHelper, preferencesHelper);
         }else if(modelClass.isAssignableFrom(ResponseViewModel.class)){
+            return (T) new ResponseViewModel(apiHelper, dbHelper, preferencesHelper);
+        }else if(modelClass.isAssignableFrom(HistoryViewModel.class)){
             return (T) new ResponseViewModel(apiHelper, dbHelper, preferencesHelper);
         }
         return super.create(modelClass);

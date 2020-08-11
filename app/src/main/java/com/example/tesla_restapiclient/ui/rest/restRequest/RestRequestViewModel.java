@@ -11,6 +11,7 @@ import com.example.tesla_restapiclient.db.DbHelper;
 import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
 import com.example.tesla_restapiclient.di.qualifier.bodyResponse;
 import com.example.tesla_restapiclient.di.qualifier.headerResponse;
+import com.example.tesla_restapiclient.model.History;
 import com.example.tesla_restapiclient.network.ApiHelper;
 import com.example.tesla_restapiclient.ui.base.BaseViewModel;
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
@@ -58,12 +59,15 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
     public PreferencesHelper preferencesHelper;
 
     public RestRequestViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {
-        super(apiHelper, dbHelper, preferencesHelper);
+       super(apiHelper, dbHelper, preferencesHelper);
         this.apiHelper = apiHelper;
-        this.dbHelper = dbHelper;
+        this.dbHelper =  dbHelper;
         this.preferencesHelper = preferencesHelper;
     }
 
+    public void insertHistotyData(History history){
+        dbHelper.insert(history);
+    }
     @Override
     protected void onCleared() {
         super.onCleared();

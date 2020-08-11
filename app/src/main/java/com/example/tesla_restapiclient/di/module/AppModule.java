@@ -13,6 +13,7 @@ import com.example.tesla_restapiclient.db.AppDbHelper;
 import com.example.tesla_restapiclient.db.DbHelper;
 import com.example.tesla_restapiclient.db.prefs.AppPreferencesHelper;
 import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
 import com.example.tesla_restapiclient.di.qualifier.ApiInfo;
 import com.example.tesla_restapiclient.di.qualifier.DatabaseInfo;
 import com.example.tesla_restapiclient.di.qualifier.PreferenceInfo;
@@ -38,21 +39,19 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @Module
 public class AppModule {
 
-    public  String pref_name = "RestPreference";
+
+
     @Provides
     @Singleton
     ApiHelper provideApiHelper(AppApiHelper appApiHelper) {
         return appApiHelper;
     }
 
-//    @Provides
-//    @ApiInfo
-//    String provideApiKey() {
-//        return BuildConfig.API_KEY;
-//    }
 
     @Provides
     @bodyResponse
@@ -68,13 +67,6 @@ public class AppModule {
     }
 
 
-
-    @Provides
-    @Singleton
-    AppDatabase provideAppDatabase(@DatabaseInfo String dbName, Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, dbName).fallbackToDestructiveMigration()
-                .build();
-    }
 
 
     @Provides
@@ -140,13 +132,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-     OkHttpClient provideOkHttpClient(Gson gson){
+     OkHttpClient provideOkHttpClient(int timeout, Gson gson){
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                .callTimeout(2, TimeUnit.MINUTES)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS);
+                .callTimeout(timeout, TimeUnit.SECONDS)
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
+                .writeTimeout(timeout, TimeUnit.SECONDS);
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient.addInterceptor(httpLoggingInterceptor);
@@ -165,18 +157,16 @@ public class AppModule {
 
                 .build();
     }
-
-
-
-
-    @Singleton
     @Provides
-    SharedPreferences provideSharedPreferences(Context context, String pref_name){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE);
-        return sharedPreferences;
+    @Singleton
+    int provideTimeoutConnection(Context context){
 
+        int anInt = context.getSharedPreferences("RestPreference", MODE_PRIVATE).getInt("timeout", 20);
+        return anInt;
 
     }
+
+
 
 
 

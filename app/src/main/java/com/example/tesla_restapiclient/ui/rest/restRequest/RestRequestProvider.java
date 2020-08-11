@@ -1,6 +1,6 @@
 package com.example.tesla_restapiclient.ui.rest.restRequest;
 
-import com.example.tesla_restapiclient.ui.rest.RestActivityModule;
+import com.example.tesla_restapiclient.ui.history.HistoryFragment;
 import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
 import com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;
 
@@ -18,6 +18,9 @@ public abstract class RestRequestProvider {
 
     @ContributesAndroidInjector
     public abstract FcmFragment providefcmfrgment();
+
+    @ContributesAndroidInjector
+    public abstract HistoryFragment provideHistoryActivity();
 
 
 

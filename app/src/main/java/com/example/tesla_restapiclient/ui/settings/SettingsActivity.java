@@ -46,11 +46,8 @@ public class SettingsActivity extends AppCompatActivity  {
 
                     int anInt = sharedPreferences.getInt(key, 20);
                     txtTimeout.setText("After "+anInt+" seconds");
-                    SharedPreferences restPreference =getSharedPreferences("RestPreference", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = restPreference.edit();
-                    edit.putInt("timeout",anInt);
-                    edit.apply();
-                    edit.commit();
+                    txtconnectTimout = anInt;
+
 
                 }
             }
@@ -71,6 +68,8 @@ public class SettingsActivity extends AppCompatActivity  {
             e.printStackTrace();
         }
 
+        txtTimeout.setText("After "+txtconnectTimout+" seconds");
+
 
         findViewById(R.id.lnr_settings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +79,7 @@ public class SettingsActivity extends AppCompatActivity  {
 
             }
         });
+
 
 
 
