@@ -116,6 +116,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+
         super.onSaveInstanceState(outState);
 
         outState.putStringArrayList("spinner", (ArrayList<String>) spinnerdata);
@@ -217,16 +218,23 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //                       binding.keycheckbox.setChecked(false);
                         if (!historyModel.rawBody.equalsIgnoreCase("")) {
                             binding.editBody.setText(historyModel.rawBody);
+
+                            if(bodyList.size()>0){
+                                bodyList.clear();
+                                bodyRecyclerAdapter.setNewList(bodyList);
+                            }
+
                         }
 
                     } else {
 //                       binding.rawcheckbox.setChecked(false);
-                        List<Body> bodyAdapterList = new ArrayList<>();
+
                         binding.keycheckbox.performClick();
                         String keyBody = historyModel.keyBody;
                         if (bodyRecyclerAdapter != null) {
 
-                            binding.recyclerbody.setVisibility(View.VISIBLE);
+
+
                             try {
                                 Map<String, String> stringStringHashMap = jsonToMap(keyBody);
                                 Iterator<Map.Entry<String, String>> iterator = stringStringHashMap.entrySet().iterator();
@@ -237,34 +245,43 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //                                    bodyAdapterList.add(new Body(iterator.next().getKey(), iterator.next().getValue()));
 //
 //                                }
-                                for(Map.Entry<String, String> entry : stringStringHashMap.entrySet()) {
-                                    String key = entry.getKey();
-                                    String value = entry.getValue();
-                                    bodyAdapterList.add(new Body(key,value));
+                                if(bodyList!=null && bodyList.size() > 0){
+                                    bodyList.clear();
+                                }
+                                if(bodyList.size()  == 0){
+                                    for(Map.Entry<String, String> entry : stringStringHashMap.entrySet()) {
+                                        String key = entry.getKey();
+                                        String value = entry.getValue();
+                                        bodyList.add(new Body(key,value));
 
+
+                                    }
+                                    bodyRecyclerAdapter.setNewList(bodyList);
+                                    binding.editBody.setText("");
+                                    if(binding.recyclerbody.getVisibility() == View.GONE){
+                                        binding.recyclerbody.setVisibility(View.VISIBLE);
+                                    }
 
                                 }
-                                bodyRecyclerAdapter.setNewList(bodyAdapterList);
 
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else {
-
-
-                            bodyRecyclerAdapter.emptyBody();
-                            binding.recyclerbody.setVisibility(View.GONE);
                         }
-
 
                     }
                 }
 
                 if (!historyModel.header.equalsIgnoreCase("")) {
+                    if(headerModelList.size() > 0){
+
+                        headerModelList.clear();
+                        headerAdapter.setHeaderList(headerModelList);
+                    }
 
                     try {
-                        List<HeaderModel> headerModelList = new ArrayList<>();
+
                         Map<String, String> stringStringMap = jsonToMap(historyModel.header);
                      // Iterator<Map.Entry<String, String>> stringStringHashMap = stringStringMap.entrySet().iterator();
 //                        while (iterator.hasNext()) {

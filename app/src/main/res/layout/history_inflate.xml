@@ -46,7 +46,9 @@
             android:text="10 Aug 2023 3:19 PM"
             android:textColor="#fff"
             android:layout_height="wrap_content"/>
+
         <ImageView
+
             android:src="@drawable/ic_baseline_delete_24"
             android:tint="#fff"
             android:id="@+id/delete_history"

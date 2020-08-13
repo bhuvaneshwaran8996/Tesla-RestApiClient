@@ -437,6 +437,19 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+            if (binding.drawerView.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerView.closeDrawer(GravityCompat.START);
+            }else{
+                finish();
+              //  super.onBackPressed();
+            }
+
+
+
+    }
 
     public void setResponseFragmentSuccesRsult(){
 

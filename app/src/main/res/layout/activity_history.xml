@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:textColor="#fff"
                     android:gravity="center"
-                    android:text="No Histories found"
+                    android:text=""
                     android:layout_height="match_parent"></TextView>
             </RelativeLayout>
         </FrameLayout>

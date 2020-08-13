@@ -94,7 +94,7 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
 
 
                                         bodyList.remove(holder.getAdapterPosition() );
-                                        notifyItemRemoved(holder.getAdapterPosition()  );
+                                        notifyItemRemoved(holder.getAdapterPosition() );
 
                                         dialog.dismiss();
 
@@ -127,26 +127,21 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
 
     }
 
-    public void emptyBody(){
-        this.bodyList.clear();
-        notifyDataSetChanged();
-    }
+
     public Map<String, String>  getBodyList() {
 //        Collections.reverse(bodyList);
+        if(bodyList.size() == 0){
+            bodymap.clear();
+        }
         for(Body body : bodyList){
             bodymap.put(body.key,body.value);
         }
         return bodymap;
     }
 
-    public void setBodyList(List<Body> bodyList) {
-        this.bodyList = bodyList;
-    }
+
 
     public void setNewList(List<Body> bodyList){
-        if(this.bodyList.size()>0){
-            this.bodyList.clear();
-        }
         this.bodyList = bodyList;
         notifyDataSetChanged();
 

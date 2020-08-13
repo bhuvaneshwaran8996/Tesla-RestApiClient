@@ -126,6 +126,9 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
     }
 
     public Map<String,String> getHeaderModelList(){
+        if(headerModelList.size() == 0){
+            headerMap.clear();
+        }
         for(HeaderModel headerModel: headerModelList){
             if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)") || headerModel.title.equalsIgnoreCase("Authorization")){
               //  headerModel.title = "authorization";

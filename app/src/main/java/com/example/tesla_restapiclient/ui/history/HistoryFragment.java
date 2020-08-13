@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -52,7 +53,7 @@ public class HistoryFragment extends Fragment {
     RestActivity restActivity;
     RecyclerView recyclerView;
     Toolbar toolbar;
-
+    TextView lblnohostories;
 
     public static HistoryFragment newInstance(){
         HistoryFragment historyFragment = new HistoryFragment();
@@ -68,6 +69,7 @@ public class HistoryFragment extends Fragment {
        restActivity  = (RestActivity)getActivity();
 
 
+        lblnohostories =    view.findViewById(R.id.lblnohostories);
             view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
             view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
 
@@ -142,19 +144,24 @@ public class HistoryFragment extends Fragment {
                 if(histories!=null ){
                     view.findViewById(R.id.rlynohistories).setVisibility(View.GONE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.VISIBLE);
+                    lblnohostories.setText("");
 
 
                     HistoryRecyclerAdapter historyRecyclerAdapter = new HistoryRecyclerAdapter(histories);
                     recyclerView.setAdapter(historyRecyclerAdapter);
                     if(histories.size() == 0){
                         view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
+
                         view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+
+                        lblnohostories.setText("No histories found");
                     }
 
 
                 }else{
                     view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+                    lblnohostories.setText("No histories found");
                 }
             }
         });
@@ -299,7 +306,7 @@ public class HistoryFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             Log.d(TAG, "onPreExecute: ");
-            Toast.makeText(getContext(),"History deleted ",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"History deleted ",Toast.LENGTH_SHORT).show();
         }
     }
 
