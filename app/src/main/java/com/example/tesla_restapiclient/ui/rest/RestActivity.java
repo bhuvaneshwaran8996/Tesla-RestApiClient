@@ -430,7 +430,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     }
 
     @Override
-    public void fuckKaviya() {
+    public void restNav() {
 
 
 

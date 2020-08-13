@@ -127,7 +127,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     }
 
     @Override
-    public void fuckKaviya() {
+    public void resoponseNavigator() {
 
     }
 
@@ -138,6 +138,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
             fragmentResponseBinding.headerText.setText(headers);
             fragmentResponseBinding.txtRequestcode.setText(requestCod);
             fragmentResponseBinding.txtResponsetime.setText(requestTime);
+            restActivity.hideLoading();
 
 
 

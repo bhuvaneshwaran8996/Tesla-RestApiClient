@@ -24,113 +24,103 @@
                 android:textSize="30sp" />
 
             <RelativeLayout
+                android:layout_marginTop="20dp"
                 android:id="@+id/rly_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_below="@id/header"
-                android:layout_marginTop="20dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/lnr_type"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="30dp"
                     android:layout_marginBottom="15dp"
-                    android:orientation="horizontal">
+                    android:id="@+id/lnr_type"
 
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Type"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
 
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
-
-
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <androidx.appcompat.widget.AppCompatSpinner
-
-                            style="@style/Spinner"
                             android:id="@+id/spinner"
-                            android:background="@color/transparent"
-                            android:popupBackground="#000"
+                            style="@style/Spinner"
+                            android:layout_centerInParent="true"
+                            android:popupBackground="#303030"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textStart" />
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/transparent" />
                     </RelativeLayout>
 
 
                 </LinearLayout>
-
                 <LinearLayout
 
-                    android:id="@+id/lnr_key"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_below="@id/lnr_type"
-                    android:layout_marginBottom="15dp"
+                    android:id="@+id/lnr_key"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Key"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
 
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="10dp">
-
+                        android:layout_height="wrap_content">
                         <com.example.tesla_restapiclient.controls.EditTextRegular
+                            android:layout_width="match_parent"
                             android:id="@+id/edit_key"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
                             android:background="@android:color/transparent"
-                            android:textColor="@color/white" />
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
 
                 </LinearLayout>
-
                 <LinearLayout
 
-                    android:id="@+id/lnr_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_below="@id/lnr_key"
-                    android:layout_marginBottom="15dp"
+                    android:id="@+id/lnr_value"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Value"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="20sp"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="10dp">
-
+                        android:layout_height="wrap_content">
                         <com.example.tesla_restapiclient.controls.EditTextRegular
+                            android:layout_width="match_parent"
                             android:id="@+id/edit_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
                             android:background="@android:color/transparent"
-                            android:textColor="@color/white" />
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
 
@@ -139,156 +129,152 @@
 
                 <LinearLayout
 
-                    android:id="@+id/lnr_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_below="@id/lnr_value"
-                    android:layout_marginBottom="15dp"
+                    android:id="@+id/lnr_username"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Username"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
 
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="10dp">
-
+                        android:layout_height="wrap_content">
                         <com.example.tesla_restapiclient.controls.EditTextRegular
+                            android:layout_width="match_parent"
                             android:id="@+id/edit_username"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
                             android:background="@android:color/transparent"
-                            android:textColor="@color/white" />
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
 
                 </LinearLayout>
-
                 <LinearLayout
 
-                    android:id="@+id/lnr_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_below="@id/lnr_username"
-                    android:layout_marginBottom="15dp"
+                    android:id="@+id/lnr_password"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Password"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="10dp">
-
+                        android:layout_height="wrap_content">
                         <com.example.tesla_restapiclient.controls.EditTextRegular
-                            android:id="@+id/edit_password"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/edit_password"
+                            android:textColor="@color/white"
                             android:background="@android:color/transparent"
-                            android:textColor="@color/white" />
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
 
                 </LinearLayout>
-
                 <LinearLayout
 
-                    android:id="@+id/lnr_token"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/lnr_password"
                     android:layout_marginBottom="15dp"
+                    android:layout_below="@id/lnr_password"
+                    android:id="@+id/lnr_token"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
                     <com.example.tesla_restapiclient.controls.TextViewRegular
                         android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:text="Token"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
                         android:textColor="@color/white"
-                        android:textSize="20sp" />
-
+                        android:layout_height="match_parent"/>
                     <RelativeLayout
+                        android:paddingRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="10dp">
-
+                        android:layout_height="wrap_content">
                         <com.example.tesla_restapiclient.controls.EditTextRegular
-                            android:id="@+id/edit_token"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/edit_token"
+                            android:textColor="@color/white"
                             android:background="@android:color/transparent"
-                            android:textColor="@color/white" />
+                            android:layout_height="wrap_content"/>
                     </RelativeLayout>
 
 
                 </LinearLayout>
+
+
 
 
             </RelativeLayout>
 
 
             <RelativeLayout
+                android:layout_below="@id/rly_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rly_container">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:weightSum="2"
                     android:orientation="horizontal"
-                    android:weightSum="2">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <com.example.tesla_restapiclient.controls.TextViewMedium
-                        android:id="@+id/ok"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
                         android:text="OK"
-
-
-                        android:textAlignment="center"
-                        android:textColor="@color/black" />
-
-                    <com.example.tesla_restapiclient.controls.TextViewMedium
-                        android:id="@+id/cancel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
+                        android:id="@+id/ok"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="Cancel"
+                        android:layout_margin="20dp"
                         android:textAlignment="center"
-                        android:textColor="@color/black" />
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+
+
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"/>
+                    <com.example.tesla_restapiclient.controls.TextViewMedium
+                        android:layout_width="match_parent"
+                        android:id="@+id/cancel"
+                        android:text="Cancel"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_margin="20dp"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
 
             </RelativeLayout>
 
 
+
+
+
+
         </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
+
+
+

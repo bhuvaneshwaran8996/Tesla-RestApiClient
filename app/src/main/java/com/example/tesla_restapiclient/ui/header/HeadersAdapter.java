@@ -100,8 +100,8 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
                             case DialogInterface.BUTTON_POSITIVE:
 
                                 //Yes button clicked
-                                 headerModelList.remove(position);
-                                   notifyItemRemoved(position);
+                                 headerModelList.remove(holder.getAdapterPosition());
+                                   notifyItemRemoved(holder.getAdapterPosition());
                                    dialog.dismiss();
                                 break;
 
@@ -128,7 +128,7 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
     public Map<String,String> getHeaderModelList(){
         for(HeaderModel headerModel: headerModelList){
             if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)") || headerModel.title.equalsIgnoreCase("Authorization")){
-                headerModel.title = "authorization";
+              //  headerModel.title = "authorization";
             }
             headerMap.put(headerModel.title,headerModel.value);
 
@@ -149,6 +149,10 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
 
 
 
+    public void emptyHeader(){
+        this.headerModelList.clear();
+        notifyDataSetChanged();
+    }
     public void setHeaderList(List<HeaderModel> headerModelList) {
 
         this.headerModelList = headerModelList;

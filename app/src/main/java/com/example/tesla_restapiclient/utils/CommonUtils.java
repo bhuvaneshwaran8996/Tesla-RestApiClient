@@ -35,9 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
 
 public final class CommonUtils {
 

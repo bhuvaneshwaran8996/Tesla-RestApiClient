@@ -8,35 +8,40 @@
     </data>
     <RelativeLayout
 
-        android:background="#303030"
+        android:background="#000"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.splash.SplashActivity">
 
 
-        <com.example.tesla_restapiclient.controls.TextViewCourgette
-            android:id="@+id/tesla"
+        <ImageView
             android:layout_centerInParent="true"
-            android:text="Tesla  "
-            android:lineHeight="10dp"
-            android:textSize="30dp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:letterSpacing="0.2"
-            android:layout_width="match_parent"
+            android:src="@drawable/tesla_logo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <com.example.tesla_restapiclient.controls.TextViewCourgette
-            android:layout_below="@+id/tesla"
-            android:textAlignment="center"
-            android:layout_centerInParent="true"
-            android:text="Restclient  "
-            android:textSize="30dp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:letterSpacing="0.2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+<!--        <com.example.tesla_restapiclient.controls.TextViewCourgette-->
+<!--            android:id="@+id/tesla"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:text="Tesla  "-->
+<!--            android:lineHeight="10dp"-->
+<!--            android:textSize="30dp"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:gravity="center"-->
+<!--            android:letterSpacing="0.2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--        <com.example.tesla_restapiclient.controls.TextViewCourgette-->
+<!--            android:layout_below="@+id/tesla"-->
+<!--            android:textAlignment="center"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:text="Restclient  "-->
+<!--            android:textSize="30dp"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:gravity="center"-->
+<!--            android:letterSpacing="0.2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
 
 
 

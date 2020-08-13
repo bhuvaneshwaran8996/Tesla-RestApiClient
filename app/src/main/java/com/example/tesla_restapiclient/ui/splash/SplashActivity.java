@@ -40,12 +40,6 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding,SplashVie
         }
 
     }
-//
-//    @Override
-//    protected void performDependencyInjection() {
-//
-//        AndroidInjection.inject(this);
-//    }
 
     @Override
     protected int getViewModelVariable() {

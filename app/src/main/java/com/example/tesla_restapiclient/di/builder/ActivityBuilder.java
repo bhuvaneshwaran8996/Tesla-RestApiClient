@@ -11,19 +11,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-//    @ContributesAndroidInjector(modules = {
-//            FeedActivityModule.class,
-//            BlogFragmentProvider.class,
-//            OpenSourceFragmentProvider.class})
-//    abstract FeedActivity bindFeedActivity();
 
-//    @ContributesAndroidInjector
-//    abstract LoginActivity bindLoginActivity();
-//
-//    @ContributesAndroidInjector(modules = {
-//            AboutFragmentProvider.class,
-//            RateUsDialogProvider.class})
-//    abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector(modules = {RestRequestProvider.class, RestActivityModule.class})
     abstract RestActivity bindrestActivity();
@@ -31,6 +19,4 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector
     abstract SplashActivity bindSplashActivity();
 
-
-//    abstract HistoryActivity historyActivity();
 }

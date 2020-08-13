@@ -28,6 +28,6 @@ public class EditTextRegular extends EditText {
     }
 
     public void init(AttributeSet attributeSet){
-        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"fonts/ComicNeue-Light.ttf"));
+        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"fonts/Heebo-Regular.ttf"));
     }
 }

@@ -12,7 +12,7 @@ public class AppPreferencesHelper implements PreferencesHelper{
 
     }
     @Override
-    public void fuckkaviys() {
+    public void prehelper() {
 
     }
 }

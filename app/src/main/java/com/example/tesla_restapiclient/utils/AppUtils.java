@@ -23,9 +23,7 @@ import android.net.Uri;
 
 
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public final class AppUtils {
 

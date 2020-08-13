@@ -4,7 +4,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mindorks.framework.mvvm.ui.feed.FeedActivity">
+    >
 
     <data>
         <import type="android.view.View"/>
@@ -109,6 +109,7 @@
 
                             <com.example.tesla_restapiclient.controls.EditTextRegular
                                 android:id="@+id/url"
+
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
@@ -190,8 +191,8 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-
                             android:id="@+id/rly_bodyedt"
+                            android:minHeight="100dp"
                             android:background="@drawable/background_edt"
                             android:layout_margin="15dp"
                             android:layout_width="match_parent"
@@ -205,8 +206,9 @@
                                     android:cursorVisible="true"
                                     android:padding="10dp"
                                     android:gravity="top|left"
+
                                     android:background="@null"
-                                    android:layout_height="150dp"/>
+                                    android:layout_height="match_parent"/>
 
 
 
@@ -245,6 +247,7 @@
 
                             android:id="@+id/recycler_key"
                             android:layout_margin="15dp"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <androidx.recyclerview.widget.RecyclerView

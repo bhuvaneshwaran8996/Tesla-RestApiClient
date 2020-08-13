@@ -20,6 +20,7 @@ import com.example.tesla_restapiclient.ui.rest.RestActivity;
 import com.example.tesla_restapiclient.ui.rest.restRequest.RestFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +89,24 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
 
+
+                                try{
+
+
+                                        bodyList.remove(holder.getAdapterPosition() );
+                                        notifyItemRemoved(holder.getAdapterPosition()  );
+
+                                        dialog.dismiss();
+
+
+                                }catch (Exception e){
+
+
+
+                                    e.printStackTrace();
+                                }
                                 //Yes button clicked
-                                bodyList.remove(position);
-                                notifyItemRemoved(position);
-                                dialog.dismiss();
+
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -112,7 +127,12 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
 
     }
 
+    public void emptyBody(){
+        this.bodyList.clear();
+        notifyDataSetChanged();
+    }
     public Map<String, String>  getBodyList() {
+//        Collections.reverse(bodyList);
         for(Body body : bodyList){
             bodymap.put(body.key,body.value);
         }
@@ -124,6 +144,9 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
     }
 
     public void setNewList(List<Body> bodyList){
+        if(this.bodyList.size()>0){
+            this.bodyList.clear();
+        }
         this.bodyList = bodyList;
         notifyDataSetChanged();
 

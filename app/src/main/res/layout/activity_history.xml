@@ -27,14 +27,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvhistory"
-                android:background="#303030"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
             <RelativeLayout
+                android:background="#303030"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvhistory"
+                    android:background="#303030"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
                 android:background="#303030"
                 android:id="@+id/rlynohistories"
                 android:layout_width="match_parent"

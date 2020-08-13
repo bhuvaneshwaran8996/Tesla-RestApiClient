@@ -25,6 +25,6 @@ public class FcmViewModel extends BaseViewModel<FcmNavigator> {
     }
 
     public void testnavigae(){
-        getNavigator().fuckKaviya();
+        getNavigator().fucmNavigatoe();
     }
 }

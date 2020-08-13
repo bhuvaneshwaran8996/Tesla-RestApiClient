@@ -1,6 +1,8 @@
 package com.example.tesla_restapiclient.model;
 
-public class Body {
+import java.io.Serializable;
+
+public class Body  implements Serializable {
     public String key;
     public String value;
 

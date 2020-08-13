@@ -20,9 +20,6 @@ package com.example.tesla_restapiclient.utils;
 
 import timber.log.Timber;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
 
 public final class AppLogger {
 

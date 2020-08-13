@@ -25,9 +25,7 @@ import androidx.core.content.ContextCompat;
 
 
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public final class ViewUtils {
 

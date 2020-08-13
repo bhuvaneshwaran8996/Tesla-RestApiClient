@@ -3,5 +3,5 @@ package com.example.tesla_restapiclient.db.prefs;
 public interface PreferencesHelper {
 
 
-    public void fuckkaviys();
+    public void prehelper();
 }

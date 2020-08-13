@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
 import com.example.tesla_restapiclient.model.History;
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -63,6 +66,11 @@ public class HistoryFragment extends Fragment {
          toolbar = view.findViewById(R.id.toolbar_history);
 
        restActivity  = (RestActivity)getActivity();
+
+
+            view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+
        try{
            historyDao  = restActivity.getHistoryDao();
            initRecylerview();
@@ -131,13 +139,17 @@ public class HistoryFragment extends Fragment {
         historyDao.loadAll().observe(this, new Observer<List<History>>() {
             @Override
             public void onChanged(List<History> histories) {
-                if(histories!=null){
+                if(histories!=null ){
                     view.findViewById(R.id.rlynohistories).setVisibility(View.GONE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.VISIBLE);
 
 
                     HistoryRecyclerAdapter historyRecyclerAdapter = new HistoryRecyclerAdapter(histories);
                     recyclerView.setAdapter(historyRecyclerAdapter);
+                    if(histories.size() == 0){
+                        view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+                    }
 
 
                 }else{
@@ -177,6 +189,17 @@ public class HistoryFragment extends Fragment {
            holder.url.setText(history.requestUrl);
 
 
+           holder.itemView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   int adapterPosition = holder.getAdapterPosition();
+                   History history1 = historyList.get(adapterPosition);
+
+
+                   sendMessage(history1);
+
+               }
+           });
           holder.delete_history.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -194,6 +217,8 @@ public class HistoryFragment extends Fragment {
 
                                   new DeleteHistory(history).execute();
                                   dialog.dismiss();
+
+
                                   break;
 
                               case DialogInterface.BUTTON_NEGATIVE:
@@ -244,6 +269,17 @@ public class HistoryFragment extends Fragment {
 
             }
         }
+    }
+
+    private void sendMessage(History history1) {
+
+            Log.d("sender", "Broadcasting message");
+            Intent intent = new Intent("history");
+            // You can also include some extra data.
+            intent.putExtra("historyModel", history1);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+            backButton();
+
     }
 
     public class DeleteHistory extends AsyncTask<Void, Void, Void>{

@@ -94,11 +94,11 @@ public class AppModule {
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     }
 
-    @Provides
-    @PreferenceInfo
-    String providePreferenceName() {
-        return AppConstants.PREF_NAME;
-    }
+//    @Provides
+//    @PreferenceInfo
+//    String providePreferenceName() {
+//        return AppConstants.PREF_NAME;
+//    }
 
     @Provides
     @Singleton
