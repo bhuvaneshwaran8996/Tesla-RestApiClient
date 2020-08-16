@@ -128,7 +128,7 @@ public class HeaderFragment extends DialogFragment {
         }
 
 
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,requestlist);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,requestlist);
         spinner.setAdapter(arrayAdapter);
         binding.spinner.setSelection(0);
         if(from.equalsIgnoreCase("editHeader")){

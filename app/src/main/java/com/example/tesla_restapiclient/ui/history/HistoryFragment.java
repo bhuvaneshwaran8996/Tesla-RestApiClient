@@ -22,6 +22,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import com.example.tesla_restapiclient.model.History;
 import com.example.tesla_restapiclient.ui.rest.RestActivity;
 import com.google.gson.Gson;
 
+import java.util.Collections;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -92,12 +94,6 @@ public class HistoryFragment extends Fragment {
                if(event.getAction() == KeyEvent.ACTION_DOWN){
 
 
-//                 restActivity.binding.lnrMain.setVisibility(View.GONE);
-//                 restActivity.binding.lnrViewpager.setVisibility(View.VISIBLE);
-//                 restActivity.binding.toolbar.setTitle("Tesla-RestClient");
-//                 restActivity.binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_dehaze_24);
-
-
                    backButton();
                    return true;
                }
@@ -142,6 +138,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onChanged(List<History> histories) {
                 if(histories!=null ){
+                    Collections.reverse(histories);
                     view.findViewById(R.id.rlynohistories).setVisibility(View.GONE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.VISIBLE);
                     lblnohostories.setText("");
@@ -264,7 +261,7 @@ public class HistoryFragment extends Fragment {
             TextViewMedium rest_request;
             TextViewRegular url;
             TextViewRegular datetime;
-            ImageView delete_history;
+            FrameLayout delete_history;
             public HistoryViewHolder(@NonNull View itemView) {
                 super(itemView);
                 requestmethod = itemView.findViewById(R.id.requestmethod);

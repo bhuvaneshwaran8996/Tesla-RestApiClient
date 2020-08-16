@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.tesla_restapiclient.BuildConfig;
 import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.ActivityRestBinding;
 import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
@@ -58,16 +59,16 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     @Inject
     ViewModelProviderFactory factory;
     ProgressDialog progressDialog;
-    public String  bodyResponse;
+    public String bodyResponse;
     public String headerResponse;
     public String requestCode;
-    public String  requesttime;
+    public String requesttime;
 
     ActionBarDrawerToggle mDrawerToggle;
 
     public int currentPagerPostion;
     ResponseFragment responseFragment;
-   public Bundle restBundle;
+    public Bundle restBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,13 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //        restBundle  = new Bundle();
 //        restBundle.putString("Body",bodyResponse);
 //        restBundle.putString("Header",headerResponse);
-        if(savedInstanceState!=null){
-            currentPagerPostion =     savedInstanceState.getInt("position",0);
+        String versionName = BuildConfig.VERSION_NAME;
+        binding.toolbar.setTitle("REST Request");
+//        getSupportActionBar().setTitle("REST Request");
+
+
+        if (savedInstanceState != null) {
+            currentPagerPostion = savedInstanceState.getInt("position", 0);
             requesttime = savedInstanceState.getString("requesttime");
             requestCode = savedInstanceState.getString("requestCode");
         }
@@ -85,10 +91,9 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
         setUp();
         setUpViewPager();
-        if(currentPagerPostion > 0){
+        if (currentPagerPostion > 0) {
             binding.viewpager.setCurrentItem(currentPagerPostion);
         }
-
 
 
 //        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -115,19 +120,20 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //        });
     }
 
-    public void opendrawer(){
-                            if (mDrawer != null) {
-                        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-                    }
+    public void opendrawer() {
+        if (mDrawer != null) {
+            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
     }
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("position",currentPagerPostion);
-        outState.putString("requestCode",requestCode);
-        outState.putString("requesttime",requesttime);
-        outState.putString("bodyResponse",bodyResponse);
-        outState.putString("headerResponse",headerResponse);
+        outState.putInt("position", currentPagerPostion);
+        outState.putString("requestCode", requestCode);
+        outState.putString("requesttime", requesttime);
+        outState.putString("bodyResponse", bodyResponse);
+        outState.putString("headerResponse", headerResponse);
     }
 
     private void setUpViewPager() {
@@ -173,7 +179,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
             @Override
             public void onPageSelected(int position) {
 
-                currentPagerPostion =  position;
+                currentPagerPostion = position;
                 activityRestBinding.tablayout.getTabAt(position).select();
             }
 
@@ -195,13 +201,13 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
         restFragment.setRetainInstance(true);
         responseFragment = ResponseFragment.newInstance();
 
-         responseFragment.setRetainInstance(true);
+        responseFragment.setRetainInstance(true);
         responseFragment.setArguments(restBundle);
 
-        if(selected.equalsIgnoreCase("rest")){
+        if (selected.equalsIgnoreCase("rest")) {
             fragmentList.add(restFragment);
             fragmentList.add(responseFragment);
-        }else{
+        } else {
             fragmentList.add(FcmFragment.newInstance());
             fragmentList.add(responseFragment);
         }
@@ -217,7 +223,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
 
         setSupportActionBar(mToolbar);
-         mDrawerToggle = new ActionBarDrawerToggle(
+        mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawer,
                 mToolbar,
@@ -240,7 +246,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
         getSupportActionBar().setHomeButtonEnabled(true);
 //
         mDrawerToggle.setDrawerIndicatorEnabled(false);
-      //  mDrawerToggle.syncState();
+        //  mDrawerToggle.syncState();
         mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
@@ -259,7 +265,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //        setupCardContainerView();
 //        subscribeToLiveData();
 
-      //  loadRestFragment();
+        //  loadRestFragment();
 
 
     }
@@ -327,7 +333,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                                 binding.lnrMain.setVisibility(GONE);
 
 
-                                if(!selected.equalsIgnoreCase("rest")){
+                                if (!selected.equalsIgnoreCase("rest")) {
                                     selected = "rest";
 
                                     setUpViewPager();
@@ -335,15 +341,17 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                                 return true;
                             case R.id.navFCM:
 
-                                if(!selected.equalsIgnoreCase("fcm")){
-                                    selected = "fcm";
-                                 //   setUpViewPagerForFCM();
-                                    Toast.makeText(RestActivity.this,"coming soon!",Toast.LENGTH_LONG).show();
+//                                if (!selected.equalsIgnoreCase("fcm")) {
+//                                    selected = "fcm";
+//                                    //   setUpViewPagerForFCM();
+//
+//
+//                                }
 
-                                }
+                                Toast.makeText(RestActivity.this, "coming soon!", Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.navSettings:
-                                Intent intent  = new Intent(RestActivity.this, SettingsActivity.class);
+                                Intent intent = new Intent(RestActivity.this, SettingsActivity.class);
                                 startActivity(intent);
                                 return true;
 
@@ -351,7 +359,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 
 //                                Intent intenthistory  = new Intent(RestActivity.this, HistoryActivity.class);
 //                                startActivity(intenthistory);
-                             //   binding.viewpager.setVisibility(GONE);
+                                //   binding.viewpager.setVisibility(GONE);
 
                                 binding.lnrViewpager.setVisibility(GONE);
                                 binding.lnrMain.setVisibility(View.VISIBLE);
@@ -359,7 +367,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //                                mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
                                 HistoryFragment historyFragment = HistoryFragment.newInstance();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.lnr_main, historyFragment,"HistoryFragment")
+                                getSupportFragmentManager().beginTransaction().replace(R.id.lnr_main, historyFragment, "HistoryFragment")
                                         .addToBackStack(null)
                                         .commit();
 
@@ -433,29 +441,28 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     public void restNav() {
 
 
-
     }
 
 
     @Override
     public void onBackPressed() {
 
-            if (binding.drawerView.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerView.closeDrawer(GravityCompat.START);
-            }else{
-                finish();
-              //  super.onBackPressed();
-            }
-
+        if (binding.drawerView.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerView.closeDrawer(GravityCompat.START);
+        } else {
+            finish();
+            //  super.onBackPressed();
+        }
 
 
     }
 
-    public void setResponseFragmentSuccesRsult(){
+    public void setResponseFragmentSuccesRsult() {
 
-        responseFragment.setRestSuccessResults(bodyResponse,headerResponse, requestCode, requesttime);
+        responseFragment.setRestSuccessResults(bodyResponse, headerResponse, requestCode, requesttime);
     }
-    public HistoryDao getHistoryDao(){
+
+    public HistoryDao getHistoryDao() {
         return historyDao;
     }
 }

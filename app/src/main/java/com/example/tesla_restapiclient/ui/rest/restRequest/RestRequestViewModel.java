@@ -1,5 +1,6 @@
 package com.example.tesla_restapiclient.ui.rest.restRequest;
 
+import android.util.JsonReader;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,6 +22,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
+import org.json.JSONObject;
+
+import java.io.StringReader;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,22 +96,37 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
                         ms = responseBodyResponse.raw().receivedResponseAtMillis() - responseBodyResponse.raw().sentRequestAtMillis() + " ms";
                         code = String.valueOf(responseBodyResponse.code());
 
+
                         Log.d("ms", "onNext: " + ms);
 
 
                         try {
-//                            ResponseBody s = responseBodyResponse.body();
-//                            String bodyString = s.string();
-//
 
-                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                            JsonParser jp = new JsonParser();
-                            JsonElement je = jp.parse(responseBodyResponse.body().string());
-                            String prettyJsonString = gson.toJson(je);
+
+                            ResponseBody s = responseBodyResponse.body();
+                            String bodyString = s.string();
+
+                           // String prettyJsonString = new JSONObject(bodyString).toString(4);
+
+//////
+
+//                            Gson gson = new GsonBuilder()
+//
+//                                    .setPrettyPrinting()
+//                                    .setLenient()
+//                                    .create();
+//
+//                            JsonParser jp = new JsonParser();
+//                            JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                            String prettyJsonString = gson.toJson(je);
+
+//                            Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
+//                            String bodyString = gson.toJson(responseBodyResponse.body());
+
 
                             Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                            getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                            getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
 
                             // restActivity.hideLoading();
 
@@ -162,15 +182,15 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
 
                                 try {
                                     if (responseBodyResponse.isSuccessful()) {
-//                                        ResponseBody s = responseBodyResponse.body();
-//                                        String bodyString = s.string();
-                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                        JsonParser jp = new JsonParser();
-                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                        String prettyJsonString = gson.toJson(je);
+                                        ResponseBody s = responseBodyResponse.body();
+                                        String bodyString = s.string();
+//                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                        JsonParser jp = new JsonParser();
+//                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                        String prettyJsonString = gson.toJson(je);
                                         Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                        getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                                        getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
                                     } else {
 
                                         String errorString = responseBodyResponse.errorBody().string();
@@ -236,16 +256,16 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
 
                             try {
                                 if (responseBodyResponse.isSuccessful()) {
-//                                    ResponseBody s = responseBodyResponse.body();
-//                                    String bodyString = s.string();
+                                    ResponseBody s = responseBodyResponse.body();
+                                    String bodyString = s.string();
 
-                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                    JsonParser jp = new JsonParser();
-                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                    String prettyJsonString = gson.toJson(je);
+//                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                    JsonParser jp = new JsonParser();
+//                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                    String prettyJsonString = gson.toJson(je);
                                     Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                    getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                                    getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
                                 } else {
 
                                     String errorString = responseBodyResponse.errorBody().string();
@@ -307,15 +327,15 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
 
                             try {
                                 if (responseBodyResponse.isSuccessful()) {
-//                                    ResponseBody s = responseBodyResponse.body();
-//                                    String bodyString = s.string();
-                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                    JsonParser jp = new JsonParser();
-                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                    String prettyJsonString = gson.toJson(je);
+                                    ResponseBody s = responseBodyResponse.body();
+                                    String bodyString = s.string();
+//                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                    JsonParser jp = new JsonParser();
+//                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                    String prettyJsonString = gson.toJson(je);
                                     Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                    getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                                    getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
                                 } else {
 
                                     String errorString = responseBodyResponse.errorBody().string();
@@ -378,14 +398,16 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
                                 code = String.valueOf(responseBodyResponse.code());
                                 try {
                                     if (responseBodyResponse.isSuccessful()) {
-                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                        JsonParser jp = new JsonParser();
-                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                        String prettyJsonString = gson.toJson(je);
+                                        ResponseBody s = responseBodyResponse.body();
+                                        String bodyString = s.string();
+//                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                        JsonParser jp = new JsonParser();
+//                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                        String prettyJsonString = gson.toJson(je);
                                         Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                        getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
-                                        Log.d(TAG, "onNext: " + prettyJsonString);
+                                        getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
+                                        Log.d(TAG, "onNext: " + bodyString);
                                     } else {
 
                                         String errorString = responseBodyResponse.errorBody().string();
@@ -452,13 +474,16 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
 
                             try {
                                 if (responseBodyResponse.isSuccessful()) {
-                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                    JsonParser jp = new JsonParser();
-                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                    String prettyJsonString = gson.toJson(je);
+                                    ResponseBody s = responseBodyResponse.body();
+                                    String bodyString = s.string();
+
+//                                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                    JsonParser jp = new JsonParser();
+//                                    JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                    String prettyJsonString = gson.toJson(je);
                                     Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                    getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                                    getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
                                 } else {
 
                                     String errorString = responseBodyResponse.errorBody().string();
@@ -522,14 +547,17 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
 
                                 try {
                                     if (responseBodyResponse.isSuccessful()) {
-                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                                        JsonParser jp = new JsonParser();
-                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
-                                        String prettyJsonString = gson.toJson(je);
+                                        ResponseBody s = responseBodyResponse.body();
+                                        String bodyString = s.string();
+
+//                                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                                        JsonParser jp = new JsonParser();
+//                                        JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                                        String prettyJsonString = gson.toJson(je);
                                         Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                                        getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
-                                        Log.d(TAG, "onNext: " + prettyJsonString);
+                                        getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
+                                        Log.d(TAG, "onNext: " + bodyString);
                                     } else {
 
                                         String errorString = responseBodyResponse.errorBody().string();
@@ -596,13 +624,15 @@ public class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {
                         ms = responseBodyResponse.raw().receivedResponseAtMillis() - responseBodyResponse.raw().sentRequestAtMillis() + " ms";
                         code = String.valueOf(responseBodyResponse.code());
                         try {
-                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                            JsonParser jp = new JsonParser();
-                            JsonElement je = jp.parse(responseBodyResponse.body().string());
-                            String prettyJsonString = gson.toJson(je);
+                            ResponseBody s = responseBodyResponse.body();
+                            String bodyString = s.string();
+//                            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                            JsonParser jp = new JsonParser();
+//                            JsonElement je = jp.parse(responseBodyResponse.body().string());
+//                            String prettyJsonString = gson.toJson(je);
                             Headers headers = responseBodyResponse.headers();
 //                            String headerString = new Gson().toJson(headers);
-                            getNavigator().processSuccessResult(prettyJsonString, headers.toString(), code, ms);
+                            getNavigator().processSuccessResult(bodyString, headers.toString(), code, ms);
 
                             // restActivity.hideLoading();
 

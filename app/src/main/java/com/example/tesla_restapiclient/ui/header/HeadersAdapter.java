@@ -130,9 +130,9 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
             headerMap.clear();
         }
         for(HeaderModel headerModel: headerModelList){
-            if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)") || headerModel.title.equalsIgnoreCase("Authorization")){
-              //  headerModel.title = "authorization";
-            }
+//            if(headerModel.title.equalsIgnoreCase("Authorization(Basic)") || headerModel.title.equalsIgnoreCase("Authorization(Bearer)") || headerModel.title.equalsIgnoreCase("Authorization")){
+//              //  headerModel.title = "authorization";
+//            }
             headerMap.put(headerModel.title,headerModel.value);
 
         }

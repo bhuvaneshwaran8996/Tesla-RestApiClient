@@ -125,15 +125,29 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
+                        <FrameLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        <com.paulvarry.jsonviewer.JsonViewer
                             android:padding="10dp"
                             android:id="@+id/body_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="@string/bost_text"
                             android:textAlignment="textStart"
-                            android:textColor="@color/white" />
+
+                            tools:ignore="MissingClass" />
+                            <com.example.tesla_restapiclient.controls.TextViewRegular
+                                android:layout_width="match_parent"
+                                android:id="@+id/jsonText"
+                                android:textColor="@color/orange"
+                                android:padding="10dp"
+                                android:layout_height="match_parent"/>
+
+                        </FrameLayout>
                     </ScrollView>
+
 
                 </LinearLayout>
             </LinearLayout>

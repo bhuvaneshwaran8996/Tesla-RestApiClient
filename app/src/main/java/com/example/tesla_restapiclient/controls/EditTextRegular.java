@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-public class EditTextRegular extends EditText {
+public class EditTextRegular extends androidx.appcompat.widget.AppCompatEditText {
 
     public EditTextRegular(Context context) {
         super(context);
@@ -22,10 +22,10 @@ public class EditTextRegular extends EditText {
         init(attrs);
     }
 
-    public EditTextRegular(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
-    }
+//    public EditTextRegular(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//        init(attrs);
+//    }
 
     public void init(AttributeSet attributeSet){
         this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"fonts/Heebo-Regular.ttf"));

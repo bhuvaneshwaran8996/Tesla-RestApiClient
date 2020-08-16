@@ -20,7 +20,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:text="Add Header"
-                android:textColor="@color/white"
+                android:textColor="@color/orange"
                 android:textSize="30sp" />
 
             <RelativeLayout
@@ -53,7 +53,7 @@
                         <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/spinner"
 
-
+                            android:textColor="@color/orange"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
  />
@@ -85,7 +85,7 @@
                         <com.example.tesla_restapiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_key"
-                            android:textColor="@color/white"
+                            android:textColor="@color/orange"
                             android:background="@android:color/transparent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
@@ -115,7 +115,7 @@
                         <com.example.tesla_restapiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_value"
-                            android:textColor="@color/white"
+                            android:textColor="@color/orange"
                             android:background="@android:color/transparent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
@@ -148,7 +148,7 @@
                         <com.example.tesla_restapiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_username"
-                            android:textColor="@color/white"
+                            android:textColor="@color/orange"
                             android:background="@android:color/transparent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
@@ -178,7 +178,7 @@
                         <com.example.tesla_restapiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_password"
-                            android:textColor="@color/white"
+                            android:textColor="@color/orange"
                             android:background="@android:color/transparent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
@@ -208,7 +208,7 @@
                         <com.example.tesla_restapiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_token"
-                            android:textColor="@color/white"
+                            android:textColor="@color/orange"
                             android:background="@android:color/transparent"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>

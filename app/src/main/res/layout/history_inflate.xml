@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="115dp">
 
     <RelativeLayout
         android:id="@+id/rly_history"
         android:background="#303030"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
         <com.example.tesla_restapiclient.controls.TextViewMedium
             android:id="@+id/requestmethod"
@@ -32,10 +33,11 @@
         <com.example.tesla_restapiclient.controls.TextViewRegular
             android:layout_width="match_parent"
             android:id="@+id/url"
+            android:paddingRight="30dp"
             android:layout_below="@+id/rest_request"
             android:singleLine="true"
             android:layout_marginTop="10dp"
-            android:text="https://jsonplaceholder.typicode.com/posts/1"
+            android:text="https://jsonplaceholder.typicode.com/posts/1 "
             android:textColor="#fff"
             android:layout_height="wrap_content"/>
         <com.example.tesla_restapiclient.controls.TextViewRegular
@@ -47,21 +49,25 @@
             android:textColor="#fff"
             android:layout_height="wrap_content"/>
 
-        <ImageView
-
-            android:src="@drawable/ic_baseline_delete_24"
-            android:tint="#fff"
+        <FrameLayout
             android:id="@+id/delete_history"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/ic_baseline_delete_24"
+                android:tint="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
 
     </RelativeLayout>
     <View
 
         android:background="#fff"
-
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
 

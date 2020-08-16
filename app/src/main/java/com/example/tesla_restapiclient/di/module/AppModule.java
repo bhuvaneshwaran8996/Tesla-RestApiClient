@@ -3,12 +3,7 @@ package com.example.tesla_restapiclient.di.module;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import androidx.databinding.library.baseAdapters.BuildConfig;
-import androidx.room.Room;
-
-import com.example.tesla_restapiclient.db.AppDatabase;
 import com.example.tesla_restapiclient.db.AppDbHelper;
 import com.example.tesla_restapiclient.db.DbHelper;
 import com.example.tesla_restapiclient.db.prefs.AppPreferencesHelper;
@@ -91,7 +86,7 @@ public class AppModule {
     @Provides
     @Singleton
     Gson provideGson() {
-        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return new GsonBuilder().setLenient().create();
     }
 
 //    @Provides
@@ -118,7 +113,7 @@ public class AppModule {
     GsonConverterFactory provideGsonConverterFactory(){
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setLenient();
+        gsonBuilder.setLenient().setPrettyPrinting();
         Gson gson = gsonBuilder.create();
        return GsonConverterFactory.create(gson);
     }
@@ -135,6 +130,7 @@ public class AppModule {
      OkHttpClient provideOkHttpClient(int timeout, Gson gson){
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
                 .callTimeout(timeout, TimeUnit.SECONDS)
                 .connectTimeout(timeout, TimeUnit.SECONDS)
                 .readTimeout(timeout, TimeUnit.SECONDS)

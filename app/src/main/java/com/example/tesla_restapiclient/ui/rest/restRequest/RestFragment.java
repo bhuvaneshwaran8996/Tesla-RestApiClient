@@ -316,6 +316,9 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                     }
                 }
 
+
+                restActivity.binding.viewpager.setCurrentItem(0);
+               // binding.lnrfooter.performClick();
             }
 
         }
@@ -367,9 +370,10 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
         initHeaderAdapter();
         initBodyAdapter();
-        arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerdata);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, spinnerdata);
         spinner.setAdapter(arrayAdapter);
         spinner.setSelection(0);
+
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -397,7 +401,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         });
 
 
-        arrayAdapterhttp = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, httpdata);
+        arrayAdapterhttp = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, httpdata);
         binding.spinnerHttp.setAdapter(arrayAdapterhttp);
         spinner.setSelection(0);
 
@@ -571,6 +575,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         restActivity.hideLoading();
 

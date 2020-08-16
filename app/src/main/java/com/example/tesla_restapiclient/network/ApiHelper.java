@@ -18,6 +18,7 @@ import retrofit2.http.Url;
 public interface ApiHelper {
 
 
+
     Observable<Response<ResponseBody>> processGetRequest(String urlPath, HashMap<String, String> headermap);
 
     Observable<Response<ResponseBody>> processBodyWithKey(String url, HashMap<String, String> headerModelList, Map<String, String> bodyList);
