@@ -2,13 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_corner_header">
+
         <LinearLayout
-
-
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_corner_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -24,8 +26,8 @@
                     android:layout_margin="7dp"
                     android:text="Authorization"
                     android:textColor="#fff" />
-
                 <ImageView
+
                     android:layout_margin="5dp"
                     android:id="@+id/ic_edit"
                     android:layout_width="wrap_content"
@@ -74,7 +76,7 @@
 
 
         </LinearLayout>
-
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </layout>

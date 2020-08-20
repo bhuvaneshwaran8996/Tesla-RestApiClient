@@ -132,7 +132,14 @@ public class HeaderFragment extends DialogFragment {
         spinner.setAdapter(arrayAdapter);
         binding.spinner.setSelection(0);
         if(from.equalsIgnoreCase("editHeader")){
-            spinner.setSelection(requestlist.indexOf(type));
+
+            int i = requestlist.indexOf(type);
+            if(i<0){
+                spinner.setSelection(5);
+            }else{
+                spinner.setSelection(i);
+            }
+
 
             if(type.equalsIgnoreCase(requestlist.get(0).toString())){
 

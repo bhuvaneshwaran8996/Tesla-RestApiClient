@@ -68,12 +68,11 @@ public class HistoryFragment extends Fragment {
          view = inflater.inflate(R.layout.activity_history,null,false);
          toolbar = view.findViewById(R.id.toolbar_history);
 
-       restActivity  = (RestActivity)getActivity();
-
-
-        lblnohostories =    view.findViewById(R.id.lblnohostories);
+            restActivity  = (RestActivity)getActivity();
+            lblnohostories =    view.findViewById(R.id.lblnohostories);
             view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
             view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+            restActivity.lockDrawer();
 
        try{
            historyDao  = restActivity.getHistoryDao();
@@ -122,7 +121,8 @@ public class HistoryFragment extends Fragment {
     public void backButton(){
         restActivity. binding.lnrViewpager.setVisibility(View.VISIBLE);
         restActivity.binding.lnrMain.setVisibility(GONE);
-       restActivity.binding.toolbar.setVisibility(View.VISIBLE);
+        restActivity.binding.toolbar.setVisibility(View.VISIBLE);
+
 
     }
     public void initRecylerview(){

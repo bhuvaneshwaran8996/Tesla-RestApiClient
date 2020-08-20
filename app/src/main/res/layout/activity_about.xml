@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.tesla_restapiclient.ui.rest.RestViewModel" />
+    </data>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/clRootView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#303030"
+            android:clipChildren="false">
+
+            <LinearLayout
+                android:id="@+id/activityMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/appbarlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#303030"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/appbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:elevation="5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.Toolbar
+                                android:id="@+id/toolbar"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@color/black"
+                                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                                app:titleTextColor="@color/white">
+
+
+                            </androidx.appcompat.widget.Toolbar>
+
+                        </LinearLayout>
+
+
+                    </com.google.android.material.appbar.AppBarLayout>
+
+
+                </RelativeLayout>
+
+                <FrameLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/lnr_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+
+                        <ImageView
+                            android:id="@+id/tesla_logo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/tesla_logo" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <com.example.tesla_restapiclient.controls.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Version: 1.0.2"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+                <com.example.tesla_restapiclient.controls.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Welcome to Tesla-ApiClient "
+                    android:textAlignment="textStart"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <com.example.tesla_restapiclient.controls.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Test and edit REST api anytime anywhere in mobile. This app allows you to work with REST APIs and FCM messages. Keep a history of REST api and FCM messages."
+                    android:textAlignment="textStart"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+                <com.example.tesla_restapiclient.controls.TextViewBold
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Support"
+                    android:textAlignment="textStart"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <com.example.tesla_restapiclient.controls.TextViewRegular
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/emailshare"
+                    android:paddingRight="10dp"
+                    android:text="For any bug/feature Please let me know on bhuvaneshwaran8996@gmail.com"
+                    android:textAlignment="textStart"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </FrameLayout>
+
+
+</layout>

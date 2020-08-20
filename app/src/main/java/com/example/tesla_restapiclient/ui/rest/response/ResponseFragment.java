@@ -162,7 +162,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
                 binding.jsonText.setVisibility(View.GONE);
                 binding.bodyText.setVisibility(View.VISIBLE);
                binding.bodyText.setTextColorString(Color.parseColor(getString(R.color.red_dark)));
-               binding.bodyText.setTextColorNumber(Color.parseColor(getString(R.color.yellow)));
+               binding.bodyText.setTextColorNumber(Color.parseColor(getString(R.color.red_dark2)));
                binding.bodyText.setTextColorBool(Color.parseColor(getString(R.color.light_green)));
                binding.bodyText.setTextColorNull(Color.parseColor(getString(R.color.orange)));
 
@@ -211,12 +211,6 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
             }
 
         }
-
-
-
-
-
-
             fragmentResponseBinding.headerText.setText(headers);
             fragmentResponseBinding.txtRequestcode.setText(requestCod);
             fragmentResponseBinding.txtResponsetime.setText(requestTime);

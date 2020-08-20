@@ -22,6 +22,7 @@ import com.example.tesla_restapiclient.R;
 import com.example.tesla_restapiclient.databinding.ActivityRestBinding;
 import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
 import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+import com.example.tesla_restapiclient.ui.about.AboutActivity;
 import com.example.tesla_restapiclient.ui.base.BaseActivity;
 import com.example.tesla_restapiclient.ui.history.HistoryFragment;
 import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
@@ -280,7 +281,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
 //                .commit();
 //    }
 
-    private void lockDrawer() {
+    public void lockDrawer() {
         if (mDrawer != null) {
             mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
@@ -371,6 +372,10 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
                                         .addToBackStack(null)
                                         .commit();
 
+                                return true;
+
+                            case R.id.navAbout:
+                                startActivity(new Intent(RestActivity.this, AboutActivity.class));
                                 return true;
                             default:
                                 return false;

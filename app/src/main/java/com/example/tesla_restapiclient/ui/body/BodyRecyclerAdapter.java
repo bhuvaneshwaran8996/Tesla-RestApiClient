@@ -130,7 +130,7 @@ public class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapte
 
     public Map<String, String>  getBodyList() {
 //        Collections.reverse(bodyList);
-        if(bodyList.size() == 0){
+        if(bodyList!=null  && bodyList.size()>=0){
             bodymap.clear();
         }
         for(Body body : bodyList){

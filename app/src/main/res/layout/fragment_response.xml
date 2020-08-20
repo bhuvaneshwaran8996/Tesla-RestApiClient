@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,147 +16,157 @@
         tools:context=".ui.rest.response.ResponseFragment">
 
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="2">
+
                 <LinearLayout
-                    android:padding="10dp"
-                    android:weightSum="2"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-                        <com.example.tesla_restapiclient.controls.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:text="Request Code"
-                            android:gravity="center_vertical"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:layout_height="wrap_content"/>
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:layout_width="wrap_content"
-                            android:id="@+id/txt_requestcode"
-                            android:text="304"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:layout_height="wrap_content"/>
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
+                    <com.example.tesla_restapiclient.controls.TextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Request Code"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-                        <com.example.tesla_restapiclient.controls.TextViewMedium
-                            android:layout_width="wrap_content"
-                            android:text="Response Time(ms)"
-                            android:gravity="center_vertical"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:layout_height="wrap_content"/>
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:layout_width="wrap_content"
-                            android:id="@+id/txt_responsetime"
-                            android:text="304"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:layout_height="wrap_content"/>
+                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                        android:id="@+id/txt_requestcode"
+                        android:layout_width="wrap_content"
 
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/white"/>
+
                 <LinearLayout
-                    android:id="@+id/lnr_header"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <com.example.tesla_restapiclient.controls.TextViewMedium
-                        android:id="@+id/header"
                         android:layout_width="wrap_content"
-                        android:text="Header"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Response Time"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:layout_margin="10dp"
-                        android:layout_height="wrap_content"/>
-                    <ScrollView
-                        android:id="@+id/header_scroll"
-                        android:visibility="gone"
+                        android:textSize="16sp" />
+
+                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                        android:id="@+id/txt_responsetime"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:id="@+id/lnr_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.example.tesla_restapiclient.controls.TextViewMedium
+                    android:id="@+id/header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Header"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <ScrollView
+                    android:id="@+id/header_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                        android:id="@+id/header_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
-                            android:padding="10dp"
-                            android:layout_width="match_parent"
-                            android:id="@+id/header_text"
-                            android:textColor="@color/white"
-                            android:textAlignment="textStart"
-                            android:layout_height="250dp"/>
-                    </ScrollView>
+                        android:layout_height="250dp"
+                        android:padding="10dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white" />
+                </ScrollView>
 
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/lnr_body"
-                    android:orientation="vertical"
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnr_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.example.tesla_restapiclient.controls.TextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Body"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.example.tesla_restapiclient.controls.TextViewMedium
-                        android:layout_width="wrap_content"
-                        android:text="Body"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:layout_margin="10dp"
-                        android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent">
 
-                    <ScrollView
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:background="@color/white">
 
-                        <FrameLayout
-
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
                         <com.paulvarry.jsonviewer.JsonViewer
-                            android:padding="10dp"
                             android:id="@+id/body_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:padding="10dp"
                             android:text="@string/bost_text"
                             android:textAlignment="textStart"
 
                             tools:ignore="MissingClass" />
-                            <com.example.tesla_restapiclient.controls.TextViewRegular
-                                android:layout_width="match_parent"
-                                android:id="@+id/jsonText"
-                                android:textColor="@color/orange"
-                                android:padding="10dp"
-                                android:layout_height="match_parent"/>
 
-                        </FrameLayout>
-                    </ScrollView>
+                        <com.example.tesla_restapiclient.controls.TextViewRegular
+                            android:id="@+id/jsonText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:textColor="@color/orange" />
+
+                    </FrameLayout>
+                </ScrollView>
 
 
-                </LinearLayout>
             </LinearLayout>
-
-        </ScrollView>
-
+        </LinearLayout>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -126,7 +126,7 @@ public class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersV
     }
 
     public Map<String,String> getHeaderModelList(){
-        if(headerModelList.size() == 0){
+        if(headerModelList !=null && headerModelList.size()>=0){
             headerMap.clear();
         }
         for(HeaderModel headerModel: headerModelList){

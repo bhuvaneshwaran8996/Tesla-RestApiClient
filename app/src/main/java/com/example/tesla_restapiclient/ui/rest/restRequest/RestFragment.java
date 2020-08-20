@@ -317,7 +317,16 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 }
 
 
+                if (restActivity != null) {
+                    restActivity.headerResponse = "";
+                    restActivity.bodyResponse = "";
+                    restActivity.requestCode = "";
+                    restActivity.requesttime = "";
+                }
+                restActivity.setResponseFragmentSuccesRsult();
+
                 restActivity.binding.viewpager.setCurrentItem(0);
+
                // binding.lnrfooter.performClick();
             }
 
