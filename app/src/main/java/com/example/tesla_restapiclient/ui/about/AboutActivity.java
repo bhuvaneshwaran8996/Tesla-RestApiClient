@@ -43,7 +43,7 @@ public class AboutActivity extends AppCompatActivity {
     }
     protected void sendEmail() {
         Log.i("Send email", "");
-        String[] TO = {"bhuvaneshwaran8996@gmail.com"};
+        String[] TO = {"bhuvaneswaran.muthuraja96@gmail.com"};
 //        String[] CC = {"cccgvg"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 

@@ -140,7 +140,7 @@
                     android:paddingLeft="10dp"
                     android:id="@+id/emailshare"
                     android:paddingRight="10dp"
-                    android:text="For any bug/feature Please let me know on bhuvaneshwaran8996@gmail.com"
+                    android:text="For any bug/feature Please let me know on bhuvaneswaran.muthuraja96@gmail.com"
                     android:textAlignment="textStart"
                     android:textColor="#fff"
                     android:textSize="16sp" />
