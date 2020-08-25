@@ -81,7 +81,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding,Respo
     }
 
     @Override
-    public void fuckKaviya() {
+    public void responseNavigator() {
 
     }
 }

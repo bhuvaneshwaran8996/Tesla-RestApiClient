@@ -18,9 +18,7 @@ package com.example.tesla_restapiclient.utils.rx;
 
 import io.reactivex.Scheduler;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public interface SchedulerProvider {
 

@@ -16,7 +16,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<Object> fuckKaviya() {
+    public Single<Object> cacheRequests() {
         return null;
     }
 }

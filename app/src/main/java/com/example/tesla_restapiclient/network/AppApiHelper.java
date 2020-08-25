@@ -14,7 +14,7 @@ public class AppApiHelper implements ApiHelper {
 
     }
     @Override
-    public Single<Object> fuckKaviya() {
+    public Single<Object> newtworkRequest() {
         return null;
     }
 }

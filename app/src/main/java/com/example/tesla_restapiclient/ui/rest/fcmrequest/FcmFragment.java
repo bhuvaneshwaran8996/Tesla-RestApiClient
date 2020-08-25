@@ -69,7 +69,7 @@ public class FcmFragment extends BaseFragment<FragmentFcmBinding,FcmViewModel> i
     }
 
     @Override
-    public void fuckKaviya() {
+    public void fcmNavigator() {
 
     }
 }

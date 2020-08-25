@@ -176,7 +176,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestVi
     }
 
     @Override
-    public void fuckKaviya() {
+    public void restResquestNavigtor() {
 
     }
 

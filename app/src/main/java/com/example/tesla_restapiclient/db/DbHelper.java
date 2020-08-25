@@ -6,5 +6,5 @@ import io.reactivex.Single;
 
 public interface DbHelper {
 
-    Single<Object> fuckKaviya();
+    Single<Object> cacheRequests();
 }

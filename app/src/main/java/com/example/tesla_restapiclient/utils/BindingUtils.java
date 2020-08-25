@@ -20,9 +20,7 @@ package com.example.tesla_restapiclient.utils;
 
 import java.util.List;
 
-/**
- * Created by amitshekhar on 11/07/17.
- */
+
 
 public final class BindingUtils {
 

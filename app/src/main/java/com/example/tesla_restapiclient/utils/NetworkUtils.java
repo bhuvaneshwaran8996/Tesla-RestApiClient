@@ -20,9 +20,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public final class NetworkUtils {
 

@@ -6,5 +6,5 @@ public interface ApiHelper {
 
 
 
-    Single<Object> fuckKaviya();
+    Single<Object> newtworkRequest();
 }
