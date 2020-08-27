@@ -1,4 +1,4 @@
-# Tesla-RestApiClient
+# Android Api Client
 
 
 1.A simple Api client for android which mimics the functionality of "POSTMAN"
