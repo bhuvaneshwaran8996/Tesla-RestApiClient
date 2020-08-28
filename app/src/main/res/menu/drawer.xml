@@ -32,9 +32,13 @@
             android:checked="true"
             android:title="History" />
         <item
-            android:id="@+id/navAbout"
+            android:id="@+id/bugfeatureNav"
             android:checked="true"
-            android:title="About" />
+            android:title="Bug/Feature" />
+        <item
+            android:id="@+id/versionNav"
+            android:checked="true"
+            android:title="V1.0.2" />
 
 
 

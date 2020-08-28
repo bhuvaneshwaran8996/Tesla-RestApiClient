@@ -4,46 +4,15 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.tesla_restapiclient.ui.splash.SplashViewModel" />
+            type="com.example.android_api_client.ui.splash.SplashViewModel" />
     </data>
     <RelativeLayout
 
-        android:background="#000"
+        android:background="#fff"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.splash.SplashActivity">
-
-
-        <ImageView
-            android:layout_centerInParent="true"
-            android:src="@drawable/tesla_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-<!--        <com.example.tesla_restapiclient.controls.TextViewCourgette-->
-<!--            android:id="@+id/tesla"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:text="Tesla  "-->
-<!--            android:lineHeight="10dp"-->
-<!--            android:textSize="30dp"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:gravity="center"-->
-<!--            android:letterSpacing="0.2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-<!--        <com.example.tesla_restapiclient.controls.TextViewCourgette-->
-<!--            android:layout_below="@+id/tesla"-->
-<!--            android:textAlignment="center"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:text="Restclient  "-->
-<!--            android:textSize="30dp"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:gravity="center"-->
-<!--            android:letterSpacing="0.2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-
-
 
 
 

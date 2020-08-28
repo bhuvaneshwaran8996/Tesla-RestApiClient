@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel" />
+            type="com.example.android_api_client.ui.rest.response.ResponseViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,7 +35,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.example.tesla_restapiclient.controls.TextViewMedium
+                    <com.example.android_api_client.controls.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -43,7 +43,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                    <com.example.android_api_client.controls.TextViewRegular
                         android:id="@+id/txt_requestcode"
                         android:layout_width="wrap_content"
 
@@ -61,7 +61,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.example.tesla_restapiclient.controls.TextViewMedium
+                    <com.example.android_api_client.controls.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -69,7 +69,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                    <com.example.android_api_client.controls.TextViewRegular
                         android:id="@+id/txt_responsetime"
                         android:layout_width="wrap_content"
 
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.example.tesla_restapiclient.controls.TextViewMedium
+                <com.example.android_api_client.controls.TextViewMedium
                     android:id="@+id/header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,20 +103,20 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <ScrollView
+                <androidx.core.widget.NestedScrollView
                     android:id="@+id/header_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
-                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                    <com.example.android_api_client.controls.TextViewRegular
                         android:id="@+id/header_text"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="100dp"
                         android:padding="10dp"
                         android:textAlignment="textStart"
                         android:textColor="@color/white" />
-                </ScrollView>
+                </androidx.core.widget.NestedScrollView>
 
             </LinearLayout>
 
@@ -127,7 +127,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.example.tesla_restapiclient.controls.TextViewMedium
+                <com.example.android_api_client.controls.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -154,7 +154,7 @@
 
                             tools:ignore="MissingClass" />
 
-                        <com.example.tesla_restapiclient.controls.TextViewRegular
+                        <com.example.android_api_client.controls.TextViewRegular
                             android:id="@+id/jsonText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

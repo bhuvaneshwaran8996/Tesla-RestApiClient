@@ -26,7 +26,7 @@
                     android:orientation="vertical">
 
 
-                   <com.example.tesla_restapiclient.controls.TextViewBlack
+                   <com.example.android_api_client.controls.TextViewBlack
                        android:layout_width="match_parent"
                        android:text="Timeout Connection"
                        android:padding="10dp"
@@ -34,7 +34,7 @@
                        android:textColor="#414141"
                        android:layout_height="wrap_content"/>
 
-                    <com.example.tesla_restapiclient.controls.TextViewRegular
+                    <com.example.android_api_client.controls.TextViewRegular
                         android:layout_width="match_parent"
                         android:textSize="16sp"
                         android:text="After 10 seconds"
