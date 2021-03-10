@@ -1,0 +1,975 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\n\nandroid {\n    compileSdkVersion 29\n    buildToolsVersion \"29.0.3\"\n\n    defaultConfig {\n        applicationId \"com.example.tesla_restapiclient\"\n        minSdkVersion 21\n        targetSdkVersion 29\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n    dataBinding{\n        enabled = true\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n}\n\ndependencies {\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\n\n//    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\n//    implementation 'androidx.appcompat:appcompat:1.1.0'\n//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\n//    testImplementation 'junit:junit:4.12'\n//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\n//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\n\n\n\n    def room_version = \"2.2.5\"\n\n    implementation \"androidx.room:room-runtime:$room_version\"\n    annotationProcessor \"androidx.room:room-compiler:$room_version\" // For Kotlin use kapt instead of annotationProcessor\n\n    // optional - Kotlin Extensions and Coroutines support for Room\n    implementation \"androidx.room:room-ktx:$room_version\"\n\n    // optional - RxJava support for Room\n    implementation \"androidx.room:room-rxjava2:$room_version\"\n\n    // optional - Guava support for Room, including Optional and ListenableFuture\n    implementation \"androidx.room:room-guava:$room_version\"\n\n    implementation 'com.jakewharton.timber:timber:4.7.1'\n    // Test helpers\n    testImplementation \"androidx.room:room-testing:$room_version\"\n    implementation(\"com.squareup.okhttp3:logging-interceptor:4.4.0\")\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\n    implementation 'androidx.appcompat:appcompat:1.1.0'\n    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\n    implementation 'com.google.android.material:material:1.1.0'\n    testImplementation 'junit:junit:4.12'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\n\n    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'\n\n    implementation 'de.hdodenhof:circleimageview:3.0.1'\n\n    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'\n    def material_version = \"1.0.0\"\n    implementation \"com.google.android.material:material:$material_version\"\n\n    // Dagger\n    def dagger_version = \"2.22\"\n\n    // Dagger2 core\n    implementation \"com.google.dagger:dagger:$dagger_version\"\n    annotationProcessor \"com.google.dagger:dagger-compiler:$dagger_version\"\n\n    // Dagger Android\n    implementation \"com.google.dagger:dagger-android:$dagger_version\"\n    implementation \"com.google.dagger:dagger-android-support:$dagger_version\"\n    annotationProcessor \"com.google.dagger:dagger-android-processor:$dagger_version\"\n\n    // Glide\n    def glideVersion = \"4.9.0\"\n    implementation \"com.github.bumptech.glide:glide:$glideVersion\"\n    annotationProcessor \"com.github.bumptech.glide:compiler:$glideVersion\"\n\n    // ViewModel and LiveData\n    def lifecycle_version = '2.1.0-alpha03'\n    implementation \"androidx.lifecycle:lifecycle-extensions:$lifecycle_version\"\n\n\n    //noinspection GradleCompatible\n    implementation \"com.android.support:design:22.2.1\"\n\n    // Retrofit\n    def retrofitVersion = \"2.5.0\"\n    //noinspection GradleDependency\n    implementation \"com.squareup.retrofit2:retrofit:$retrofitVersion\"\n    //noinspection GradleDependency\n    implementation \"com.squareup.retrofit2:converter-gson:$retrofitVersion\"\n\n    // RxJava\n    def rxjava_version = '2.1.1'\n    implementation \"io.reactivex.rxjava2:rxjava:$rxjava_version\"\n\n    // Rx-Retrofit Call Adapter\n    def rxcalladapter_version = '2.5.0'\n    implementation \"com.squareup.retrofit2:adapter-rxjava2:$rxcalladapter_version\"\n    // Retrofit call adapter\n    implementation \"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\"\n    // Reactive Streams (convert Observable to LiveData)\n    def reactivestreams_version = \"1.1.1\"\n    implementation \"android.arch.lifecycle:reactivestreams:$reactivestreams_version\"\n\n    implementation 'com.google.dagger:dagger:2.22'\n    annotationProcessor 'com.google.dagger:dagger-compiler:2.22'\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/build.gradle	(date 1615395292000)
+@@ -5,11 +5,12 @@
+     buildToolsVersion "29.0.3"
+ 
+     defaultConfig {
+-        applicationId "com.example.tesla_restapiclient"
++        applicationId "com.bhuvaneswaran.tesla_restapiclient"
+         minSdkVersion 21
+         targetSdkVersion 29
+         versionCode 1
+         versionName "1.0"
++        multiDexEnabled true
+ 
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+     }
+@@ -41,6 +42,7 @@
+ 
+ 
+ 
++    implementation "com.android.support:multidex:1.0.2"
+     def room_version = "2.2.5"
+ 
+     implementation "androidx.room:room-runtime:$room_version"
+Index: app/src/main/res/layout/spinner_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<com.example.tesla_restapiclient.controls.TextViewMedium android:layout_width=\"match_parent\"\n    android:layout_height=\"wrap_content\"\n    android:textColor=\"@color/orange\"\n    android:padding=\"10dp\"\n    android:textSize=\"16sp\"\n    xmlns:android=\"http://schemas.android.com/apk/res/android\">\n\n</com.example.tesla_restapiclient.controls.TextViewMedium>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/spinner_item.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/spinner_item.xml	(date 1615396999000)
+@@ -1,9 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<com.example.tesla_restapiclient.controls.TextViewMedium android:layout_width="match_parent"
++<com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
++    android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:textColor="@color/orange"
+     android:padding="10dp"
+     android:textSize="16sp"
+     xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+-</com.example.tesla_restapiclient.controls.TextViewMedium>
+\ No newline at end of file
++</com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.example.tesla_restapiclient\">\n\n    <application\n        android:name=\".application.RestApplication\"\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity android:name=\".ui.rest.RestActivity\"></activity>\n\n        <activity\n            android:theme=\"@style/AppTheme\"\n            android:name=\".ui.base.BaseActivity\" />\n        <activity\n            android:theme=\"@style/AppTheme\"\n            android:name=\".ui.splash.SplashActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/AndroidManifest.xml	(date 1615394984000)
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.example.tesla_restapiclient">
++    xmlns:tools="http://schemas.android.com/tools"
++    package="com.bhuvaneswaran.tesla_restapiclient">
+ 
+     <application
+         android:name=".application.RestApplication"
+@@ -10,14 +11,15 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".ui.rest.RestActivity"></activity>
++        <!--<activity android:name=".ui.rest.RestActivity"></activity>-->
+ 
+         <activity
+             android:theme="@style/AppTheme"
+             android:name=".ui.base.BaseActivity" />
+         <activity
+             android:theme="@style/AppTheme"
+-            android:name=".ui.splash.SplashActivity">
++          android:name=".ui.rest.RestActivity"
++           >
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <string name=\"app_name\">Tesla-RestClient</string>\n    <!-- TODO: Remove or change this placeholder text -->\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\n\n\n    <!--Toolbar menus-->\n    <string name=\"clear\">Clear</string>\n    <string name=\"cut\">Cut</string>\n    <string name=\"copy\">Copy</string>\n    <string name=\"paste\">Paste</string>\n    <string name=\"delete\">Delete</string>\n    <string name=\"share\">Share</string>\n\n    <!--Drawer-->\n    <string name=\"open_drawer\">Drawer Open</string>\n    <string name=\"close_drawer\">Drawer Close</string>\n\n    <!--Drawer Menus-->\n    <string name=\"about\">About</string>\n    <string name=\"logout\">Logout</string>\n    <string name=\"feed\">My Feed</string>\n\n\n    <string name=\"rest\">Rest</string>\n    <string name=\"settings\">Settigs</string>\n\n\n    <!--App Message-->\n    <string name=\"api_retry_error\">Please retry!</string>\n    <string name=\"api_default_error\">Something wrong happened!</string>\n    <string name=\"some_error\">Some Error Occurred!</string>\n    <string name=\"connection_error\">Internet connection lost!</string>\n\n    <!--Login-->\n    <string name=\"login_dummy\">Login Dummy</string>\n    <string name=\"login\">Login</string>\n    <string name=\"email\">Email</string>\n    <string name=\"password\">Password</string>\n\n    <!--Login Validation-->\n    <string name=\"invalid_email_password\">Please provide a valid email and password.</string>\n\n    <!--about fragment-->\n    <string name=\"project_info\">This sample app implements MVVM architecture using Dagger2, GreenDao, RxJava, FastAndroidNetworking and PlaceholderView</string>\n    <string name=\"link_mvvm_blog\">1. https://blog.mindorks.com</string>\n    <string name=\"link_mvvm_repo\">2. https://github.com/MindorksOpenSource/android-mvvm-architecture</string>\n    <string name=\"link_mindorks_blog\">3. https://blog.mindorks.com</string>\n    <string name=\"link_mindorks_repo\">4. https://github.com/MindorksOpenSource</string>\n    <string name=\"version\">\"version\"</string>\n\n    <!--rating dialog-->\n    <string name=\"rate_us\">Rate Us</string>\n    <string name=\"rating_message\">Please let us know, how can we improve ourselves?</string>\n    <string name=\"rating_play_store_redirect_message_line_1\">Awesome! Thank you for the 5 stars.</string>\n    <string name=\"rating_play_store_redirect_message_line_2\">Please help others, in knowing some good things about this app.</string>\n    <string name=\"rating_play_store_text\">Rate us on Play Store</string>\n    <string name=\"rating_not_provided_error\">Please provide us stars.</string>\n    <string name=\"rating_thanks\">Thank you!</string>\n\n    <!--play store-->\n    <string name=\"app_google_play_store_link\">\"https://play.google.com/store/apps/details?id=\"</string>\n    <string name=\"app_market_link\">\"market://details?id=\"</string>\n\n    <!--button-->\n    <string name=\"later\">Later</string>\n    <string name=\"submit\">Submit</string>\n\n    <!--feed-->\n    <string name=\"title\">My Feed</string>\n    <string name=\"open_source\">Open Source</string>\n    <string name=\"blog\">Blog</string>\n\n\n    <string name=\"request\">Request</string>\n    <string name=\"response\">Response</string>\n    <string name=\"fcm_request\">FCM Request</string>\n\n    <!--empty state-->\n    <string name=\"empty_screen\">We do not have anything\\nhere right now.</string>\n    <string name=\"please_retry\">Please Retry</string>\n    <string name=\"retry\">Retry</string>\n\n\n    <string name=\"bost_text\">[\n    {\n        \"userId\": 1,\n        \"id\": 1,\n        \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n        \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 2,\n        \"title\": \"qui est esse\",\n        \"body\": \"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 3,\n        \"title\": \"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\n        \"body\": \"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 4,\n        \"title\": \"eum et est occaecati\",\n        \"body\": \"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 5,\n        \"title\": \"nesciunt quas odio\",\n        \"body\": \"repudiandae veniam quaerat sunt sed\\nalias aut fugiat sit autem sed est\\nvoluptatem omnis possimus esse voluptatibus quis\\nest aut tenetur dolor neque\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 6,\n        \"title\": \"dolorem eum magni eos aperiam quia\",\n        \"body\": \"ut aspernatur corporis harum nihil quis provident sequi\\nmollitia nobis aliquid molestiae\\nperspiciatis et ea nemo ab reprehenderit accusantium quas\\nvoluptate dolores velit et doloremque molestiae\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 7,\n        \"title\": \"magnam facilis autem\",\n        \"body\": \"dolore placeat quibusdam ea quo vitae\\nmagni quis enim qui quis quo nemo aut saepe\\nquidem repellat excepturi ut quia\\nsunt ut sequi eos ea sed quas\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 8,\n        \"title\": \"dolorem dolore est ipsam\",\n        \"body\": \"dignissimos aperiam dolorem qui eum\\nfacilis quibusdam animi sint suscipit qui sint possimus cum\\nquaerat magni maiores excepturi\\nipsam ut commodi dolor voluptatum modi aut vitae\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 9,\n        \"title\": \"nesciunt iure omnis dolorem tempora et accusantium\",\n        \"body\": \"consectetur animi nesciunt iure dolore\\nenim quia ad\\nveniam autem ut quam aut nobis\\net est aut quod aut provident voluptas autem voluptas\"\n    },\n    {\n        \"userId\": 1,\n        \"id\": 10,\n        \"title\": \"optio molestias id quia eum\",\n        \"body\": \"quo et expedita modi cum officia vel magni\\ndoloribus qui repudiandae\\nvero nisi sit\\nquos veniam quod sed accusamus veritatis error\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 11,\n        \"title\": \"et ea vero quia laudantium autem\",\n        \"body\": \"delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\\naccusamus in eum beatae sit\\nvel qui neque voluptates ut commodi qui incidunt\\nut animi commodi\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 12,\n        \"title\": \"in quibusdam tempore odit est dolorem\",\n        \"body\": \"itaque id aut magnam\\npraesentium quia et ea odit et ea voluptas et\\nsapiente quia nihil amet occaecati quia id voluptatem\\nincidunt ea est distinctio odio\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 13,\n        \"title\": \"dolorum ut in voluptas mollitia et saepe quo animi\",\n        \"body\": \"aut dicta possimus sint mollitia voluptas commodi quo doloremque\\niste corrupti reiciendis voluptatem eius rerum\\nsit cumque quod eligendi laborum minima\\nperferendis recusandae assumenda consectetur porro architecto ipsum ipsam\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 14,\n        \"title\": \"voluptatem eligendi optio\",\n        \"body\": \"fuga et accusamus dolorum perferendis illo voluptas\\nnon doloremque neque facere\\nad qui dolorum molestiae beatae\\nsed aut voluptas totam sit illum\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 15,\n        \"title\": \"eveniet quod temporibus\",\n        \"body\": \"reprehenderit quos placeat\\nvelit minima officia dolores impedit repudiandae molestiae nam\\nvoluptas recusandae quis delectus\\nofficiis harum fugiat vitae\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 16,\n        \"title\": \"sint suscipit perspiciatis velit dolorum rerum ipsa laboriosam odio\",\n        \"body\": \"suscipit nam nisi quo aperiam aut\\nasperiores eos fugit maiores voluptatibus quia\\nvoluptatem quis ullam qui in alias quia est\\nconsequatur magni mollitia accusamus ea nisi voluptate dicta\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 17,\n        \"title\": \"fugit voluptas sed molestias voluptatem provident\",\n        \"body\": \"eos voluptas et aut odit natus earum\\naspernatur fuga molestiae ullam\\ndeserunt ratione qui eos\\nqui nihil ratione nemo velit ut aut id quo\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 18,\n        \"title\": \"voluptate et itaque vero tempora molestiae\",\n        \"body\": \"eveniet quo quis\\nlaborum totam consequatur non dolor\\nut et est repudiandae\\nest voluptatem vel debitis et magnam\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 19,\n        \"title\": \"adipisci placeat illum aut reiciendis qui\",\n        \"body\": \"illum quis cupiditate provident sit magnam\\nea sed aut omnis\\nveniam maiores ullam consequatur atque\\nadipisci quo iste expedita sit quos voluptas\"\n    },\n    {\n        \"userId\": 2,\n        \"id\": 20,\n        \"title\": \"doloribus ad provident suscipit at\",\n        \"body\": \"qui consequuntur ducimus possimus quisquam amet similique\\nsuscipit porro ipsam amet\\neos veritatis officiis exercitationem vel fugit aut necessitatibus totam\\nomnis rerum consequatur expedita quidem cumque explicabo\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 21,\n        \"title\": \"asperiores ea ipsam voluptatibus modi minima quia sint\",\n        \"body\": \"repellat aliquid praesentium dolorem quo\\nsed totam minus non itaque\\nnihil labore molestiae sunt dolor eveniet hic recusandae veniam\\ntempora et tenetur expedita sunt\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 22,\n        \"title\": \"dolor sint quo a velit explicabo quia nam\",\n        \"body\": \"eos qui et ipsum ipsam suscipit aut\\nsed omnis non odio\\nexpedita earum mollitia molestiae aut atque rem suscipit\\nnam impedit esse\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 23,\n        \"title\": \"maxime id vitae nihil numquam\",\n        \"body\": \"veritatis unde neque eligendi\\nquae quod architecto quo neque vitae\\nest illo sit tempora doloremque fugit quod\\net et vel beatae sequi ullam sed tenetur perspiciatis\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 24,\n        \"title\": \"autem hic labore sunt dolores incidunt\",\n        \"body\": \"enim et ex nulla\\nomnis voluptas quia qui\\nvoluptatem consequatur numquam aliquam sunt\\ntotam recusandae id dignissimos aut sed asperiores deserunt\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 25,\n        \"title\": \"rem alias distinctio quo quis\",\n        \"body\": \"ullam consequatur ut\\nomnis quis sit vel consequuntur\\nipsa eligendi ipsum molestiae et omnis error nostrum\\nmolestiae illo tempore quia et distinctio\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 26,\n        \"title\": \"est et quae odit qui non\",\n        \"body\": \"similique esse doloribus nihil accusamus\\nomnis dolorem fuga consequuntur reprehenderit fugit recusandae temporibus\\nperspiciatis cum ut laudantium\\nomnis aut molestiae vel vero\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 27,\n        \"title\": \"quasi id et eos tenetur aut quo autem\",\n        \"body\": \"eum sed dolores ipsam sint possimus debitis occaecati\\ndebitis qui qui et\\nut placeat enim earum aut odit facilis\\nconsequatur suscipit necessitatibus rerum sed inventore temporibus consequatur\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 28,\n        \"title\": \"delectus ullam et corporis nulla voluptas sequi\",\n        \"body\": \"non et quaerat ex quae ad maiores\\nmaiores recusandae totam aut blanditiis mollitia quas illo\\nut voluptatibus voluptatem\\nsimilique nostrum eum\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 29,\n        \"title\": \"iusto eius quod necessitatibus culpa ea\",\n        \"body\": \"odit magnam ut saepe sed non qui\\ntempora atque nihil\\naccusamus illum doloribus illo dolor\\neligendi repudiandae odit magni similique sed cum maiores\"\n    },\n    {\n        \"userId\": 3,\n        \"id\": 30,\n        \"title\": \"a quo magni similique perferendis\",\n        \"body\": \"alias dolor cumque\\nimpedit blanditiis non eveniet odio maxime\\nblanditiis amet eius quis tempora quia autem rem\\na provident perspiciatis quia\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 31,\n        \"title\": \"ullam ut quidem id aut vel consequuntur\",\n        \"body\": \"debitis eius sed quibusdam non quis consectetur vitae\\nimpedit ut qui consequatur sed aut in\\nquidem sit nostrum et maiores adipisci atque\\nquaerat voluptatem adipisci repudiandae\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 32,\n        \"title\": \"doloremque illum aliquid sunt\",\n        \"body\": \"deserunt eos nobis asperiores et hic\\nest debitis repellat molestiae optio\\nnihil ratione ut eos beatae quibusdam distinctio maiores\\nearum voluptates et aut adipisci ea maiores voluptas maxime\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 33,\n        \"title\": \"qui explicabo molestiae dolorem\",\n        \"body\": \"rerum ut et numquam laborum odit est sit\\nid qui sint in\\nquasi tenetur tempore aperiam et quaerat qui in\\nrerum officiis sequi cumque quod\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 34,\n        \"title\": \"magnam ut rerum iure\",\n        \"body\": \"ea velit perferendis earum ut voluptatem voluptate itaque iusto\\ntotam pariatur in\\nnemo voluptatem voluptatem autem magni tempora minima in\\nest distinctio qui assumenda accusamus dignissimos officia nesciunt nobis\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 35,\n        \"title\": \"id nihil consequatur molestias animi provident\",\n        \"body\": \"nisi error delectus possimus ut eligendi vitae\\nplaceat eos harum cupiditate facilis reprehenderit voluptatem beatae\\nmodi ducimus quo illum voluptas eligendi\\net nobis quia fugit\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 36,\n        \"title\": \"fuga nam accusamus voluptas reiciendis itaque\",\n        \"body\": \"ad mollitia et omnis minus architecto odit\\nvoluptas doloremque maxime aut non ipsa qui alias veniam\\nblanditiis culpa aut quia nihil cumque facere et occaecati\\nqui aspernatur quia eaque ut aperiam inventore\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 37,\n        \"title\": \"provident vel ut sit ratione est\",\n        \"body\": \"debitis et eaque non officia sed nesciunt pariatur vel\\nvoluptatem iste vero et ea\\nnumquam aut expedita ipsum nulla in\\nvoluptates omnis consequatur aut enim officiis in quam qui\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 38,\n        \"title\": \"explicabo et eos deleniti nostrum ab id repellendus\",\n        \"body\": \"animi esse sit aut sit nesciunt assumenda eum voluptas\\nquia voluptatibus provident quia necessitatibus ea\\nrerum repudiandae quia voluptatem delectus fugit aut id quia\\nratione optio eos iusto veniam iure\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 39,\n        \"title\": \"eos dolorem iste accusantium est eaque quam\",\n        \"body\": \"corporis rerum ducimus vel eum accusantium\\nmaxime aspernatur a porro possimus iste omnis\\nest in deleniti asperiores fuga aut\\nvoluptas sapiente vel dolore minus voluptatem incidunt ex\"\n    },\n    {\n        \"userId\": 4,\n        \"id\": 40,\n        \"title\": \"enim quo cumque\",\n        \"body\": \"ut voluptatum aliquid illo tenetur nemo sequi quo facilis\\nipsum rem optio mollitia quas\\nvoluptatem eum voluptas qui\\nunde omnis voluptatem iure quasi maxime voluptas nam\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 41,\n        \"title\": \"non est facere\",\n        \"body\": \"molestias id nostrum\\nexcepturi molestiae dolore omnis repellendus quaerat saepe\\nconsectetur iste quaerat tenetur asperiores accusamus ex ut\\nnam quidem est ducimus sunt debitis saepe\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 42,\n        \"title\": \"commodi ullam sint et excepturi error explicabo praesentium voluptas\",\n        \"body\": \"odio fugit voluptatum ducimus earum autem est incidunt voluptatem\\nodit reiciendis aliquam sunt sequi nulla dolorem\\nnon facere repellendus voluptates quia\\nratione harum vitae ut\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 43,\n        \"title\": \"eligendi iste nostrum consequuntur adipisci praesentium sit beatae perferendis\",\n        \"body\": \"similique fugit est\\nillum et dolorum harum et voluptate eaque quidem\\nexercitationem quos nam commodi possimus cum odio nihil nulla\\ndolorum exercitationem magnam ex et a et distinctio debitis\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 44,\n        \"title\": \"optio dolor molestias sit\",\n        \"body\": \"temporibus est consectetur dolore\\net libero debitis vel velit laboriosam quia\\nipsum quibusdam qui itaque fuga rem aut\\nea et iure quam sed maxime ut distinctio quae\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 45,\n        \"title\": \"ut numquam possimus omnis eius suscipit laudantium iure\",\n        \"body\": \"est natus reiciendis nihil possimus aut provident\\nex et dolor\\nrepellat pariatur est\\nnobis rerum repellendus dolorem autem\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 46,\n        \"title\": \"aut quo modi neque nostrum ducimus\",\n        \"body\": \"voluptatem quisquam iste\\nvoluptatibus natus officiis facilis dolorem\\nquis quas ipsam\\nvel et voluptatum in aliquid\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 47,\n        \"title\": \"quibusdam cumque rem aut deserunt\",\n        \"body\": \"voluptatem assumenda ut qui ut cupiditate aut impedit veniam\\noccaecati nemo illum voluptatem laudantium\\nmolestiae beatae rerum ea iure soluta nostrum\\neligendi et voluptate\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 48,\n        \"title\": \"ut voluptatem illum ea doloribus itaque eos\",\n        \"body\": \"voluptates quo voluptatem facilis iure occaecati\\nvel assumenda rerum officia et\\nillum perspiciatis ab deleniti\\nlaudantium repellat ad ut et autem reprehenderit\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 49,\n        \"title\": \"laborum non sunt aut ut assumenda perspiciatis voluptas\",\n        \"body\": \"inventore ab sint\\nnatus fugit id nulla sequi architecto nihil quaerat\\neos tenetur in in eum veritatis non\\nquibusdam officiis aspernatur cumque aut commodi aut\"\n    },\n    {\n        \"userId\": 5,\n        \"id\": 50,\n        \"title\": \"repellendus qui recusandae incidunt voluptates tenetur qui omnis exercitationem\",\n        \"body\": \"error suscipit maxime adipisci consequuntur recusandae\\nvoluptas eligendi et est et voluptates\\nquia distinctio ab amet quaerat molestiae et vitae\\nadipisci impedit sequi nesciunt quis consectetur\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 51,\n        \"title\": \"soluta aliquam aperiam consequatur illo quis voluptas\",\n        \"body\": \"sunt dolores aut doloribus\\ndolore doloribus voluptates tempora et\\ndoloremque et quo\\ncum asperiores sit consectetur dolorem\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 52,\n        \"title\": \"qui enim et consequuntur quia animi quis voluptate quibusdam\",\n        \"body\": \"iusto est quibusdam fuga quas quaerat molestias\\na enim ut sit accusamus enim\\ntemporibus iusto accusantium provident architecto\\nsoluta esse reprehenderit qui laborum\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 53,\n        \"title\": \"ut quo aut ducimus alias\",\n        \"body\": \"minima harum praesentium eum rerum illo dolore\\nquasi exercitationem rerum nam\\nporro quis neque quo\\nconsequatur minus dolor quidem veritatis sunt non explicabo similique\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 54,\n        \"title\": \"sit asperiores ipsam eveniet odio non quia\",\n        \"body\": \"totam corporis dignissimos\\nvitae dolorem ut occaecati accusamus\\nex velit deserunt\\net exercitationem vero incidunt corrupti mollitia\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 55,\n        \"title\": \"sit vel voluptatem et non libero\",\n        \"body\": \"debitis excepturi ea perferendis harum libero optio\\neos accusamus cum fuga ut sapiente repudiandae\\net ut incidunt omnis molestiae\\nnihil ut eum odit\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 56,\n        \"title\": \"qui et at rerum necessitatibus\",\n        \"body\": \"aut est omnis dolores\\nneque rerum quod ea rerum velit pariatur beatae excepturi\\net provident voluptas corrupti\\ncorporis harum reprehenderit dolores eligendi\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 57,\n        \"title\": \"sed ab est est\",\n        \"body\": \"at pariatur consequuntur earum quidem\\nquo est laudantium soluta voluptatem\\nqui ullam et est\\net cum voluptas voluptatum repellat est\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 58,\n        \"title\": \"voluptatum itaque dolores nisi et quasi\",\n        \"body\": \"veniam voluptatum quae adipisci id\\net id quia eos ad et dolorem\\naliquam quo nisi sunt eos impedit error\\nad similique veniam\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 59,\n        \"title\": \"qui commodi dolor at maiores et quis id accusantium\",\n        \"body\": \"perspiciatis et quam ea autem temporibus non voluptatibus qui\\nbeatae a earum officia nesciunt dolores suscipit voluptas et\\nanimi doloribus cum rerum quas et magni\\net hic ut ut commodi expedita sunt\"\n    },\n    {\n        \"userId\": 6,\n        \"id\": 60,\n        \"title\": \"consequatur placeat omnis quisquam quia reprehenderit fugit veritatis facere\",\n        \"body\": \"asperiores sunt ab assumenda cumque modi velit\\nqui esse omnis\\nvoluptate et fuga perferendis voluptas\\nillo ratione amet aut et omnis\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 61,\n        \"title\": \"voluptatem doloribus consectetur est ut ducimus\",\n        \"body\": \"ab nemo optio odio\\ndelectus tenetur corporis similique nobis repellendus rerum omnis facilis\\nvero blanditiis debitis in nesciunt doloribus dicta dolores\\nmagnam minus velit\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 62,\n        \"title\": \"beatae enim quia vel\",\n        \"body\": \"enim aspernatur illo distinctio quae praesentium\\nbeatae alias amet delectus qui voluptate distinctio\\nodit sint accusantium autem omnis\\nquo molestiae omnis ea eveniet optio\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 63,\n        \"title\": \"voluptas blanditiis repellendus animi ducimus error sapiente et suscipit\",\n        \"body\": \"enim adipisci aspernatur nemo\\nnumquam omnis facere dolorem dolor ex quis temporibus incidunt\\nab delectus culpa quo reprehenderit blanditiis asperiores\\naccusantium ut quam in voluptatibus voluptas ipsam dicta\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 64,\n        \"title\": \"et fugit quas eum in in aperiam quod\",\n        \"body\": \"id velit blanditiis\\neum ea voluptatem\\nmolestiae sint occaecati est eos perspiciatis\\nincidunt a error provident eaque aut aut qui\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 65,\n        \"title\": \"consequatur id enim sunt et et\",\n        \"body\": \"voluptatibus ex esse\\nsint explicabo est aliquid cumque adipisci fuga repellat labore\\nmolestiae corrupti ex saepe at asperiores et perferendis\\nnatus id esse incidunt pariatur\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 66,\n        \"title\": \"repudiandae ea animi iusto\",\n        \"body\": \"officia veritatis tenetur vero qui itaque\\nsint non ratione\\nsed et ut asperiores iusto eos molestiae nostrum\\nveritatis quibusdam et nemo iusto saepe\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 67,\n        \"title\": \"aliquid eos sed fuga est maxime repellendus\",\n        \"body\": \"reprehenderit id nostrum\\nvoluptas doloremque pariatur sint et accusantium quia quod aspernatur\\net fugiat amet\\nnon sapiente et consequatur necessitatibus molestiae\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 68,\n        \"title\": \"odio quis facere architecto reiciendis optio\",\n        \"body\": \"magnam molestiae perferendis quisquam\\nqui cum reiciendis\\nquaerat animi amet hic inventore\\nea quia deleniti quidem saepe porro velit\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 69,\n        \"title\": \"fugiat quod pariatur odit minima\",\n        \"body\": \"officiis error culpa consequatur modi asperiores et\\ndolorum assumenda voluptas et vel qui aut vel rerum\\nvoluptatum quisquam perspiciatis quia rerum consequatur totam quas\\nsequi commodi repudiandae asperiores et saepe a\"\n    },\n    {\n        \"userId\": 7,\n        \"id\": 70,\n        \"title\": \"voluptatem laborum magni\",\n        \"body\": \"sunt repellendus quae\\nest asperiores aut deleniti esse accusamus repellendus quia aut\\nquia dolorem unde\\neum tempora esse dolore\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 71,\n        \"title\": \"et iusto veniam et illum aut fuga\",\n        \"body\": \"occaecati a doloribus\\niste saepe consectetur placeat eum voluptate dolorem et\\nqui quo quia voluptas\\nrerum ut id enim velit est perferendis\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 72,\n        \"title\": \"sint hic doloribus consequatur eos non id\",\n        \"body\": \"quam occaecati qui deleniti consectetur\\nconsequatur aut facere quas exercitationem aliquam hic voluptas\\nneque id sunt ut aut accusamus\\nsunt consectetur expedita inventore velit\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 73,\n        \"title\": \"consequuntur deleniti eos quia temporibus ab aliquid at\",\n        \"body\": \"voluptatem cumque tenetur consequatur expedita ipsum nemo quia explicabo\\naut eum minima consequatur\\ntempore cumque quae est et\\net in consequuntur voluptatem voluptates aut\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 74,\n        \"title\": \"enim unde ratione doloribus quas enim ut sit sapiente\",\n        \"body\": \"odit qui et et necessitatibus sint veniam\\nmollitia amet doloremque molestiae commodi similique magnam et quam\\nblanditiis est itaque\\nquo et tenetur ratione occaecati molestiae tempora\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 75,\n        \"title\": \"dignissimos eum dolor ut enim et delectus in\",\n        \"body\": \"commodi non non omnis et voluptas sit\\nautem aut nobis magnam et sapiente voluptatem\\net laborum repellat qui delectus facilis temporibus\\nrerum amet et nemo voluptate expedita adipisci error dolorem\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 76,\n        \"title\": \"doloremque officiis ad et non perferendis\",\n        \"body\": \"ut animi facere\\ntotam iusto tempore\\nmolestiae eum aut et dolorem aperiam\\nquaerat recusandae totam odio\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 77,\n        \"title\": \"necessitatibus quasi exercitationem odio\",\n        \"body\": \"modi ut in nulla repudiandae dolorum nostrum eos\\naut consequatur omnis\\nut incidunt est omnis iste et quam\\nvoluptates sapiente aliquam asperiores nobis amet corrupti repudiandae provident\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 78,\n        \"title\": \"quam voluptatibus rerum veritatis\",\n        \"body\": \"nobis facilis odit tempore cupiditate quia\\nassumenda doloribus rerum qui ea\\nillum et qui totam\\naut veniam repellendus\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 79,\n        \"title\": \"pariatur consequatur quia magnam autem omnis non amet\",\n        \"body\": \"libero accusantium et et facere incidunt sit dolorem\\nnon excepturi qui quia sed laudantium\\nquisquam molestiae ducimus est\\nofficiis esse molestiae iste et quos\"\n    },\n    {\n        \"userId\": 8,\n        \"id\": 80,\n        \"title\": \"labore in ex et explicabo corporis aut quas\",\n        \"body\": \"ex quod dolorem ea eum iure qui provident amet\\nquia qui facere excepturi et repudiandae\\nasperiores molestias provident\\nminus incidunt vero fugit rerum sint sunt excepturi provident\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 81,\n        \"title\": \"tempora rem veritatis voluptas quo dolores vero\",\n        \"body\": \"facere qui nesciunt est voluptatum voluptatem nisi\\nsequi eligendi necessitatibus ea at rerum itaque\\nharum non ratione velit laboriosam quis consequuntur\\nex officiis minima doloremque voluptas ut aut\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 82,\n        \"title\": \"laudantium voluptate suscipit sunt enim enim\",\n        \"body\": \"ut libero sit aut totam inventore sunt\\nporro sint qui sunt molestiae\\nconsequatur cupiditate qui iste ducimus adipisci\\ndolor enim assumenda soluta laboriosam amet iste delectus hic\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 83,\n        \"title\": \"odit et voluptates doloribus alias odio et\",\n        \"body\": \"est molestiae facilis quis tempora numquam nihil qui\\nvoluptate sapiente consequatur est qui\\nnecessitatibus autem aut ipsa aperiam modi dolore numquam\\nreprehenderit eius rem quibusdam\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 84,\n        \"title\": \"optio ipsam molestias necessitatibus occaecati facilis veritatis dolores aut\",\n        \"body\": \"sint molestiae magni a et quos\\neaque et quasi\\nut rerum debitis similique veniam\\nrecusandae dignissimos dolor incidunt consequatur odio\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 85,\n        \"title\": \"dolore veritatis porro provident adipisci blanditiis et sunt\",\n        \"body\": \"similique sed nisi voluptas iusto omnis\\nmollitia et quo\\nassumenda suscipit officia magnam sint sed tempora\\nenim provident pariatur praesentium atque animi amet ratione\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 86,\n        \"title\": \"placeat quia et porro iste\",\n        \"body\": \"quasi excepturi consequatur iste autem temporibus sed molestiae beatae\\net quaerat et esse ut\\nvoluptatem occaecati et vel explicabo autem\\nasperiores pariatur deserunt optio\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 87,\n        \"title\": \"nostrum quis quasi placeat\",\n        \"body\": \"eos et molestiae\\nnesciunt ut a\\ndolores perspiciatis repellendus repellat aliquid\\nmagnam sint rem ipsum est\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 88,\n        \"title\": \"sapiente omnis fugit eos\",\n        \"body\": \"consequatur omnis est praesentium\\nducimus non iste\\nneque hic deserunt\\nvoluptatibus veniam cum et rerum sed\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 89,\n        \"title\": \"sint soluta et vel magnam aut ut sed qui\",\n        \"body\": \"repellat aut aperiam totam temporibus autem et\\narchitecto magnam ut\\nconsequatur qui cupiditate rerum quia soluta dignissimos nihil iure\\ntempore quas est\"\n    },\n    {\n        \"userId\": 9,\n        \"id\": 90,\n        \"title\": \"ad iusto omnis odit dolor voluptatibus\",\n        \"body\": \"minus omnis soluta quia\\nqui sed adipisci voluptates illum ipsam voluptatem\\neligendi officia ut in\\neos soluta similique molestias praesentium blanditiis\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 91,\n        \"title\": \"aut amet sed\",\n        \"body\": \"libero voluptate eveniet aperiam sed\\nsunt placeat suscipit molestias\\nsimilique fugit nam natus\\nexpedita consequatur consequatur dolores quia eos et placeat\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 92,\n        \"title\": \"ratione ex tenetur perferendis\",\n        \"body\": \"aut et excepturi dicta laudantium sint rerum nihil\\nlaudantium et at\\na neque minima officia et similique libero et\\ncommodi voluptate qui\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 93,\n        \"title\": \"beatae soluta recusandae\",\n        \"body\": \"dolorem quibusdam ducimus consequuntur dicta aut quo laboriosam\\nvoluptatem quis enim recusandae ut sed sunt\\nnostrum est odit totam\\nsit error sed sunt eveniet provident qui nulla\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 94,\n        \"title\": \"qui qui voluptates illo iste minima\",\n        \"body\": \"aspernatur expedita soluta quo ab ut similique\\nexpedita dolores amet\\nsed temporibus distinctio magnam saepe deleniti\\nomnis facilis nam ipsum natus sint similique omnis\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 95,\n        \"title\": \"id minus libero illum nam ad officiis\",\n        \"body\": \"earum voluptatem facere provident blanditiis velit laboriosam\\npariatur accusamus odio saepe\\ncumque dolor qui a dicta ab doloribus consequatur omnis\\ncorporis cupiditate eaque assumenda ad nesciunt\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 96,\n        \"title\": \"quaerat velit veniam amet cupiditate aut numquam ut sequi\",\n        \"body\": \"in non odio excepturi sint eum\\nlabore voluptates vitae quia qui et\\ninventore itaque rerum\\nveniam non exercitationem delectus aut\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 97,\n        \"title\": \"quas fugiat ut perspiciatis vero provident\",\n        \"body\": \"eum non blanditiis soluta porro quibusdam voluptas\\nvel voluptatem qui placeat dolores qui velit aut\\nvel inventore aut cumque culpa explicabo aliquid at\\nperspiciatis est et voluptatem dignissimos dolor itaque sit nam\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 98,\n        \"title\": \"laboriosam dolor voluptates\",\n        \"body\": \"doloremque ex facilis sit sint culpa\\nsoluta assumenda eligendi non ut eius\\nsequi ducimus vel quasi\\nveritatis est dolores\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 99,\n        \"title\": \"temporibus sit alias delectus eligendi possimus magni\",\n        \"body\": \"quo deleniti praesentium dicta non quod\\naut est molestias\\nmolestias et officia quis nihil\\nitaque dolorem quia\"\n    },\n    {\n        \"userId\": 10,\n        \"id\": 100,\n        \"title\": \"at nam consequatur ea labore ea harum\",\n        \"body\": \"cupiditate quo est a modi nesciunt soluta\\nipsa voluptas error itaque dicta in\\nautem qui minus magnam et distinctio eum\\naccusamus ratione error aut\"\n    }\n]</string>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/values/strings.xml	(date 1615396673000)
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name">Tesla-RestClient</string>
++    <string name="app_name">Simple API Client</string>
+     <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
+ 
+Index: .idea/runConfigurations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/runConfigurations.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ .idea/runConfigurations.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,12 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RunConfigurationProducerService">
+-    <option name="ignoredProducers">
+-      <set>
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
+-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
+-      </set>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_splash.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_splash.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/activity_splash.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,46 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools">
+-    <data>
+-        <variable
+-            name="viewModel"
+-            type="com.example.tesla_restapiclient.ui.splash.SplashViewModel" />
+-    </data>
+-    <RelativeLayout
+-
+-        android:background="#303030"
+-
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        tools:context=".ui.splash.SplashActivity">
+-
+-
+-        <com.example.tesla_restapiclient.controls.TextViewCourgette
+-            android:id="@+id/tesla"
+-            android:layout_centerInParent="true"
+-            android:text="Tesla  "
+-            android:lineHeight="10dp"
+-            android:textSize="30dp"
+-            android:textColor="@android:color/white"
+-            android:gravity="center"
+-            android:letterSpacing="0.2"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"/>
+-        <com.example.tesla_restapiclient.controls.TextViewCourgette
+-            android:layout_below="@+id/tesla"
+-            android:textAlignment="center"
+-            android:layout_centerInParent="true"
+-            android:text="Restclient  "
+-            android:textSize="30dp"
+-            android:textColor="@android:color/white"
+-            android:gravity="center"
+-            android:letterSpacing="0.2"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"/>
+-
+-
+-
+-
+-
+-    </RelativeLayout>
+-</layout>
+Index: .idea/codeStyles/Project.xml
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ .idea/codeStyles/Project.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,116 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <code_scheme name="Project" version="173">
+-    <codeStyleSettings language="XML">
+-      <indentOptions>
+-        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+-      </indentOptions>
+-      <arrangement>
+-        <rules>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>xmlns:android</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>xmlns:.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*:id</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*:name</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>name</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>style</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>ANDROID_ATTRIBUTE_ORDER</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>.*</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-        </rules>
+-      </arrangement>
+-    </codeStyleSettings>
+-  </code_scheme>
+-</component>
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_header.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n       android:background=\"#000\"\n        tools:context=\".ui.header.HeaderFragment\">\n\n        <RelativeLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\">\n\n            <com.example.tesla_restapiclient.controls.TextViewRegular\n\n                android:id=\"@+id/header\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_centerHorizontal=\"true\"\n                android:layout_marginTop=\"30dp\"\n                android:text=\"Add Header\"\n                android:textColor=\"@color/white\"\n                android:textSize=\"30sp\" />\n\n            <RelativeLayout\n                android:layout_marginTop=\"20dp\"\n                android:id=\"@+id/rly_container\"\n                android:layout_below=\"@id/header\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:layout_marginBottom=\"15dp\"\n                    android:id=\"@+id/lnr_type\"\n\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Type\"\n                        android:textSize=\"20sp\"\n                       android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n\n\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <androidx.appcompat.widget.AppCompatSpinner\n\n\n                        android:textAlignment=\"textStart\"\n                            android:id=\"@+id/spinner\"\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_type\"\n                    android:id=\"@+id/lnr_key\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Key\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                       android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_key\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_key\"\n                    android:id=\"@+id/lnr_value\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Value\"\n                        android:layout_marginLeft=\"20dp\"\n                        android:textSize=\"20sp\"\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_value\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n\n\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_value\"\n                    android:id=\"@+id/lnr_username\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Username\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_username\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_username\"\n                    android:id=\"@+id/lnr_password\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Password\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_password\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_password\"\n                    android:id=\"@+id/lnr_token\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Token\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_token\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n\n\n\n\n            </RelativeLayout>\n\n\n            <RelativeLayout\n                android:layout_below=\"@id/rly_container\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:text=\"OK\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:textColor=\"@color/black\"\n\n\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:id=\"@+id/cancel\"\n                        android:text=\"Cancel\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textColor=\"@color/black\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                </LinearLayout>\n\n\n            </RelativeLayout>\n\n\n\n\n\n\n        </RelativeLayout>\n\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_header.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_header.xml	(date 1615388011000)
+@@ -12,7 +12,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+ 
+-            <com.example.tesla_restapiclient.controls.TextViewRegular
++            <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+ 
+                 android:id="@+id/header"
+                 android:layout_width="wrap_content"
+@@ -37,7 +37,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Type"
+                         android:textSize="20sp"
+@@ -70,7 +70,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Key"
+                         android:textSize="20sp"
+@@ -82,7 +82,7 @@
+                        android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_key"
+                             android:textColor="@color/white"
+@@ -101,7 +101,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Value"
+                         android:layout_marginLeft="20dp"
+@@ -112,7 +112,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_value"
+                             android:textColor="@color/white"
+@@ -133,7 +133,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Username"
+                         android:textSize="20sp"
+@@ -145,7 +145,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_username"
+                             android:textColor="@color/white"
+@@ -164,7 +164,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Password"
+                         android:textSize="20sp"
+@@ -175,7 +175,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_password"
+                             android:textColor="@color/white"
+@@ -194,7 +194,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Token"
+                         android:textSize="20sp"
+@@ -205,7 +205,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_token"
+                             android:textColor="@color/white"
+@@ -232,7 +232,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:text="OK"
+                         android:paddingTop="10dp"
+@@ -245,7 +245,7 @@
+ 
+                         android:background="@color/white"
+                         android:layout_height="wrap_content"/>
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:id="@+id/cancel"
+                         android:text="Cancel"
+Index: app/src/main/res/layout/fragment_dialog_body.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:background=\"#000\"\n        tools:context=\".ui.header.HeaderFragment\">\n\n        <RelativeLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\">\n\n            <com.example.tesla_restapiclient.controls.TextViewRegular\n\n                android:id=\"@+id/header\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_centerHorizontal=\"true\"\n                android:layout_marginTop=\"30dp\"\n                android:text=\"Add Body\"\n                android:textColor=\"@color/white\"\n                android:textSize=\"30sp\" />\n\n            <RelativeLayout\n                android:layout_marginTop=\"20dp\"\n                android:id=\"@+id/rly_container\"\n                android:layout_below=\"@id/header\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:layout_marginBottom=\"15dp\"\n                    android:id=\"@+id/lnr_key\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Key\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_key\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_key\"\n                    android:id=\"@+id/lnr_value\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"100dp\"\n                        android:text=\"Value\"\n                        android:layout_marginLeft=\"20dp\"\n                        android:textSize=\"20sp\"\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_value\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n\n\n\n\n            </RelativeLayout>\n\n\n            <RelativeLayout\n                android:layout_below=\"@id/rly_container\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:text=\"OK\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:textColor=\"@color/black\"\n\n\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:id=\"@+id/cancel\"\n                        android:text=\"Cancel\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textColor=\"@color/black\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                </LinearLayout>\n\n\n            </RelativeLayout>\n\n\n\n\n\n\n        </RelativeLayout>\n\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_dialog_body.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_dialog_body.xml	(date 1615391270000)
+@@ -12,7 +12,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+ 
+-            <com.example.tesla_restapiclient.controls.TextViewRegular
++            <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+ 
+                 android:id="@+id/header"
+                 android:layout_width="wrap_content"
+@@ -37,7 +37,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Key"
+                         android:textSize="20sp"
+@@ -49,7 +49,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_key"
+                             android:textColor="@color/white"
+@@ -68,7 +68,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="100dp"
+                         android:text="Value"
+                         android:layout_marginLeft="20dp"
+@@ -79,7 +79,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_value"
+                             android:textColor="@color/white"
+@@ -106,7 +106,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:text="OK"
+                         android:paddingTop="10dp"
+@@ -119,7 +119,7 @@
+ 
+                         android:background="@color/white"
+                         android:layout_height="wrap_content"/>
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:id="@+id/cancel"
+                         android:text="Cancel"
+Index: app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java
+===================================================================
+--- app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java	(date 1614532524000)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java	(date 1614532524000)
+@@ -0,0 +1,6 @@
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest;
++
++public interface FcmNavigator {
++
++    void fcmNavigator();
++}
+Index: app/src/main/res/layout/fragment_blank.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:background=\"#000\"\n        tools:context=\".ui.header.HeaderFragment\">\n\n        <RelativeLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\">\n\n            <com.example.tesla_restapiclient.controls.TextViewRegular\n\n                android:id=\"@+id/header\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_centerHorizontal=\"true\"\n                android:layout_marginTop=\"30dp\"\n                android:text=\"Add Body\"\n                android:textColor=\"@color/white\"\n                android:textSize=\"30sp\" />\n\n            <RelativeLayout\n                android:layout_marginTop=\"20dp\"\n                android:id=\"@+id/rly_container\"\n                android:layout_below=\"@id/header\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:visibility=\"gone\"\n                    android:layout_marginBottom=\"15dp\"\n                    android:id=\"@+id/lnr_type\"\n\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"80dp\"\n                        android:text=\"Type\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n\n\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <androidx.appcompat.widget.AppCompatSpinner\n\n\n                            android:textAlignment=\"textStart\"\n                            android:id=\"@+id/spinner\"\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_type\"\n                    android:id=\"@+id/lnr_key\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"80dp\"\n                        android:text=\"Key\"\n                        android:textSize=\"20sp\"\n                        android:layout_marginLeft=\"20dp\"\n\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_key\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n                <LinearLayout\n                    android:layout_marginBottom=\"15dp\"\n                    android:layout_below=\"@id/lnr_key\"\n                    android:id=\"@+id/lnr_value\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\">\n                    <com.example.tesla_restapiclient.controls.TextViewRegular\n                        android:layout_width=\"80dp\"\n                        android:text=\"Value\"\n                        android:layout_marginLeft=\"20dp\"\n                        android:textSize=\"20sp\"\n                        android:textColor=\"@color/white\"\n                        android:layout_height=\"match_parent\"/>\n                    <RelativeLayout\n                        android:paddingRight=\"10dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/edit_value\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@android:color/transparent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n\n                </LinearLayout>\n\n\n\n            </RelativeLayout>\n\n\n            <RelativeLayout\n                android:layout_below=\"@id/rly_container\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <LinearLayout\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:text=\"OK\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:textColor=\"@color/black\"\n\n\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"match_parent\"\n                        android:text=\"Cancel\"\n                        android:paddingTop=\"10dp\"\n                        android:paddingBottom=\"10dp\"\n                        android:layout_margin=\"20dp\"\n                        android:textColor=\"@color/black\"\n                        android:textAlignment=\"center\"\n                        android:layout_weight=\"1\"\n                        android:background=\"@color/white\"\n                        android:layout_height=\"wrap_content\"/>\n                </LinearLayout>\n\n\n            </RelativeLayout>\n\n\n\n\n\n\n        </RelativeLayout>\n\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_blank.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_blank.xml	(date 1615391888000)
+@@ -12,7 +12,7 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+ 
+-            <com.example.tesla_restapiclient.controls.TextViewRegular
++            <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+ 
+                 android:id="@+id/header"
+                 android:layout_width="wrap_content"
+@@ -38,7 +38,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="80dp"
+                         android:text="Type"
+                         android:textSize="20sp"
+@@ -70,7 +70,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="80dp"
+                         android:text="Key"
+                         android:textSize="20sp"
+@@ -82,7 +82,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_key"
+                             android:textColor="@color/white"
+@@ -100,7 +100,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="30dp">
+-                    <com.example.tesla_restapiclient.controls.TextViewRegular
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                         android:layout_width="80dp"
+                         android:text="Value"
+                         android:layout_marginLeft="20dp"
+@@ -111,7 +111,7 @@
+                         android:paddingRight="10dp"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:id="@+id/edit_value"
+                             android:textColor="@color/white"
+@@ -137,7 +137,7 @@
+                     android:orientation="horizontal"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:text="OK"
+                         android:paddingTop="10dp"
+@@ -150,7 +150,7 @@
+ 
+                         android:background="@color/white"
+                         android:layout_height="wrap_content"/>
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="match_parent"
+                         android:text="Cancel"
+                         android:paddingTop="10dp"
+Index: app/src/main/res/layout/body_inflate.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n    <androidx.constraintlayout.widget.ConstraintLayout\n\n        xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n        android:background=\"#303030\"\n\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\">\n\n        <androidx.cardview.widget.CardView\n            app:cardCornerRadius=\"10dp\"\n            app:cardElevation=\"5dp\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            tools:ignore=\"MissingConstraints\">\n\n            <RelativeLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n                <ImageView\n                    android:id=\"@+id/ic_delete\"\n                    android:layout_alignParentEnd=\"true\"\n                    android:layout_margin=\"5dp\"\n                    android:src=\"@drawable/ic_baseline_delete_24\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"/>\n                <com.example.tesla_restapiclient.controls.TextViewBlack\n                    android:text=\"Authorization\"\n                    android:textColor=\"#000\"\n                    android:id=\"@+id/title\"\n                    android:layout_margin=\"10dp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"/>\n                <View\n                    android:layout_below=\"@id/title\"\n                    android:background=\"#000\"\n                    android:id=\"@+id/viewline\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"1dp\"/>\n                <com.example.tesla_restapiclient.controls.TextViewBlack\n                    android:text=\"token:sdsdsdsdsdsd\"\n                    android:layout_below=\"@+id/viewline\"\n                    android:textColor=\"#000\"\n                    android:id=\"@+id/content\"\n                    android:layout_margin=\"10dp\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n            </RelativeLayout>\n\n        </androidx.cardview.widget.CardView>\n    </androidx.constraintlayout.widget.ConstraintLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/body_inflate.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/body_inflate.xml	(date 1615388428000)
+@@ -26,7 +26,7 @@
+                     android:src="@drawable/ic_baseline_delete_24"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+-                <com.example.tesla_restapiclient.controls.TextViewBlack
++                <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewBlack
+                     android:text="Authorization"
+                     android:textColor="#000"
+                     android:id="@+id/title"
+@@ -39,7 +39,7 @@
+                     android:id="@+id/viewline"
+                     android:layout_width="match_parent"
+                     android:layout_height="1dp"/>
+-                <com.example.tesla_restapiclient.controls.TextViewBlack
++                <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewBlack
+                     android:text="token:sdsdsdsdsdsd"
+                     android:layout_below="@+id/viewline"
+                     android:textColor="#000"
+Index: app/src/main/res/layout/activity_rest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\">\n    <data>\n        <import type=\"android.view.View\" />\n        <variable\n            name=\"viewModel\"\n            type=\"com.example.tesla_restapiclient.ui.rest.RestViewModel\" />\n    </data>\n\n\n        <FrameLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\">\n\n            <androidx.drawerlayout.widget.DrawerLayout\n\n                android:id=\"@+id/drawerView\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"match_parent\"\n                android:fitsSystemWindows=\"true\">\n\n                <androidx.coordinatorlayout.widget.CoordinatorLayout\n                    android:id=\"@+id/clRootView\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\"\n                    android:clipChildren=\"false\">\n\n                    <LinearLayout\n                        android:id=\"@+id/activityMain\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"match_parent\"\n                        android:orientation=\"vertical\">\n\n\n                        <RelativeLayout\n                            android:id=\"@+id/appbarlayout\"\n                            android:orientation=\"vertical\"\n                            android:background=\"#303030\"\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\">\n\n                            <com.google.android.material.appbar.AppBarLayout\n                                android:id=\"@+id/appbar\"\n                                android:layout_width=\"match_parent\"\n                                android:layout_height=\"wrap_content\"\n                                app:elevation=\"5dp\">\n\n                                <LinearLayout\n                                    android:orientation=\"vertical\"\n                                    android:layout_width=\"match_parent\"\n                                    android:layout_height=\"wrap_content\">\n                                    <androidx.appcompat.widget.Toolbar\n                                        android:id=\"@+id/toolbar\"\n                                        android:background=\"@color/black\"\n                                        app:subtitleTextColor=\"@color/white\"\n                                        app:navigationIcon=\"@drawable/ic_baseline_dehaze_24\"\n                                        app:titleTextColor=\"@color/white\"\n                                        android:layout_height=\"50dp\"\n                                        android:layout_width=\"match_parent\" >\n\n\n\n                                    </androidx.appcompat.widget.Toolbar>\n                                    <com.google.android.material.tabs.TabLayout\n                                        android:background=\"@color/black\"\n                                        android:id=\"@+id/tablayout\"\n                                        app:tabTextColor=\"@color/white\"\n                                        app:tabIndicatorColor=\"@color/white\"\n\n                                        android:layout_width=\"match_parent\"\n                                        android:layout_height=\"wrap_content\"/>\n                                </LinearLayout>\n\n\n\n                            </com.google.android.material.appbar.AppBarLayout>\n\n\n                        </RelativeLayout>\n\n                        <FrameLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\">\n                            <androidx.viewpager.widget.ViewPager\n\n                                android:id=\"@+id/viewpager\"\n                                android:layout_width=\"match_parent\"\n                                android:layout_height=\"match_parent\"/>\n                        </FrameLayout>\n\n\n                    </LinearLayout>\n                </androidx.coordinatorlayout.widget.CoordinatorLayout>\n\n                <com.google.android.material.navigation.NavigationView\n                    android:id=\"@+id/navigationView\"\n                    style=\"@style/Widget.Design.NavigationView\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"match_parent\"\n                    android:layout_gravity=\"start\"\n                    android:background=\"@color/bg_color\"\n                    app:itemBackground=\"@color/bg_color\"\n                    app:itemIconTint=\"@color/white\"\n                    app:itemTextColor=\"@color/white\"\n                    app:menu=\"@menu/drawer\">\n\n\n                </com.google.android.material.navigation.NavigationView>\n\n            </androidx.drawerlayout.widget.DrawerLayout>\n\n            <androidx.core.widget.ContentLoadingProgressBar\n                android:id=\"@+id/address_looking_up\"\n                style=\"?android:attr/progressBarStyleLarge\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_gravity=\"center\"\n                android:visibility=\"@{viewModel.isLoading ? View.VISIBLE : View.GONE}\" />\n\n        </FrameLayout>\n\n\n\n\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_rest.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/activity_rest.xml	(date 1615376958000)
+@@ -5,7 +5,7 @@
+         <import type="android.view.View" />
+         <variable
+             name="viewModel"
+-            type="com.example.tesla_restapiclient.ui.rest.RestViewModel" />
++            type="com.bhuvaneswaran.tesla_restapiclient.ui.rest.RestViewModel" />
+     </data>
+ 
+ 
+Index: app/src/main/res/layout/header_inflate.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n    <androidx.constraintlayout.widget.ConstraintLayout\n\n        xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n        android:background=\"#303030\"\n\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\">\n\n        <androidx.cardview.widget.CardView\n            app:cardCornerRadius=\"10dp\"\n            app:cardElevation=\"5dp\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            tools:ignore=\"MissingConstraints\">\n\n            <RelativeLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n                <ImageView\n                    android:id=\"@+id/ic_delete\"\n                    android:layout_alignParentEnd=\"true\"\n                    android:layout_margin=\"5dp\"\n                    android:src=\"@drawable/ic_baseline_delete_24\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"/>\n                <com.example.tesla_restapiclient.controls.TextViewBlack\n                    android:text=\"Authorization\"\n                    android:textColor=\"#000\"\n                    android:id=\"@+id/title\"\n                    android:layout_margin=\"10dp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"/>\n                <View\n                    android:layout_below=\"@id/title\"\n                    android:background=\"#000\"\n                    android:id=\"@+id/viewline\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"1dp\"/>\n                <com.example.tesla_restapiclient.controls.TextViewBlack\n                    android:text=\"token:sdsdsdsdsdsd\"\n                    android:layout_below=\"@+id/viewline\"\n                    android:textColor=\"#000\"\n                    android:id=\"@+id/content\"\n                    android:layout_margin=\"10dp\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n            </RelativeLayout>\n\n        </androidx.cardview.widget.CardView>\n    </androidx.constraintlayout.widget.ConstraintLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/header_inflate.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/header_inflate.xml	(date 1615388263000)
+@@ -26,7 +26,7 @@
+                     android:src="@drawable/ic_baseline_delete_24"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+-                <com.example.tesla_restapiclient.controls.TextViewBlack
++                <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewBlack
+                     android:text="Authorization"
+                     android:textColor="#000"
+                     android:id="@+id/title"
+@@ -39,7 +39,7 @@
+                     android:id="@+id/viewline"
+                     android:layout_width="match_parent"
+                     android:layout_height="1dp"/>
+-                <com.example.tesla_restapiclient.controls.TextViewBlack
++                <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewBlack
+                     android:text="token:sdsdsdsdsdsd"
+                     android:layout_below="@+id/viewline"
+                     android:textColor="#000"
+Index: app/src/main/res/layout/fragment_rest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    tools:context=\"com.mindorks.framework.mvvm.ui.feed.FeedActivity\">\n\n    <data>\n\n        <!--        <variable-->\n        <!--            name=\"viewModel\"-->\n        <!--            type=\"com.mindorks.framework.mvvm.ui.feed.FeedViewModel\" />-->\n    </data>\n\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:background=\"#303030\"\n        android:orientation=\"vertical\">\n\n\n        <RelativeLayout\n\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\">\n\n            <androidx.core.widget.NestedScrollView\n                android:layout_above=\"@id/lnrfooter\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"match_parent\">\n\n\n            <LinearLayout\n\n                android:orientation=\"vertical\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"match_parent\">\n                <LinearLayout\n                    android:id=\"@+id/lnrheader\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_alignParentStart=\"true\"\n                    android:layout_alignParentTop=\"true\"\n                    android:orientation=\"vertical\">\n\n                    <LinearLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"50dp\"\n                        android:gravity=\"center\">\n\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_marginLeft=\"15dp\"\n                            android:text=\"Request Method\"\n                            android:textColor=\"@color/white\"\n                            android:textSize=\"18sp\" />\n\n                        <RelativeLayout\n                            android:layout_width=\"0dp\"\n                            android:layout_height=\"match_parent\"\n                            android:layout_weight=\"1\"\n                            android:gravity=\"center_vertical\"\n                            android:orientation=\"horizontal\"\n                            android:paddingLeft=\"100dp\">\n\n                            <androidx.appcompat.widget.AppCompatSpinner\n                                android:id=\"@+id/spinner\"\n                                style=\"@style/Spinner\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_alignParentEnd=\"true\"\n                                android:background=\"@color/transparent\"\n                                android:text=\"spinner\"\n                                android:textColor=\"@color/white\" />\n\n\n                        </RelativeLayout>\n\n                    </LinearLayout>\n\n                    <LinearLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"50dp\"\n                        android:orientation=\"horizontal\">\n\n                        <RelativeLayout\n                            android:layout_width=\"100dp\"\n                            android:layout_height=\"match_parent\">\n\n                            <androidx.appcompat.widget.AppCompatSpinner\n                                android:id=\"@+id/spinner_http\"\n                                style=\"@style/Spinner\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_alignParentStart=\"true\"\n                                android:layout_centerVertical=\"true\"\n                                android:background=\"@color/transparent\" />\n                        </RelativeLayout>\n\n                        <RelativeLayout\n                            android:layout_width=\"0dp\"\n                            android:layout_height=\"match_parent\"\n                            android:layout_weight=\"1\">\n\n                            <com.example.tesla_restapiclient.controls.EditTextRegular\n                                android:layout_width=\"match_parent\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:background=\"@null\"\n                                android:gravity=\"center_vertical\"\n                                android:hint=\"www.restclient.com\"\n                                android:textColor=\"@color/white\"\n                                android:textColorHint=\"@color/light_gray\" />\n                        </RelativeLayout>\n                    </LinearLayout>\n                </LinearLayout>\n\n\n\n                <LinearLayout\n                    android:layout_below=\"@+id/lnrheader\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\"\n                    android:orientation=\"vertical\">\n\n                    <RelativeLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"10dp\">\n\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:id=\"@+id/body\"\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_centerVertical=\"true\"\n                            android:layout_marginLeft=\"15dp\"\n                            android:text=\"BODY\"\n                            android:textColor=\"@color/white\"\n                            android:textSize=\"18sp\" />\n\n                        <androidx.appcompat.widget.AppCompatCheckBox\n                            android:id=\"@+id/rawcheckbox\"\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_centerHorizontal=\"true\"\n                            android:buttonTint=\"@color/white\" />\n\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:id=\"@+id/raw\"\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_centerVertical=\"true\"\n                            android:layout_marginLeft=\"5dp\"\n                            android:layout_toRightOf=\"@id/rawcheckbox\"\n                            android:gravity=\"center_vertical\"\n                            android:text=\"Raw\"\n                            android:textColor=\"@color/white\"\n                            android:textSize=\"18sp\" />\n\n                        <androidx.appcompat.widget.AppCompatCheckBox\n                            android:id=\"@+id/keycheckbox\"\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_centerHorizontal=\"true\"\n                            android:layout_marginLeft=\"10dp\"\n                            android:layout_toRightOf=\"@+id/raw\"\n                            android:buttonTint=\"@color/white\" />\n\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:layout_centerVertical=\"true\"\n                            android:layout_marginLeft=\"5dp\"\n                            android:layout_toRightOf=\"@id/keycheckbox\"\n                            android:gravity=\"center_vertical\"\n                            android:text=\"Key\"\n                            android:textColor=\"@color/white\"\n                            android:textSize=\"18sp\" />\n                    </RelativeLayout>\n\n                    <RelativeLayout\n                        android:id=\"@+id/rly_bodyedt\"\n                        android:background=\"@drawable/background_edt\"\n                        android:layout_margin=\"15dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n\n                        <com.example.tesla_restapiclient.controls.EditTextRegular\n                            android:layout_width=\"match_parent\"\n                            android:textColor=\"@color/white\"\n                            android:cursorVisible=\"true\"\n                            android:padding=\"10dp\"\n                            android:gravity=\"top|left\"\n                            android:background=\"@null\"\n                            android:layout_height=\"100dp\"/>\n                    </RelativeLayout>\n\n                    <RelativeLayout\n\n                        android:id=\"@+id/rly_key\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Key\"\n                            android:textSize=\"18sp\"\n                            android:layout_marginLeft=\"15dp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Add new\"\n                            android:id=\"@+id/txt_addbody\"\n                            android:textSize=\"18sp\"\n                            android:layout_marginRight=\"15dp\"\n                            android:paddingBottom=\"3dp\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@drawable/rounded_cornor\"\n                            android:layout_alignParentEnd=\"true\"\n                            android:paddingRight=\"5dp\"\n                            android:paddingLeft=\"5dp\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n\n                    <RelativeLayout\n                        android:id=\"@+id/recycler_key\"\n                        android:layout_margin=\"15dp\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <androidx.recyclerview.widget.RecyclerView\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n                    <RelativeLayout\n                        android:layout_margin=\"15dp\"\n                        android:id=\"@+id/rly_header\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Headers\"\n                            android:id=\"@+id/lblheaders\"\n                            android:textSize=\"18sp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:id=\"@+id/txt_addheader\"\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Add new\"\n                            android:textSize=\"18sp\"\n                            android:paddingBottom=\"3dp\"\n                            android:textColor=\"@color/white\"\n                            android:background=\"@drawable/rounded_cornor\"\n                            android:layout_alignParentEnd=\"true\"\n                            android:paddingRight=\"5dp\"\n                            android:paddingLeft=\"5dp\"\n                            android:layout_height=\"wrap_content\"/>\n                        <androidx.recyclerview.widget.RecyclerView\n                            android:id=\"@+id/recycler_header\"\n                            android:layout_marginTop=\"15dp\"\n                            android:layout_width=\"match_parent\"\n                            android:layout_below=\"@+id/lblheaders\"\n                            android:layout_height=\"wrap_content\"/>\n                    </RelativeLayout>\n                </LinearLayout>\n            </LinearLayout>\n            </androidx.core.widget.NestedScrollView>\n\n\n\n\n            <RelativeLayout\n                android:id=\"@+id/lnrfooter\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_alignParentBottom=\"true\">\n\n                <com.example.tesla_restapiclient.controls.TextViewMedium\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_margin=\"20dp\"\n                    android:background=\"@drawable/rounded_cornor\"\n                    android:padding=\"10dp\"\n                    android:text=\"SEND\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/white\">\n\n                </com.example.tesla_restapiclient.controls.TextViewMedium>\n\n            </RelativeLayout>\n        </RelativeLayout>\n\n\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\n\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_rest.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_rest.xml	(date 1615378742000)
+@@ -49,7 +49,7 @@
+                         android:layout_height="50dp"
+                         android:gravity="center">
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginLeft="15dp"
+@@ -104,7 +104,7 @@
+                             android:layout_height="match_parent"
+                             android:layout_weight="1">
+ 
+-                            <com.example.tesla_restapiclient.controls.EditTextRegular
++                            <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_centerInParent="true"
+@@ -130,7 +130,7 @@
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="10dp">
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:id="@+id/body"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+@@ -147,7 +147,7 @@
+                             android:layout_centerHorizontal="true"
+                             android:buttonTint="@color/white" />
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:id="@+id/raw"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+@@ -168,7 +168,7 @@
+                             android:layout_toRightOf="@+id/raw"
+                             android:buttonTint="@color/white" />
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_centerVertical="true"
+@@ -187,7 +187,7 @@
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+ 
+-                        <com.example.tesla_restapiclient.controls.EditTextRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.EditTextRegular
+                             android:layout_width="match_parent"
+                             android:textColor="@color/white"
+                             android:cursorVisible="true"
+@@ -202,7 +202,7 @@
+                         android:id="@+id/rly_key"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:layout_width="wrap_content"
+                             android:text="Key"
+                             android:textSize="18sp"
+@@ -210,7 +210,7 @@
+                             android:textColor="@color/white"
+                             android:layout_height="wrap_content"/>
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:layout_width="wrap_content"
+                             android:text="Add new"
+                             android:id="@+id/txt_addbody"
+@@ -239,7 +239,7 @@
+                         android:id="@+id/rly_header"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:layout_width="wrap_content"
+                             android:text="Headers"
+                             android:id="@+id/lblheaders"
+@@ -247,7 +247,7 @@
+                             android:textColor="@color/white"
+                             android:layout_height="wrap_content"/>
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:id="@+id/txt_addheader"
+                             android:layout_width="wrap_content"
+                             android:text="Add new"
+@@ -279,7 +279,7 @@
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true">
+ 
+-                <com.example.tesla_restapiclient.controls.TextViewMedium
++                <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="20dp"
+@@ -289,7 +289,7 @@
+                     android:textAlignment="center"
+                     android:textColor="@color/white">
+ 
+-                </com.example.tesla_restapiclient.controls.TextViewMedium>
++                </com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium>
+ 
+             </RelativeLayout>
+         </RelativeLayout>
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ .idea/gradle.xml	(date 1614535610000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ .idea/misc.xml	(date 1614535208000)
+@@ -1,9 +1,4 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/build/classes" />
+-  </component>
+-  <component name="ProjectType">
+-    <option name="id" value="Android" />
+-  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+===================================================================
+--- .idea/compiler.xml	(date 1614534585000)
++++ .idea/compiler.xml	(date 1614534585000)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"VcsDirectoryMappings\">\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ .idea/vcs.xml	(date 1614534585000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++    <mapping directory="" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/room/AppDatabase.java
+===================================================================
+--- app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/room/AppDatabase.java	(date 1614532524000)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/room/AppDatabase.java	(date 1614532524000)
+@@ -0,0 +1,4 @@
++package com.bhuvaneswaran.tesla_restapiclient.db.room;
++
++public class AppDatabase {
++}
+Index: app/src/main/res/layout/fragment_fcm.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n    <data>\n        <variable\n            name=\"viewModel\"\n            type=\"com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel\" />\n    </data>\n    <RelativeLayout\n        android:layout_width=\"match_parent\"\n        android:background=\"#303030\"\n        android:layout_height=\"match_parent\"\n        tools:context=\".ui.rest.fcmrequest.FcmFragment\">\n\n        <!-- TODO: Update blank fragment layout -->\n        <TextView\n            android:gravity=\"center\"\n            android:textColor=\"@color/white\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\"\n            android:text=\"FCM\" />\n\n    </RelativeLayout>\n</layout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_fcm.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_fcm.xml	(date 1615388565000)
+@@ -4,7 +4,7 @@
+     <data>
+         <variable
+             name="viewModel"
+-            type="com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel" />
++            type="com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel" />
+     </data>
+     <RelativeLayout
+         android:layout_width="match_parent"
+Index: app/src/main/res/layout/fragment_response.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n    <data>\n        <variable\n            name=\"viewModel\"\n            type=\"com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel\" />\n    </data>\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:background=\"#303030\"\n        tools:context=\".ui.rest.response.ResponseFragment\">\n\n\n        <ScrollView\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\">\n            <LinearLayout\n                android:orientation=\"vertical\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"match_parent\">\n                <LinearLayout\n                    android:padding=\"10dp\"\n                    android:weightSum=\"2\"\n                    android:orientation=\"horizontal\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <LinearLayout\n                        android:gravity=\"center\"\n                        android:orientation=\"vertical\"\n                        android:layout_weight=\"1\"\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Request Code\"\n                            android:gravity=\"center_vertical\"\n                            android:textSize=\"16sp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:layout_width=\"wrap_content\"\n                            android:id=\"@+id/txt_requestcode\"\n                            android:text=\"304\"\n                            android:textSize=\"16sp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n\n\n                    </LinearLayout>\n                    <LinearLayout\n                        android:gravity=\"center\"\n                        android:orientation=\"vertical\"\n                        android:layout_weight=\"1\"\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.TextViewMedium\n                            android:layout_width=\"wrap_content\"\n                            android:text=\"Response Time(ms)\"\n                            android:gravity=\"center_vertical\"\n                            android:textSize=\"16sp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:layout_width=\"wrap_content\"\n                            android:id=\"@+id/txt_responsetime\"\n                            android:text=\"304\"\n                            android:textSize=\"16sp\"\n                            android:textColor=\"@color/white\"\n                            android:layout_height=\"wrap_content\"/>\n\n\n                    </LinearLayout>\n\n\n                </LinearLayout>\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"0.5dp\"\n                    android:background=\"@color/white\"/>\n                <LinearLayout\n                    android:id=\"@+id/lnr_header\"\n                    android:orientation=\"vertical\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"wrap_content\"\n                        android:text=\"Header\"\n                        android:textColor=\"@color/white\"\n                        android:textSize=\"20sp\"\n                        android:layout_margin=\"10dp\"\n                        android:layout_height=\"wrap_content\"/>\n                    <ScrollView\n                        android:visibility=\"gone\"\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n                        <com.example.tesla_restapiclient.controls.TextViewCourgette\n                            android:layout_width=\"match_parent\"\n                            android:id=\"@+id/header_text\"\n                            android:textColor=\"@color/white\"\n                            android:textAlignment=\"textStart\"\n                            android:layout_height=\"250dp\"/>\n                    </ScrollView>\n\n                </LinearLayout>\n                <LinearLayout\n                    android:id=\"@+id/lnr_body\"\n                    android:orientation=\"vertical\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\">\n                    <com.example.tesla_restapiclient.controls.TextViewMedium\n                        android:layout_width=\"wrap_content\"\n                        android:text=\"Body\"\n                        android:textColor=\"@color/white\"\n                        android:textSize=\"20sp\"\n                        android:layout_margin=\"10dp\"\n                        android:layout_height=\"wrap_content\"/>\n\n                    <androidx.core.widget.NestedScrollView\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"match_parent\"\n                        android:layout_weight=\"1\">\n\n                        <com.example.tesla_restapiclient.controls.TextViewRegular\n                            android:id=\"@+id/body_text\"\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\"\n                            android:text=\"@string/bost_text\"\n                            android:textAlignment=\"textStart\"\n                            android:textColor=\"@color/white\" />\n                    </androidx.core.widget.NestedScrollView>\n\n                </LinearLayout>\n            </LinearLayout>\n\n        </ScrollView>\n\n\n\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\n\n</layout>\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_response.xml	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/res/layout/fragment_response.xml	(date 1615378742000)
+@@ -4,7 +4,7 @@
+     <data>
+         <variable
+             name="viewModel"
+-            type="com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel" />
++            type="com.bhuvaneswaran.tesla_restapiclient.ui.rest.response.ResponseViewModel" />
+     </data>
+     <androidx.coordinatorlayout.widget.CoordinatorLayout
+         android:layout_width="match_parent"
+@@ -32,14 +32,14 @@
+                         android:layout_weight="1"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:layout_width="wrap_content"
+                             android:text="Request Code"
+                             android:gravity="center_vertical"
+                             android:textSize="16sp"
+                             android:textColor="@color/white"
+                             android:layout_height="wrap_content"/>
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:layout_width="wrap_content"
+                             android:id="@+id/txt_requestcode"
+                             android:text="304"
+@@ -55,14 +55,14 @@
+                         android:layout_weight="1"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.TextViewMedium
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                             android:layout_width="wrap_content"
+                             android:text="Response Time(ms)"
+                             android:gravity="center_vertical"
+                             android:textSize="16sp"
+                             android:textColor="@color/white"
+                             android:layout_height="wrap_content"/>
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:layout_width="wrap_content"
+                             android:id="@+id/txt_responsetime"
+                             android:text="304"
+@@ -84,7 +84,7 @@
+                     android:orientation="vertical"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="wrap_content"
+                         android:text="Header"
+                         android:textColor="@color/white"
+@@ -95,7 +95,7 @@
+                         android:visibility="gone"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+-                        <com.example.tesla_restapiclient.controls.TextViewCourgette
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewCourgette
+                             android:layout_width="match_parent"
+                             android:id="@+id/header_text"
+                             android:textColor="@color/white"
+@@ -109,7 +109,7 @@
+                     android:orientation="vertical"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+-                    <com.example.tesla_restapiclient.controls.TextViewMedium
++                    <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewMedium
+                         android:layout_width="wrap_content"
+                         android:text="Body"
+                         android:textColor="@color/white"
+@@ -122,7 +122,7 @@
+                         android:layout_height="match_parent"
+                         android:layout_weight="1">
+ 
+-                        <com.example.tesla_restapiclient.controls.TextViewRegular
++                        <com.bhuvaneswaran.tesla_restapiclient.controls.TextViewRegular
+                             android:id="@+id/body_text"
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"

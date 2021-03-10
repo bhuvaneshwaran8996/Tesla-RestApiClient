@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.example.android_api_client.controls.TextViewMedium
+                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                     android:id="@+id/txt_key"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.example.android_api_client.controls.TextViewMedium
+                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                     android:id="@+id/txt_value"
                     android:layout_weight="1"
                     android:layout_width="0dp"

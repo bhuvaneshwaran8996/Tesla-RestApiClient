@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.android_api_client.controls.TextViewRegular
+            <TextViewRegular
 
                 android:layout_margin="10dp"
                 android:id="@+id/header"
@@ -59,7 +59,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <com.example.android_api_client.controls.TextViewMedium
+                    <TextViewMedium
                         android:layout_width="match_parent"
                         android:text="OK"
                         android:id="@+id/ok"
@@ -73,7 +73,7 @@
 
                         android:background="@color/white"
                         android:layout_height="wrap_content"/>
-                    <com.example.android_api_client.controls.TextViewMedium
+                    <TextViewMedium
                         android:layout_width="match_parent"
                         android:text="Cancel"
                         android:id="@+id/cancel"

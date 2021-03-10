@@ -1,0 +1,1494 @@
+Index: app/src/main/java/com/example/tesla_restapiclient/application/RestApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.application;\n\nimport android.app.Activity;\nimport android.app.Application;\nimport android.app.Fragment;\n\nimport com.example.tesla_restapiclient.di.component.DaggerAppComponent;\n\nimport javax.inject.Inject;\n\nimport dagger.android.AndroidInjector;\nimport dagger.android.DaggerApplication;\nimport dagger.android.DispatchingAndroidInjector;\nimport dagger.android.HasActivityInjector;\nimport dagger.android.HasFragmentInjector;\n\npublic class RestApplication extends Application implements HasFragmentInjector,HasActivityInjector {\n\n\n    @Inject\n    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;\n    @Inject\n    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;\n\n\n\n    @Override\n    public void onCreate() {\n        super.onCreate();\n        DaggerAppComponent.builder().application(this)\n                .build().inject(this);\n    }\n\n    @Override\n    public AndroidInjector<Activity> activityInjector() {\n        return activityDispatchingAndroidInjector;\n    }\n\n\n    @Override\n    public AndroidInjector<Fragment> fragmentInjector() {\n        return fragmentDispatchingAndroidInjector;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/application/RestApplication.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/application/RestApplication.java	(date 1615394385000)
+@@ -1,10 +1,11 @@
+-package com.example.tesla_restapiclient.application;
++package com.bhuvaneswaran.tesla_restapiclient.application;
+ 
+ import android.app.Activity;
+ import android.app.Application;
+ import android.app.Fragment;
+ 
+-import com.example.tesla_restapiclient.di.component.DaggerAppComponent;
++
++import com.bhuvaneswaran.tesla_restapiclient.di.component.DaggerAppComponent;
+ 
+ import javax.inject.Inject;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/TextViewMedium.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\n\nimport androidx.appcompat.widget.AppCompatTextView;\n\npublic class TextViewMedium extends AppCompatTextView {\n\n\n    public TextViewMedium(Context context) {\n        super(context);\n        init(null);\n    }\n\n    public TextViewMedium(Context context, AttributeSet attrs) {\n        super(context, attrs);\n        init(attrs);\n    }\n\n    public TextViewMedium(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n\n        init(attrs);\n    }\n\n    public void init(AttributeSet attributeSet){\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/Heebo-Medium.ttf\"));\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/TextViewMedium.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/TextViewMedium.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+Index: app/src/main/java/com/example/tesla_restapiclient/di/module/AppModule.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.module;\n\n\nimport android.app.Application;\nimport android.content.Context;\n\nimport androidx.databinding.library.baseAdapters.BuildConfig;\nimport androidx.room.Room;\n\nimport com.example.tesla_restapiclient.db.AppDatabase;\nimport com.example.tesla_restapiclient.db.AppDbHelper;\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.AppPreferencesHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.di.qualifier.ApiInfo;\nimport com.example.tesla_restapiclient.di.qualifier.DatabaseInfo;\nimport com.example.tesla_restapiclient.di.qualifier.PreferenceInfo;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.network.AppApiHelper;\nimport com.example.tesla_restapiclient.utils.AppConstants;\nimport com.example.tesla_restapiclient.utils.rx.AppSchedulerProvider;\nimport com.example.tesla_restapiclient.utils.rx.SchedulerProvider;\nimport com.google.gson.Gson;\nimport com.google.gson.GsonBuilder;\n\nimport javax.inject.Singleton;\n\nimport dagger.Module;\nimport dagger.Provides;\n\n@Module\npublic class AppModule {\n\n    @Provides\n    @Singleton\n    ApiHelper provideApiHelper(AppApiHelper appApiHelper) {\n        return appApiHelper;\n    }\n\n//    @Provides\n//    @ApiInfo\n//    String provideApiKey() {\n//        return BuildConfig.API_KEY;\n//    }\n\n    @Provides\n    @Singleton\n    AppDatabase provideAppDatabase(@DatabaseInfo String dbName, Context context) {\n        return Room.databaseBuilder(context, AppDatabase.class, dbName).fallbackToDestructiveMigration()\n                .build();\n    }\n\n\n    @Provides\n    @Singleton\n    Context provideContext(Application application) {\n        return application;\n    }\n\n\n    @Provides\n    @DatabaseInfo\n    String provideDatabaseName() {\n        return AppConstants.DB_NAME;\n    }\n\n    @Provides\n    @Singleton\n    DbHelper provideDbHelper(AppDbHelper appDbHelper) {\n        return appDbHelper;\n    }\n\n    @Provides\n    @Singleton\n    Gson provideGson() {\n        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();\n    }\n\n    @Provides\n    @PreferenceInfo\n    String providePreferenceName() {\n        return AppConstants.PREF_NAME;\n    }\n\n    @Provides\n    @Singleton\n    PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {\n        return appPreferencesHelper;\n    }\n\n\n\n    @Provides\n    SchedulerProvider provideSchedulerProvider() {\n        return new AppSchedulerProvider();\n    }\n\n\n\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/module/AppModule.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/module/AppModule.java	(date 1615392855000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.di.module;
++package com.bhuvaneswaran.tesla_restapiclient.di.module;
+ 
+ 
+ import android.app.Application;
+@@ -7,19 +7,20 @@
+ import androidx.databinding.library.baseAdapters.BuildConfig;
+ import androidx.room.Room;
+ 
+-import com.example.tesla_restapiclient.db.AppDatabase;
+-import com.example.tesla_restapiclient.db.AppDbHelper;
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.AppPreferencesHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.di.qualifier.ApiInfo;
+-import com.example.tesla_restapiclient.di.qualifier.DatabaseInfo;
+-import com.example.tesla_restapiclient.di.qualifier.PreferenceInfo;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.network.AppApiHelper;
+-import com.example.tesla_restapiclient.utils.AppConstants;
+-import com.example.tesla_restapiclient.utils.rx.AppSchedulerProvider;
+-import com.example.tesla_restapiclient.utils.rx.SchedulerProvider;
++import com.bhuvaneswaran.tesla_restapiclient.db.AppDatabase;
++import com.bhuvaneswaran.tesla_restapiclient.db.AppDbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.AppPreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.ApiInfo;
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.DatabaseInfo;
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.PreferenceInfo;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.AppApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.utils.AppConstants;
++import com.bhuvaneswaran.tesla_restapiclient.utils.rx.AppSchedulerProvider;
++import com.bhuvaneswaran.tesla_restapiclient.utils.rx.SchedulerProvider;
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
+ 
+@@ -37,16 +38,16 @@
+         return appApiHelper;
+     }
+ 
+-//    @Provides
+-//    @ApiInfo
+-//    String provideApiKey() {
+-//        return BuildConfig.API_KEY;
+-//    }
++/*    @Provides
++    @ApiInfo
++    String provideApiKey() {
++        return BuildConfig.API_KEY;
++    }*/
+ 
+     @Provides
+     @Singleton
+-    AppDatabase provideAppDatabase(@DatabaseInfo String dbName, Context context) {
+-        return Room.databaseBuilder(context, AppDatabase.class, dbName).fallbackToDestructiveMigration()
++    AppDatabase provideAppDatabase( Context context) {
++        return Room.databaseBuilder(context, AppDatabase.class, AppConstants.DB_NAME).fallbackToDestructiveMigration()
+                 .build();
+     }
+ 
+@@ -58,11 +59,6 @@
+     }
+ 
+ 
+-    @Provides
+-    @DatabaseInfo
+-    String provideDatabaseName() {
+-        return AppConstants.DB_NAME;
+-    }
+ 
+     @Provides
+     @Singleton
+Index: app/src/main/java/com/example/tesla_restapiclient/db/prefs/AppPreferencesHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db.prefs;\n\nimport android.content.Context;\n\nimport javax.inject.Inject;\n\npublic class AppPreferencesHelper implements PreferencesHelper{\n\n\n    @Inject\n    public AppPreferencesHelper(Context context){\n\n    }\n    @Override\n    public void preferenceHelper() {\n\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/prefs/AppPreferencesHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/prefs/AppPreferencesHelper.java	(date 1615394316000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.db.prefs;
++package com.bhuvaneswaran.tesla_restapiclient.db.prefs;
+ 
+ import android.content.Context;
+ 
+@@ -6,11 +6,8 @@
+ 
+ public class AppPreferencesHelper implements PreferencesHelper{
+ 
+-
+     @Inject
+-    public AppPreferencesHelper(Context context){
+-
+-    }
++    AppPreferencesHelper(){}
+     @Override
+     public void preferenceHelper() {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/CommonUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\nimport android.annotation.SuppressLint;\nimport android.app.ProgressDialog;\nimport android.content.Context;\nimport android.content.res.AssetManager;\nimport android.graphics.Color;\nimport android.graphics.drawable.ColorDrawable;\nimport android.provider.Settings;\nimport android.util.Patterns;\n\n\nimport com.example.tesla_restapiclient.R;\n\nimport java.io.IOException;\nimport java.io.InputStream;\nimport java.text.SimpleDateFormat;\nimport java.util.Date;\nimport java.util.Locale;\n\n\n\npublic final class CommonUtils {\n\n    private CommonUtils() {\n        // This utility class is not publicly instantiable\n    }\n\n    @SuppressLint(\"all\")\n    public static String getDeviceId(Context context) {\n        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);\n    }\n\n    public static String getTimestamp() {\n        return new SimpleDateFormat(AppConstants.TIMESTAMP_FORMAT, Locale.US).format(new Date());\n    }\n\n    public static boolean isEmailValid(String email) {\n        return Patterns.EMAIL_ADDRESS.matcher(email).matches();\n    }\n\n    public static String loadJSONFromAsset(Context context, String jsonFileName) throws IOException {\n        AssetManager manager = context.getAssets();\n        InputStream is = manager.open(jsonFileName);\n\n        int size = is.available();\n        byte[] buffer = new byte[size];\n        is.read(buffer);\n        is.close();\n\n        return new String(buffer, \"UTF-8\");\n    }\n\n    public static ProgressDialog showLoadingDialog(Context context) {\n        ProgressDialog progressDialog = new ProgressDialog(context);\n        progressDialog.show();\n        if (progressDialog.getWindow() != null) {\n            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));\n        }\n        progressDialog.setContentView(R.layout.progress_dialog);\n        progressDialog.setIndeterminate(true);\n        progressDialog.setCancelable(false);\n        progressDialog.setCanceledOnTouchOutside(false);\n        return progressDialog;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/CommonUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/CommonUtils.java	(date 1615394448000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ import android.annotation.SuppressLint;
+ import android.app.ProgressDialog;
+@@ -26,7 +26,7 @@
+ import android.util.Patterns;
+ 
+ 
+-import com.example.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.R;
+ 
+ import java.io.IOException;
+ import java.io.InputStream;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashNavigator.java
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,6 +0,0 @@
+-package com.example.tesla_restapiclient.ui.splash;
+-
+-public interface SplashNavigator {
+-
+-    public void navigateToRestActivity();
+-}
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashViewModel.java
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,47 +0,0 @@
+-package com.example.tesla_restapiclient.ui.splash;
+-
+-import android.os.Handler;
+-
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
+-
+-
+-
+-
+-public class SplashViewModel extends BaseViewModel<SplashNavigator>{
+-
+-    public ApiHelper apiHelper;
+-    public DbHelper dbHelper;
+-    public PreferencesHelper preferencesHelper;
+-
+-
+-
+-    public SplashViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {
+-        super(apiHelper, dbHelper, preferencesHelper);
+-        this.apiHelper = apiHelper;
+-        this.dbHelper = dbHelper;
+-        this.preferencesHelper = preferencesHelper;
+-
+-
+-
+-    }
+-
+-    public void waitInSplash(){
+-
+-        new Handler().postDelayed(new Runnable() {
+-            @Override
+-            public void run() {
+-
+-                getNavigator().navigateToRestActivity();
+-            }
+-        },3000);
+-    }
+-
+-
+-
+-
+-
+-
+-}
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,6 +0,0 @@
+-package com.example.tesla_restapiclient.ui.rest.fcmrequest;
+-
+-public interface FcmNavigator {
+-
+-    void fcmNavigator();
+-}
+Index: app/src/main/java/com/example/tesla_restapiclient/db/room/AppDatabase.java
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/room/AppDatabase.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/example/tesla_restapiclient/db/room/AppDatabase.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,4 +0,0 @@
+-package com.example.tesla_restapiclient.db.room;
+-
+-public class AppDatabase {
+-}
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashActivity.java
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashActivity.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/example/tesla_restapiclient/ui/splash/SplashActivity.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
+@@ -1,76 +0,0 @@
+-package com.example.tesla_restapiclient.ui.splash;
+-
+-import androidx.lifecycle.ViewModelProviders;
+-
+-import android.content.Context;
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.widget.Toast;
+-
+-import com.example.tesla_restapiclient.BR;
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.ActivitySplashBinding;
+-import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+-import com.example.tesla_restapiclient.ui.base.BaseActivity;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
+-import com.example.tesla_restapiclient.ui.rest.RestActivity;
+-
+-import javax.inject.Inject;
+-
+-import dagger.android.AndroidInjection;
+-
+-public class SplashActivity extends BaseActivity<ActivitySplashBinding,SplashViewModel> implements SplashNavigator {
+-
+-    @Inject
+-    Context context;
+-    public SplashViewModel splashViewModel;
+-
+-    @Inject
+-    ViewModelProviderFactory viewModelProviderFactory;
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-
+-
+-
+-        if(splashViewModel!=null){
+-
+-            splashViewModel.setNavigator(this);
+-            splashViewModel.waitInSplash();
+-        }
+-
+-    }
+-//
+-//    @Override
+-//    protected void performDependencyInjection() {
+-//
+-//        AndroidInjection.inject(this);
+-//    }
+-
+-    @Override
+-    protected int getViewModelVariable() {
+-        return BR.viewModel;
+-    }
+-
+-    @Override
+-    protected SplashViewModel getViewModel() {
+-        splashViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(SplashViewModel.class);
+-        return splashViewModel;
+-    }
+-
+-
+-
+-    @Override
+-    public int getLayoutId() {
+-        return R.layout.activity_splash;
+-    }
+-
+-    @Override
+-    public void navigateToRestActivity() {
+-
+-       startActivity(new Intent(SplashActivity.this, RestActivity.class));
+-       finish();
+-    }
+-
+-
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/DialogBody/BodyFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.DialogBody;\n\nimport android.os.Bundle;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.fragment.app.DialogFragment;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.AdapterView;\nimport android.widget.ArrayAdapter;\nimport android.widget.Spinner;\nimport android.widget.TextView;\n\nimport com.example.tesla_restapiclient.R;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class BodyFragment extends DialogFragment {\n\n\n\n    public BodyFragment() {\n\n    }\n\n    public static com.example.tesla_restapiclient.ui.header.HeaderFragment newInstance() {\n        com.example.tesla_restapiclient.ui.header.HeaderFragment fragment = new com.example.tesla_restapiclient.ui.header.HeaderFragment();\n        Bundle args = new Bundle();\n\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n\n\n\n    }\n\n    @Override\n    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {\n        super.onViewStateRestored(savedInstanceState);\n\n    }\n\n    @Override\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\n                             Bundle savedInstanceState) {\n        // Inflate the layout for this fragment\n        View view =  inflater.inflate(R.layout.fragment_blank, container, false);\n\n        if(savedInstanceState!=null){\n\n\n\n\n        }\n\n        return view;\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n\n\n    }\n\n\n\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/DialogBody/BodyFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/DialogBody/BodyFragment.java	(date 1615377259000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.DialogBody;
++package com.bhuvaneswaran.tesla_restapiclient.ui.DialogBody;
+ 
+ import android.os.Bundle;
+ 
+@@ -14,7 +14,7 @@
+ import android.widget.Spinner;
+ import android.widget.TextView;
+ 
+-import com.example.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.R;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -27,8 +27,8 @@
+ 
+     }
+ 
+-    public static com.example.tesla_restapiclient.ui.header.HeaderFragment newInstance() {
+-        com.example.tesla_restapiclient.ui.header.HeaderFragment fragment = new com.example.tesla_restapiclient.ui.header.HeaderFragment();
++    public static com.bhuvaneswaran.tesla_restapiclient.ui.header.HeaderFragment newInstance() {
++        com.bhuvaneswaran.tesla_restapiclient.ui.header.HeaderFragment fragment = new com.bhuvaneswaran.tesla_restapiclient.ui.header.HeaderFragment();
+         Bundle args = new Bundle();
+ 
+         fragment.setArguments(args);
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/rx/SchedulerProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils.rx;\n\nimport io.reactivex.Scheduler;\n\n\n\npublic interface SchedulerProvider {\n\n    Scheduler computation();\n\n    Scheduler io();\n\n    Scheduler ui();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/rx/SchedulerProvider.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/rx/SchedulerProvider.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils.rx;
++package com.bhuvaneswaran.tesla_restapiclient.utils.rx;
+ 
+ import io.reactivex.Scheduler;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseNavigator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.response;\n\npublic interface ResponseNavigator {\n\n    public void responseNavigator();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/response/ResponseNavigator.java	(date 1614533078000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.response;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.response;
+ 
+ public interface ResponseNavigator {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.response;\n\nimport androidx.databinding.ObservableBoolean;\n\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.ui.base.BaseViewModel;\n\npublic class ResponseViewModel  extends BaseViewModel<ResponseNavigator> {\n\n    public ApiHelper apiHelper;\n    public DbHelper dbHelper;\n    public PreferencesHelper preferencesHelper;\n    public ObservableBoolean isLoading = new ObservableBoolean(false);\n\n\n\n    public ResponseViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {\n        super(apiHelper, dbHelper, preferencesHelper);\n        this.apiHelper = apiHelper;\n        this.dbHelper = dbHelper;\n        this.preferencesHelper = preferencesHelper;\n\n\n\n    }\n\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/response/ResponseViewModel.java	(date 1615393268000)
+@@ -1,11 +1,11 @@
+-package com.example.tesla_restapiclient.ui.rest.response;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.response;
+ 
+ import androidx.databinding.ObservableBoolean;
+ 
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseViewModel;
+ 
+ public class ResponseViewModel  extends BaseViewModel<ResponseNavigator> {
+ 
+@@ -21,9 +21,6 @@
+         this.apiHelper = apiHelper;
+         this.dbHelper = dbHelper;
+         this.preferencesHelper = preferencesHelper;
+-
+-
+-
+     }
+ 
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/rx/AppSchedulerProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils.rx;\n\nimport io.reactivex.Scheduler;\nimport io.reactivex.android.schedulers.AndroidSchedulers;\nimport io.reactivex.schedulers.Schedulers;\n\n\n\npublic class AppSchedulerProvider implements SchedulerProvider {\n\n    @Override\n    public Scheduler computation() {\n        return Schedulers.computation();\n    }\n\n    @Override\n    public Scheduler io() {\n        return Schedulers.io();\n    }\n\n    @Override\n    public Scheduler ui() {\n        return AndroidSchedulers.mainThread();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/rx/AppSchedulerProvider.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/rx/AppSchedulerProvider.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils.rx;
++package com.bhuvaneswaran.tesla_restapiclient.utils.rx;
+ 
+ import io.reactivex.Scheduler;
+ import io.reactivex.android.schedulers.AndroidSchedulers;
+Index: app/src/main/java/com/example/tesla_restapiclient/db/room/dao/HistoryDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db.room.dao;\n\nimport androidx.room.Dao;\nimport androidx.room.Insert;\nimport androidx.room.OnConflictStrategy;\nimport androidx.room.Query;\n\nimport com.example.tesla_restapiclient.model.History;\n\nimport java.util.List;\n\nimport io.reactivex.Single;\n\n\n\n@Dao\npublic interface HistoryDao {\n\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\n    void insert(History history);\n\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\n    void insertAll(List<History> options);\n\n    @Query(\"SELECT * FROM history\")\n    Single<List<History>> loadAll();\n\n//    @Query(\"SELECT * FROM options WHERE question_id = :questionId\")\n//    Single<List<History>> loadAllByQuestionId(Long questionId);\n}\n\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/room/dao/HistoryDao.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/room/dao/HistoryDao.java	(date 1614536075000)
+@@ -1,11 +1,12 @@
+-package com.example.tesla_restapiclient.db.room.dao;
++package com.bhuvaneswaran.tesla_restapiclient.db.room.dao;
+ 
+ import androidx.room.Dao;
+ import androidx.room.Insert;
+ import androidx.room.OnConflictStrategy;
+ import androidx.room.Query;
+ 
+-import com.example.tesla_restapiclient.model.History;
++
++import com.bhuvaneswaran.tesla_restapiclient.model.History;
+ 
+ import java.util.List;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest;\n\nimport androidx.databinding.ObservableBoolean;\n\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.ui.base.BaseViewModel;\n\npublic class RestViewModel extends BaseViewModel {\n\n    public ApiHelper apiHelper;\n    public DbHelper dbHelper;\n    public PreferencesHelper preferencesHelper;\n    public ObservableBoolean isLoading = new ObservableBoolean(false);\n\n\n\n    public RestViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {\n        super(apiHelper, dbHelper, preferencesHelper);\n        this.apiHelper = apiHelper;\n        this.dbHelper = dbHelper;\n        this.preferencesHelper = preferencesHelper;\n\n\n\n    }\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/RestViewModel.java	(date 1614536140000)
+@@ -1,11 +1,12 @@
+-package com.example.tesla_restapiclient.ui.rest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest;
+ 
+ import androidx.databinding.ObservableBoolean;
+ 
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseViewModel;
++
+ 
+ public class RestViewModel extends BaseViewModel {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestFragmentAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest;\n\nimport androidx.annotation.NonNull;\nimport androidx.fragment.app.Fragment;\nimport androidx.fragment.app.FragmentManager;\nimport androidx.fragment.app.FragmentPagerAdapter;\nimport androidx.fragment.app.FragmentStatePagerAdapter;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class RestFragmentAdapter extends FragmentPagerAdapter {\n\n\n    public List<Fragment> fragmentList;\n\n    public RestFragmentAdapter(@NonNull FragmentManager fm) {\n        super(fm);\n        this.fragmentList = new ArrayList<>();\n\n    }\n\n    public void setFragmentList(List<Fragment> fragmentList) {\n\n        if(this.fragmentList.size()>0){\n            this.fragmentList.clear();\n        }\n        this.fragmentList = fragmentList;\n        notifyDataSetChanged();\n    }\n    @NonNull\n    @Override\n    public Fragment getItem(int position) {\n\n\n        return fragmentList.get(position);\n    }\n\n\n\n    @Override\n    public int getCount() {\n        return fragmentList.size();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestFragmentAdapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/RestFragmentAdapter.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.fragment.app.Fragment;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestNavigator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest;\n\npublic interface RestNavigator {\n\n\n    public void restNavigator();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestNavigator.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/RestNavigator.java	(date 1614532522000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest;
+ 
+ public interface RestNavigator {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/header/HeadersAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.header;\n\nimport android.content.Context;\nimport android.view.LayoutInflater;\nimport android.view.ViewGroup;\n\nimport androidx.annotation.NonNull;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.HeaderInflateBinding;\n\nimport javax.inject.Inject;\n\npublic class HeadersAdapter extends RecyclerView.Adapter<HeadersAdapter.HeadersViewHolder>{\n\n\n    public Context context;\n    public HeaderInflateBinding binding;\n    @Inject\n    public HeadersAdapter(Context context){\n    }\n    @NonNull\n    @Override\n    public HeadersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n\n      binding =   DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.header_inflate,null,false);\n\n      return  new HeadersViewHolder(binding);\n    }\n\n    public void setList(){\n\n    }\n    @Override\n    public void onBindViewHolder(@NonNull HeadersViewHolder holder, int position) {\n\n    }\n\n    @Override\n    public int getItemCount() {\n        return 0;\n    }\n\n    public class HeadersViewHolder extends RecyclerView.ViewHolder{\n        public HeaderInflateBinding headerInflateBinding;\n        public HeadersViewHolder(@NonNull  HeaderInflateBinding binding) {\n            super(binding.getRoot());\n            this.headerInflateBinding = binding;\n        }\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/header/HeadersAdapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/header/HeadersAdapter.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.header;
++package com.bhuvaneswaran.tesla_restapiclient.ui.header;
+ 
+ import android.content.Context;
+ import android.view.LayoutInflater;
+@@ -8,8 +8,8 @@
+ import androidx.databinding.DataBindingUtil;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.HeaderInflateBinding;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.HeaderInflateBinding;
+ 
+ import javax.inject.Inject;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/header/HeaderFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.header;\n\nimport android.os.Bundle;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.fragment.app.DialogFragment;\nimport androidx.fragment.app.Fragment;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.AdapterView;\nimport android.widget.ArrayAdapter;\nimport android.widget.Spinner;\nimport android.widget.TextView;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.FragmentHeaderBinding;\n\nimport java.io.ObjectInput;\nimport java.io.Serializable;\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class HeaderFragment extends DialogFragment {\n\n\n\n    public FragmentHeaderBinding binding;\n    public ArrayAdapter<String> arrayAdapter;\n    public List<String> requestlist;\n    public HeaderFragment() {\n        // Required empty public constructor\n    }\n\n    public static HeaderFragment newInstance() {\n        HeaderFragment fragment = new HeaderFragment();\n        Bundle args = new Bundle();\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n\n    }\n\n    @Override\n    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {\n        super.onViewStateRestored(savedInstanceState);\n\n    }\n\n    @Override\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\n                             Bundle savedInstanceState) {\n        // Inflate the layout for this fragment\n       binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_header,container,false);\n       if(savedInstanceState!=null){\n           requestlist = (ArrayList<String>) savedInstanceState.get(\"spinner\");\n       }\n\n        return binding.getRoot();\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n        Spinner spinner =   view.findViewById(R.id.spinner);\n\n\n        if(requestlist == null) {\n            requestlist = new ArrayList<>();\n            requestlist.add(\"Content Type\");\n            requestlist.add(\"Accept\");\n            requestlist.add(\"Authorization\");\n            requestlist.add(\"Authorization(Basic)\");\n            requestlist.add(\"Authorization(Bearer)\");\n            requestlist.add(\"Custom\");\n\n        }\n\n        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.support_simple_spinner_dropdown_item,requestlist);\n        spinner.setAdapter(arrayAdapter);\n        spinner.setSelection(0);\n        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\n            @Override\n            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\n\n                TextView textView = (TextView)view;\n                if(textView!=null)\n                    textView.setTextColor(getResources().getColor(R.color.orange));\n\n                if(position == 0){\n\n                    goneAll();\n                    binding.lnrValue.setVisibility(View.VISIBLE);\n\n                }else if(position == 1){\n                    goneAll();\n                    binding.lnrValue.setVisibility(View.VISIBLE);\n\n\n                }else if(position == 2 || position ==4){\n                    goneAll();\n                    binding.lnrToken.setVisibility(View.VISIBLE);\n\n                }else if(position == 5){\n                    goneAll();\n                    binding.lnrKey.setVisibility(View.VISIBLE);\n                    binding.lnrValue.setVisibility(View.VISIBLE);\n\n                }else if(position == 3){\n                    goneAll();\n                    binding.lnrUsername.setVisibility(View.VISIBLE);\n                    binding.lnrPassword.setVisibility(View.VISIBLE);\n\n                }\n            }\n            @Override\n            public void onNothingSelected(AdapterView<?> parent) {\n\n            }\n        });\n        binding.cancel.setOnClickListener(new OnClick());\n    }\n\n    @Override\n    public void onSaveInstanceState(@NonNull Bundle outState) {\n        super.onSaveInstanceState(outState);\n        outState.putStringArrayList(\"spinner\", (ArrayList<String>) requestlist);\n\n    }\n\n    public void goneAll(){\n\n        binding.lnrValue.setVisibility(View.GONE);\n        binding.lnrKey.setVisibility(View.GONE);\n        binding.lnrPassword.setVisibility(View.GONE);\n      //  binding.lnrType.setVisibility(View.GONE);\n        binding.lnrUsername.setVisibility(View.GONE);\n        binding.lnrToken.setVisibility(View.GONE);\n    }\n\n    public class OnClick implements View.OnClickListener{\n\n        @Override\n        public void onClick(View v) {\n\n            switch (v.getId()){\n\n                case R.id.cancel:\n\n                    dismiss();\n                    break;\n\n            }\n        }\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/header/HeaderFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/header/HeaderFragment.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.header;
++package com.bhuvaneswaran.tesla_restapiclient.ui.header;
+ 
+ import android.os.Bundle;
+ 
+@@ -16,8 +16,8 @@
+ import android.widget.Spinner;
+ import android.widget.TextView;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.FragmentHeaderBinding;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.FragmentHeaderBinding;
+ 
+ import java.io.ObjectInput;
+ import java.io.Serializable;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestRequestProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.restRequest;\n\nimport com.example.tesla_restapiclient.ui.rest.RestActivityModule;\nimport com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;\nimport com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;\n\nimport dagger.Module;\nimport dagger.android.ContributesAndroidInjector;\n\n@Module\npublic abstract class RestRequestProvider {\n\n    @ContributesAndroidInjector()\n    public abstract RestFragment provideRestRequest();\n\n    @ContributesAndroidInjector\n    public abstract ResponseFragment provideresponsefrgment();\n\n    @ContributesAndroidInjector\n    public abstract FcmFragment providefcmfrgment();\n\n\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestRequestProvider.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/restRequest/RestRequestProvider.java	(date 1614532522000)
+@@ -1,8 +1,8 @@
+-package com.example.tesla_restapiclient.ui.rest.restRequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest;
+ 
+-import com.example.tesla_restapiclient.ui.rest.RestActivityModule;
+-import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
+-import com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.RestActivityModule;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.response.ResponseFragment;
+ 
+ import dagger.Module;
+ import dagger.android.ContributesAndroidInjector;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.fcmrequest;\n\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.ui.base.BaseViewModel;\n\nimport io.reactivex.disposables.CompositeDisposable;\n\npublic class FcmViewModel extends BaseViewModel<FcmNavigator> {\n\n\n    public FcmViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {\n        super(apiHelper, dbHelper, preferencesHelper);\n    }\n\n    @Override\n    protected void onCleared() {\n        super.onCleared();\n    }\n\n    @Override\n    public CompositeDisposable getCompositeDisposable() {\n        return super.getCompositeDisposable();\n    }\n\n    public void testnavigae(){\n        getNavigator().fcmNavigator();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/fcmrequest/FcmViewModel.java	(date 1614532523000)
+@@ -1,9 +1,9 @@
+-package com.example.tesla_restapiclient.ui.rest.fcmrequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest;
+ 
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseViewModel;
+ 
+ import io.reactivex.disposables.CompositeDisposable;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.response;\n\nimport android.os.Bundle;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.databinding.library.baseAdapters.BR;\nimport androidx.fragment.app.DialogFragment;\nimport androidx.fragment.app.Fragment;\nimport androidx.lifecycle.ViewModelProviders;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.FragmentResponseBinding;\nimport com.example.tesla_restapiclient.di.ViewModelProviderFactory;\nimport com.example.tesla_restapiclient.ui.base.BaseFragment;\nimport com.example.tesla_restapiclient.ui.header.HeaderFragment;\n\nimport javax.inject.Inject;\n\n\npublic class ResponseFragment extends BaseFragment<FragmentResponseBinding,ResponseViewModel> implements ResponseNavigator{\n\n\n\n    FragmentResponseBinding fragmentResponseBinding;\n    @Inject\n    ViewModelProviderFactory viewModelProviderFactory;\n    ResponseViewModel responseViewModel;\n\n    @Override\n    public ResponseViewModel getViewmodel() {\n        responseViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(ResponseViewModel.class);\n\n        return responseViewModel;\n    }\n\n    public ResponseFragment() {\n\n    }\n\n\n    public static ResponseFragment newInstance() {\n        ResponseFragment fragment = new ResponseFragment();\n        Bundle args = new Bundle();\n\n\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n\n\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n        fragmentResponseBinding = getBinding();\n\n    }\n\n    @Override\n    protected int getViewModel() {\n        return BR.viewModel;\n    }\n\n\n\n    @Override\n    protected int getLayoutId() {\n        return R.layout.fragment_response;\n    }\n\n    @Override\n    public void responseNavigator() {\n\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/response/ResponseFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/response/ResponseFragment.java	(date 1614533078000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.response;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.response;
+ 
+ import android.os.Bundle;
+ 
+@@ -13,11 +13,12 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.FragmentResponseBinding;
+-import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+-import com.example.tesla_restapiclient.ui.base.BaseFragment;
+-import com.example.tesla_restapiclient.ui.header.HeaderFragment;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.FragmentResponseBinding;
++import com.bhuvaneswaran.tesla_restapiclient.di.ViewModelProviderFactory;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.header.HeaderFragment;
++
+ 
+ import javax.inject.Inject;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.fcmrequest;\n\nimport android.os.Bundle;\n\nimport androidx.databinding.library.baseAdapters.BR;\nimport androidx.fragment.app.Fragment;\nimport androidx.lifecycle.ViewModelProviders;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.Toast;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.FragmentFcmBinding;\nimport com.example.tesla_restapiclient.di.ViewModelProviderFactory;\nimport com.example.tesla_restapiclient.ui.base.BaseFragment;\n\nimport javax.inject.Inject;\n\nimport dagger.android.AndroidInjection;\nimport dagger.android.AndroidInjector;\nimport dagger.android.support.AndroidSupportInjection;\n\npublic class FcmFragment extends BaseFragment<FragmentFcmBinding,FcmViewModel> implements FcmNavigator {\n\n    FragmentFcmBinding fragmentFcmBinding;\n\n    FcmViewModel fcmViewModel;\n    @Inject\n    ViewModelProviderFactory viewModelProviderFactory;\n    public FcmFragment() {\n        // Required empty public constructor\n    }\n\n    @Override\n    public FcmViewModel getViewmodel() {\n        fcmViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(FcmViewModel.class);\n        return fcmViewModel;\n    }\n\n    @Override\n    protected int getViewModel() {\n        return BR.viewModel;\n    }\n\n\n    @Override\n    protected int getLayoutId() {\n        return R.layout.fragment_fcm;\n    }\n\n    public static FcmFragment newInstance() {\n        FcmFragment fragment = new FcmFragment();\n        Bundle args = new Bundle();\n\n\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        fcmViewModel.setNavigator(this);\n\n\n\n    }\n\n    @Override\n    public void fcmNavigator() {\n\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/fcmrequest/FcmFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/fcmrequest/FcmFragment.java	(date 1615390803000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.fcmrequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest;
+ 
+ import android.os.Bundle;
+ 
+@@ -11,10 +11,10 @@
+ import android.view.ViewGroup;
+ import android.widget.Toast;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.FragmentFcmBinding;
+-import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+-import com.example.tesla_restapiclient.ui.base.BaseFragment;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.FragmentFcmBinding;
++import com.bhuvaneswaran.tesla_restapiclient.di.ViewModelProviderFactory;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseFragment;
+ 
+ import javax.inject.Inject;
+ 
+@@ -63,9 +63,6 @@
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         fcmViewModel.setNavigator(this);
+-
+-
+-
+     }
+ 
+     @Override
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/FcmAdpater.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.restRequest;\n\nimport androidx.annotation.NonNull;\nimport androidx.fragment.app.Fragment;\nimport androidx.fragment.app.FragmentManager;\nimport androidx.fragment.app.FragmentStatePagerAdapter;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class FcmAdpater extends FragmentStatePagerAdapter {\n\n    List<Fragment> fragmentList;\n\n    public FcmAdpater(FragmentManager fragmentManager){\n        super(fragmentManager);\n        this.fragmentList = new ArrayList<>();\n    }\n    @NonNull\n    @Override\n    public Fragment getItem(int position) {\n        return fragmentList.get(position);\n    }\n\n    public void setListFragment(List<Fragment> fragmentList){\n\n        this.fragmentList = fragmentList;\n\n    }\n    @Override\n    public int getCount() {\n        return fragmentList.size();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/FcmAdpater.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/restRequest/FcmAdpater.java	(date 1614532522000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.restRequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.fragment.app.Fragment;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestRequestViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.restRequest;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\n\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.ui.base.BaseViewModel;\n\nimport io.reactivex.disposables.CompositeDisposable;\n\npublic class RestRequestViewModel extends BaseViewModel<RestResquestNavigtor> {\n    public RestRequestViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {\n        super(apiHelper, dbHelper, preferencesHelper);\n    }\n\n    @Override\n    protected void onCleared() {\n        super.onCleared();\n    }\n\n    @Override\n    public CompositeDisposable getCompositeDisposable() {\n        return super.getCompositeDisposable();\n    }\n\n    @Override\n    public void setNavigator(RestResquestNavigtor navigator) {\n        super.setNavigator(navigator);\n    }\n\n    @Override\n    public int hashCode() {\n        return super.hashCode();\n    }\n\n    @Override\n    public boolean equals(@Nullable Object obj) {\n        return super.equals(obj);\n    }\n\n    @NonNull\n    @Override\n    protected Object clone() throws CloneNotSupportedException {\n        return super.clone();\n    }\n\n    @NonNull\n    @Override\n    public String toString() {\n        return super.toString();\n    }\n\n    @Override\n    protected void finalize() throws Throwable {\n        super.finalize();\n    }\n\n    @Override\n    public RestResquestNavigtor getNavigator() {\n        return super.getNavigator();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestRequestViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/restRequest/RestRequestViewModel.java	(date 1614532523000)
+@@ -1,12 +1,12 @@
+-package com.example.tesla_restapiclient.ui.rest.restRequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ 
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.base.BaseViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseViewModel;
+ 
+ import io.reactivex.disposables.CompositeDisposable;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.restRequest;\n\nimport android.os.Bundle;\n\nimport android.view.View;\nimport android.widget.AdapterView;\nimport android.widget.ArrayAdapter;\nimport android.widget.Spinner;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.databinding.library.baseAdapters.BR;\nimport androidx.lifecycle.ViewModelProviders;\nimport androidx.recyclerview.widget.LinearLayoutManager;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.FragmentRestBinding;\nimport com.example.tesla_restapiclient.di.ViewModelProviderFactory;\nimport com.example.tesla_restapiclient.ui.base.BaseFragment;\nimport com.example.tesla_restapiclient.ui.body.DialogBody;\nimport com.example.tesla_restapiclient.ui.header.HeaderFragment;\nimport com.example.tesla_restapiclient.ui.header.HeadersAdapter;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nimport javax.inject.Inject;\n\n\npublic class RestFragment extends BaseFragment<FragmentRestBinding,RestRequestViewModel> implements RestResquestNavigtor{\n\n    public static final String TAG = \"RestFragment\";\n\n    public ArrayAdapter<String> arrayAdapter;\n    public ArrayAdapter<String> arrayAdapterhttp;\n    List<String> spinnerdata;\n    List<String> httpdata;\n    @Inject\n    ViewModelProviderFactory viewModelProviderFactory;\n    FragmentRestBinding fragmentRestBinding;\n    RestRequestViewModel viewModel;\n    @Inject\n    HeadersAdapter headerAdapter;\n    public RestFragment() {\n        // Required empty public constructor\n    }\n\n    @Override\n    protected int getViewModel() {\n        return BR.viewModel;\n    }\n\n\n    @Override\n    public RestRequestViewModel getViewmodel() {\n        viewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(RestRequestViewModel.class);\n        return viewModel;\n    }\n\n    @Override\n    public void onSaveInstanceState(@NonNull Bundle outState) {\n        super.onSaveInstanceState(outState);\n        outState.putStringArrayList(\"spinner\", (ArrayList<String>) spinnerdata);\n        outState.putStringArrayList(\"spinnerhttp\",(ArrayList<String>)httpdata);\n\n    }\n\n    public static RestFragment newInstance() {\n        RestFragment fragment = new RestFragment();\n        Bundle args = new Bundle();\n\n\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        fragmentRestBinding = getBinding();\n        viewModel.setNavigator(this);\n        if(savedInstanceState!=null){\n\n            httpdata = (ArrayList<String>) savedInstanceState.get(\"spinnerhttp\");\n            spinnerdata = (ArrayList<String>) savedInstanceState.get(\"spinner\");\n        }\n\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n\n\n        Spinner spinner =   view.findViewById(R.id.spinner);\n\n\n        if(spinnerdata == null) {\n            spinnerdata = new ArrayList<>();\n            spinnerdata.add(\"GET\");\n            spinnerdata.add(\"POST\");\n            spinnerdata.add(\"PUT\");\n            spinnerdata.add(\"PATCH\");\n            spinnerdata.add(\"DELETE\");\n\n        }\n        if(httpdata == null){\n            httpdata = new ArrayList<>();\n            httpdata.add(\"http://\");\n            httpdata.add(\"https://\");\n        }\n\n        initHeaderAdapter();\n        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerdata);\n        spinner.setAdapter(arrayAdapter);\n        spinner.setSelection(1);\n\n\n\n        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\n            @Override\n            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\n\n                TextView textView = (TextView)view;\n                if(textView!=null)\n                    textView.setTextColor(getResources().getColor(R.color.orange));\n\n            }\n\n            @Override\n            public void onNothingSelected(AdapterView<?> parent) {\n\n            }\n        });\n\n\n        arrayAdapterhttp = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,httpdata);\n        binding.spinnerHttp.setAdapter(arrayAdapterhttp);\n        spinner.setSelection(0);\n\n\n\n        binding.spinnerHttp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\n            @Override\n            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\n\n                TextView textView = (TextView)view;\n                if(textView!=null)\n                    textView.setTextColor(getResources().getColor(R.color.orange));\n\n            }\n\n            @Override\n            public void onNothingSelected(AdapterView<?> parent) {\n\n            }\n        });\n\n        binding.keycheckbox.setOnClickListener(new OnClick());\n        binding.rawcheckbox.setOnClickListener(new OnClick());\n        binding.txtAddheader.setOnClickListener(new OnClick());\n        binding.txtAddbody.setOnClickListener(new OnClick());\n\n\n\n    }\n\n\n\n    @Override\n    protected int getLayoutId() {\n        return R.layout.fragment_rest;\n    }\n\n    @Override\n    public void restResquestNavigtor() {\n\n    }\n\n    public class OnClick implements View.OnClickListener{\n        @Override\n        public void onClick(View v) {\n\n            switch (v.getId()){\n\n                case R.id.txt_addbody:\n                    DialogBody dialogBody = DialogBody.newInstance();\n                    dialogBody.show(getChildFragmentManager(),\"\");\n                    break;\n                case R.id.txt_addheader:\n                    HeaderFragment headerFragment = HeaderFragment.newInstance();\n                    headerFragment.show(getChildFragmentManager(),\"\");\n                    break;\n\n                case R.id.rawcheckbox:\n                    binding.keycheckbox.setChecked(false);\n                    binding.rlyBodyedt.setVisibility(View.VISIBLE);\n                    binding.rlyKey.setVisibility(View.GONE);\n                    binding.recyclerKey.setVisibility(View.GONE);\n                    break;\n\n                case R.id.keycheckbox:\n                    binding.rawcheckbox.setChecked(false);\n\n                    binding.rlyBodyedt.setVisibility(View.GONE);\n                    binding.rlyKey.setVisibility(View.VISIBLE);\n                    binding.recyclerKey.setVisibility(View.VISIBLE);\n                    break;\n            }\n        }\n    }\n\n    public void initHeaderAdapter(){\n        binding.recyclerHeader.setLayoutManager(new LinearLayoutManager(getActivity()));\n        binding.recyclerHeader.setHasFixedSize(true);\n        binding.recyclerHeader.setAdapter(headerAdapter);\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/restRequest/RestFragment.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.restRequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest;
+ 
+ import android.os.Bundle;
+ 
+@@ -14,13 +14,13 @@
+ import androidx.lifecycle.ViewModelProviders;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.FragmentRestBinding;
+-import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+-import com.example.tesla_restapiclient.ui.base.BaseFragment;
+-import com.example.tesla_restapiclient.ui.body.DialogBody;
+-import com.example.tesla_restapiclient.ui.header.HeaderFragment;
+-import com.example.tesla_restapiclient.ui.header.HeadersAdapter;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.FragmentRestBinding;
++import com.bhuvaneswaran.tesla_restapiclient.di.ViewModelProviderFactory;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.body.DialogBody;
++import com.bhuvaneswaran.tesla_restapiclient.ui.header.HeaderFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.header.HeadersAdapter;
+ 
+ import java.util.ArrayList;
+ import java.util.List;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestResquestNavigtor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest.restRequest;\n\npublic interface  RestResquestNavigtor {\n\n    void restResquestNavigtor();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/restRequest/RestResquestNavigtor.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/restRequest/RestResquestNavigtor.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest.restRequest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest;
+ 
+ public interface  RestResquestNavigtor {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/db/AppDatabase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db;\n\n\nimport androidx.room.Database;\nimport androidx.room.RoomDatabase;\n\nimport com.example.tesla_restapiclient.db.room.dao.HistoryDao;\nimport com.example.tesla_restapiclient.model.History;\n\n@Database(entities = {History.class}, version = 2)\npublic abstract class AppDatabase extends RoomDatabase {\n\n    public abstract HistoryDao historyDao();\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/AppDatabase.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/AppDatabase.java	(date 1614536051000)
+@@ -1,11 +1,12 @@
+-package com.example.tesla_restapiclient.db;
++package com.bhuvaneswaran.tesla_restapiclient.db;
+ 
+ 
+ import androidx.room.Database;
+ import androidx.room.RoomDatabase;
+ 
+-import com.example.tesla_restapiclient.db.room.dao.HistoryDao;
+-import com.example.tesla_restapiclient.model.History;
++import com.bhuvaneswaran.tesla_restapiclient.db.room.dao.HistoryDao;
++import com.bhuvaneswaran.tesla_restapiclient.model.History;
++
+ 
+ @Database(entities = {History.class}, version = 2)
+ public abstract class AppDatabase extends RoomDatabase {
+Index: app/src/main/java/com/example/tesla_restapiclient/db/AppDbHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db;\n\nimport android.content.Context;\n\nimport javax.inject.Inject;\n\nimport io.reactivex.Single;\n\npublic class AppDbHelper implements DbHelper {\n\n    private final AppDatabase mAppDatabase;\n\n    @Inject\n    public AppDbHelper(AppDatabase appDatabase) {\n        this.mAppDatabase = appDatabase;\n    }\n\n    @Override\n    public Single<Object> cacheRequests() {\n        return null;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/AppDbHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/AppDbHelper.java	(date 1614532525000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.db;
++package com.bhuvaneswaran.tesla_restapiclient.db;
+ 
+ import android.content.Context;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/di/ViewModelProviderFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di;\n\nimport androidx.annotation.NonNull;\nimport androidx.lifecycle.ViewModel;\nimport androidx.lifecycle.ViewModelProvider;\n\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.ui.rest.RestViewModel;\nimport com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel;\nimport com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestViewModel;\nimport com.example.tesla_restapiclient.ui.splash.SplashViewModel;\n\nimport javax.inject.Inject;\n\nimport dagger.Module;\n\n@Module\npublic class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFactory {\n\n    public ApiHelper apiHelper;\n    public DbHelper dbHelper;\n    public PreferencesHelper preferencesHelper;\n\n    @Inject\n    public ViewModelProviderFactory(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {\n\n        this.apiHelper = apiHelper;\n        this.dbHelper = dbHelper;\n        this.preferencesHelper = preferencesHelper;\n    }\n\n    @NonNull\n    @Override\n    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {\n\n\n        if (modelClass.isAssignableFrom(SplashViewModel.class)) {\n            return (T) new SplashViewModel(apiHelper, dbHelper, preferencesHelper);\n        } else if (modelClass.isAssignableFrom(RestViewModel.class)) {\n            return (T) new RestViewModel(apiHelper, dbHelper, preferencesHelper);\n        } else if (modelClass.isAssignableFrom(RestRequestViewModel.class)) {\n            return (T) new RestRequestViewModel(apiHelper, dbHelper, preferencesHelper);\n\n        }else if(modelClass.isAssignableFrom(FcmViewModel.class)){\n            return (T) new FcmViewModel(apiHelper, dbHelper, preferencesHelper);\n        }else if(modelClass.isAssignableFrom(ResponseViewModel.class)){\n            return (T) new ResponseViewModel(apiHelper, dbHelper, preferencesHelper);\n        }\n        return super.create(modelClass);\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/ViewModelProviderFactory.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/ViewModelProviderFactory.java	(date 1615393175000)
+@@ -1,18 +1,19 @@
+-package com.example.tesla_restapiclient.di;
++package com.bhuvaneswaran.tesla_restapiclient.di;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.lifecycle.ViewModel;
+ import androidx.lifecycle.ViewModelProvider;
+ 
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.ui.rest.RestViewModel;
+-import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel;
+-import com.example.tesla_restapiclient.ui.rest.response.ResponseViewModel;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestViewModel;
+-import com.example.tesla_restapiclient.ui.splash.SplashViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.PreferenceInfo;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.RestViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest.FcmViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.response.ResponseViewModel;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.RestRequestViewModel;
++
+ 
+ import javax.inject.Inject;
+ 
+@@ -23,10 +24,11 @@
+ 
+     public ApiHelper apiHelper;
+     public DbHelper dbHelper;
++
+     public PreferencesHelper preferencesHelper;
+ 
+     @Inject
+-    public ViewModelProviderFactory(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper) {
++    public ViewModelProviderFactory(ApiHelper apiHelper, DbHelper dbHelper,  PreferencesHelper preferencesHelper) {
+ 
+         this.apiHelper = apiHelper;
+         this.dbHelper = dbHelper;
+@@ -38,9 +40,7 @@
+     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+ 
+ 
+-        if (modelClass.isAssignableFrom(SplashViewModel.class)) {
+-            return (T) new SplashViewModel(apiHelper, dbHelper, preferencesHelper);
+-        } else if (modelClass.isAssignableFrom(RestViewModel.class)) {
++        if (modelClass.isAssignableFrom(RestViewModel.class)) {
+             return (T) new RestViewModel(apiHelper, dbHelper, preferencesHelper);
+         } else if (modelClass.isAssignableFrom(RestRequestViewModel.class)) {
+             return (T) new RestRequestViewModel(apiHelper, dbHelper, preferencesHelper);
+Index: app/src/main/java/com/example/tesla_restapiclient/db/DbHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db;\n\nimport javax.inject.Singleton;\n\nimport io.reactivex.Single;\n\npublic interface DbHelper {\n\n    Single<Object> cacheRequests();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/DbHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/DbHelper.java	(date 1614532525000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.db;
++package com.bhuvaneswaran.tesla_restapiclient.db;
+ 
+ import javax.inject.Singleton;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/ScreenUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\nimport android.content.Context;\nimport android.util.DisplayMetrics;\nimport android.view.WindowManager;\n\n\npublic final class ScreenUtils {\n\n    private ScreenUtils() {\n        // This class is not publicly instantiable\n    }\n\n    public static int getScreenHeight(Context context) {\n        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);\n        DisplayMetrics dm = new DisplayMetrics();\n        windowManager.getDefaultDisplay().getMetrics(dm);\n        return dm.heightPixels;\n    }\n\n    public static int getScreenWidth(Context context) {\n        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);\n        DisplayMetrics dm = new DisplayMetrics();\n        windowManager.getDefaultDisplay().getMetrics(dm);\n        return dm.widthPixels;\n    }\n\n    public static int getStatusBarHeight(Context context) {\n        int result = 0;\n        int resourceId = context.getResources().getIdentifier(\"status_bar_height\", \"dimen\", \"android\");\n        if (resourceId > 0) {\n            result = context.getResources().getDimensionPixelSize(resourceId);\n        }\n        return result;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/ScreenUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/ScreenUtils.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ import android.content.Context;
+ import android.util.DisplayMetrics;
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/ViewAnimationUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.utils;\n\nimport android.view.View;\nimport android.view.animation.Animation;\nimport android.view.animation.ScaleAnimation;\n\n\n\npublic final class ViewAnimationUtils {\n\n    private ViewAnimationUtils() {\n        // This class is not publicly instantiable\n    }\n\n    public static void scaleAnimateView(View view) {\n        ScaleAnimation animation =\n                new ScaleAnimation(\n                        1.15f, 1, 1.15f, 1,\n                        Animation.RELATIVE_TO_SELF, 0.5f,\n                        Animation.RELATIVE_TO_SELF, 0.5f);\n\n        view.setAnimation(animation);\n        animation.setDuration(100);\n        animation.start();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/ViewAnimationUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/ViewAnimationUtils.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ import android.view.View;
+ import android.view.animation.Animation;
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/NetworkUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\nimport android.content.Context;\nimport android.net.ConnectivityManager;\nimport android.net.NetworkInfo;\n\n\n\npublic final class NetworkUtils {\n\n    private NetworkUtils() {\n        // This class is not publicly instantiable\n    }\n\n    public static boolean isNetworkConnected(Context context) {\n        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);\n        if (cm != null) {\n            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();\n            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();\n        }\n        return false;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/NetworkUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/NetworkUtils.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ import android.content.Context;
+ import android.net.ConnectivityManager;
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/AppUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.net.Uri;\n\n\n\n\n\npublic final class AppUtils {\n\n    private AppUtils() {\n        // This class is not publicly instantiable\n    }\n\n//    public static void openPlayStoreForApp(Context context) {\n//        final String appPackageName = context.getPackageName();\n//        try {\n//            context.startActivity(new Intent(Intent.ACTION_VIEW,\n//                    Uri.parse(context\n//                            .getResources()\n//                            .getString(R.string.app_market_link) + appPackageName)));\n//        } catch (android.content.ActivityNotFoundException e) {\n//            context.startActivity(new Intent(Intent.ACTION_VIEW,\n//                    Uri.parse(context\n//                            .getResources()\n//                            .getString(R.string.app_google_play_store_link) + appPackageName)));\n//        }\n//    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/AppUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/AppUtils.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ 
+ import android.content.Context;
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/BindingUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\n\n\nimport java.util.List;\n\n\n\npublic final class BindingUtils {\n\n    private BindingUtils() {\n        // This class is not publicly instantiable\n    }\n\n//    @BindingAdapter({\"adapter\"})\n//    public static void addBlogItems(RecyclerView recyclerView, List<BlogResponse.Blog> blogs) {\n//        BlogAdapter adapter = (BlogAdapter) recyclerView.getAdapter();\n//        if (adapter != null) {\n//            adapter.clearItems();\n//            adapter.addItems(blogs);\n//        }\n//    }\n//\n//    @BindingAdapter({\"adapter\"})\n//    public static void addOpenSourceItems(RecyclerView recyclerView, List<OpenSourceItemViewModel> openSourceItems) {\n//        OpenSourceAdapter adapter = (OpenSourceAdapter) recyclerView.getAdapter();\n//        if (adapter != null) {\n//            adapter.clearItems();\n//            adapter.addItems(openSourceItems);\n//        }\n//    }\n//\n//    @BindingAdapter({\"adapter\", \"action\"})\n//    public static void addQuestionItems(SwipePlaceHolderView mCardsContainerView, List<QuestionCardData> mQuestionList, int mAction) {\n//        if (mAction == MainViewModel.ACTION_ADD_ALL) {\n//            if (mQuestionList != null) {\n//                mCardsContainerView.removeAllViews();\n//                for (QuestionCardData question : mQuestionList) {\n//                    if (question != null && question.options != null && question.options.size() == 3) {\n//                        mCardsContainerView.addView(new QuestionCard(question));\n//                    }\n//                }\n//                ViewAnimationUtils.scaleAnimateView(mCardsContainerView);\n//            }\n//        }\n//    }\n//\n//    @BindingAdapter(\"imageUrl\")\n//    public static void setImageUrl(ImageView imageView, String url) {\n//        Context context = imageView.getContext();\n//        Glide.with(context).load(url).into(imageView);\n//    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/BindingUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/BindingUtils.java	(date 1614532524000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ 
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/AppConstants.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\n\npublic final class AppConstants {\n\n    public static final int API_STATUS_CODE_LOCAL_ERROR = 0;\n\n    public static final String DB_NAME = \"mindorks_mvvm.db\";\n\n    public static final long NULL_INDEX = -1L;\n\n    public static final String PREF_NAME = \"mindorks_pref\";\n\n    public static final String SEED_DATABASE_OPTIONS = \"seed/options.json\";\n\n    public static final String SEED_DATABASE_QUESTIONS = \"seed/questions.json\";\n\n    public static final String STATUS_CODE_FAILED = \"failed\";\n\n    public static final String STATUS_CODE_SUCCESS = \"success\";\n\n    public static final String TIMESTAMP_FORMAT = \"yyyyMMdd_HHmmss\";\n\n    private AppConstants() {\n        // This utility class is not publicly instantiable\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/AppConstants.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/AppConstants.java	(date 1614532522000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ 
+ public final class AppConstants {
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/ViewUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\nimport android.content.Context;\nimport android.content.res.Resources;\nimport android.graphics.PorterDuff;\nimport android.graphics.drawable.Drawable;\n\nimport androidx.core.content.ContextCompat;\n\n\n\n\n\npublic final class ViewUtils {\n\n    private ViewUtils() {\n        // This class is not publicly instantiable\n    }\n\n//    public static void changeIconDrawableToGray(Context context, Drawable drawable) {\n//        if (drawable != null) {\n//            drawable.mutate();\n//            drawable.setColorFilter(ContextCompat.getColor(context, R.color.dark_gray), PorterDuff.Mode.SRC_ATOP);\n//        }\n//    }\n\n    public static int dpToPx(float dp) {\n        float density = Resources.getSystem().getDisplayMetrics().density;\n        return Math.round(dp * density);\n    }\n\n    public static float pxToDp(float px) {\n        float densityDpi = Resources.getSystem().getDisplayMetrics().densityDpi;\n        return px / (densityDpi / 160f);\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/ViewUtils.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/ViewUtils.java	(date 1614532524000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ import android.content.Context;
+ import android.content.res.Resources;
+Index: app/src/main/java/com/example/tesla_restapiclient/model/History.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.model;\n\nimport androidx.room.ColumnInfo;\nimport androidx.room.Entity;\nimport androidx.room.PrimaryKey;\n\nimport com.google.gson.annotations.Expose;\nimport com.google.gson.annotations.SerializedName;\n\n@Entity(tableName = \"history\")\npublic class History {\n\n    @Expose\n    @PrimaryKey\n    public Long id;\n\n\n    @Expose\n    @SerializedName(\"created_at\")\n    @ColumnInfo(name = \"created_at\")\n    public String createdAt;\n\n\n\n    @Expose\n    @SerializedName(\"status_code\")\n    @ColumnInfo(name = \"status_code\")\n    public String statusCode;\n\n\n    @Expose\n    @SerializedName(\"request_type\")\n    @ColumnInfo(name = \"request_type\")\n    public String requestType;\n\n    @Expose\n    @SerializedName(\"request_url\")\n    @ColumnInfo(name = \"request_url\")\n    public String requestUrl;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/model/History.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/model/History.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.model;
++package com.bhuvaneswaran.tesla_restapiclient.model;
+ 
+ import androidx.room.ColumnInfo;
+ import androidx.room.Entity;
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/TextViewCourgette.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\n\nimport androidx.appcompat.widget.AppCompatTextView;\n\npublic class TextViewCourgette extends AppCompatTextView {\n\n\n\n    public TextViewCourgette(Context context) {\n        super(context);\n\n        init(null);\n    }\n\n    public TextViewCourgette(Context context, AttributeSet attrs) {\n        super(context, attrs);\n\n        init(attrs);\n    }\n\n    public TextViewCourgette(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init(attrs);\n    }\n\n    public void init(AttributeSet attributeSet){\n\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/Courgette-Regular.ttf\"));\n    }\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/TextViewCourgette.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/TextViewCourgette.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+Index: app/src/main/java/com/example/tesla_restapiclient/db/prefs/PreferencesHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.db.prefs;\n\npublic interface PreferencesHelper {\n\n\n    public void preferenceHelper();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/db/prefs/PreferencesHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/db/prefs/PreferencesHelper.java	(date 1614532523000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.db.prefs;
++package com.bhuvaneswaran.tesla_restapiclient.db.prefs;
+ 
+ public interface PreferencesHelper {
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/network/AppApiHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.network;\n\nimport android.content.Context;\n\nimport javax.inject.Inject;\n\nimport io.reactivex.Single;\n\npublic class AppApiHelper implements ApiHelper {\n\n\n    @Inject\n    public AppApiHelper(Context context){\n\n    }\n    @Override\n    public Single<Object> newtworkRequest() {\n        return null;\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/network/AppApiHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/network/AppApiHelper.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.network;
++package com.bhuvaneswaran.tesla_restapiclient.network;
+ 
+ import android.content.Context;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/network/ApiHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.network;\n\nimport io.reactivex.Single;\n\npublic interface ApiHelper {\n\n\n\n    Single<Object> newtworkRequest();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/network/ApiHelper.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/network/ApiHelper.java	(date 1614532525000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.network;
++package com.bhuvaneswaran.tesla_restapiclient.network;
+ 
+ import io.reactivex.Single;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/utils/AppLogger.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.utils;\n\n\n\nimport timber.log.Timber;\n\n\npublic final class AppLogger {\n\n    private AppLogger() {\n        // This utility class is not publicly instantiable\n    }\n\n    public static void d(String s, Object... objects) {\n        Timber.d(s, objects);\n    }\n\n    public static void d(Throwable throwable, String s, Object... objects) {\n        Timber.d(throwable, s, objects);\n    }\n\n    public static void e(String s, Object... objects) {\n        Timber.e(s, objects);\n    }\n\n    public static void e(Throwable throwable, String s, Object... objects) {\n        Timber.e(throwable, s, objects);\n    }\n\n    public static void i(String s, Object... objects) {\n        Timber.i(s, objects);\n    }\n\n    public static void i(Throwable throwable, String s, Object... objects) {\n        Timber.i(throwable, s, objects);\n    }\n\n    public static void init() {\n\n    }\n\n    public static void w(String s, Object... objects) {\n        Timber.w(s, objects);\n    }\n\n    public static void w(Throwable throwable, String s, Object... objects) {\n        Timber.w(throwable, s, objects);\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/utils/AppLogger.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/utils/AppLogger.java	(date 1614532523000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.utils;
++package com.bhuvaneswaran.tesla_restapiclient.utils;
+ 
+ 
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/TextViewBlack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\n\nimport androidx.appcompat.widget.AppCompatTextView;\n\npublic class TextViewBlack extends AppCompatTextView {\n\n\n    public TextViewBlack(Context context) {\n        super(context);\n        init(null);\n    }\n\n    public TextViewBlack(Context context, AttributeSet attrs) {\n        super(context, attrs);\n        init(attrs);\n    }\n\n    public TextViewBlack(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init(attrs);\n    }\n\n    public void init(AttributeSet attributeSet){\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/Heebo-Black.ttf\"));\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/TextViewBlack.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/TextViewBlack.java	(date 1614532523000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/EditTextRegular.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\nimport android.widget.EditText;\n\npublic class EditTextRegular extends EditText {\n\n    public EditTextRegular(Context context) {\n        super(context);\n        init(null);\n    }\n\n    public EditTextRegular(Context context, AttributeSet attrs) {\n        super(context, attrs);\n        init(attrs);\n    }\n\n    public EditTextRegular(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init(attrs);\n    }\n\n    public EditTextRegular(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {\n        super(context, attrs, defStyleAttr, defStyleRes);\n        init(attrs);\n    }\n\n    public void init(AttributeSet attributeSet){\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/ComicNeue-Light.ttf\"));\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/EditTextRegular.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/EditTextRegular.java	(date 1615390889000)
+@@ -1,11 +1,11 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+ import android.util.AttributeSet;
+ import android.widget.EditText;
+ 
+-public class EditTextRegular extends EditText {
++public class EditTextRegular extends androidx.appcompat.widget.AppCompatEditText {
+ 
+     public EditTextRegular(Context context) {
+         super(context);
+@@ -22,10 +22,6 @@
+         init(attrs);
+     }
+ 
+-    public EditTextRegular(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+-        super(context, attrs, defStyleAttr, defStyleRes);
+-        init(attrs);
+-    }
+ 
+     public void init(AttributeSet attributeSet){
+         this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"fonts/ComicNeue-Light.ttf"));
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/TextViewRegular.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\n\nimport androidx.appcompat.widget.AppCompatTextView;\n\nimport org.w3c.dom.Attr;\n\npublic class TextViewRegular extends AppCompatTextView {\n\n\n    public TextViewRegular(Context context) {\n        super(context);\n        init(null);\n    }\n\n    public TextViewRegular(Context context, AttributeSet attrs) {\n        super(context, attrs);\n        init(attrs);\n    }\n\n    public TextViewRegular(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n\n        init(attrs);\n    }\n\n\n    public void init(AttributeSet attributeSet){\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/ComicNeue-Light.ttf\"));\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/TextViewRegular.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/TextViewRegular.java	(date 1614532523000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+Index: app/src/main/java/com/example/tesla_restapiclient/controls/TextViewBold.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.controls;\n\nimport android.content.Context;\nimport android.graphics.Typeface;\nimport android.util.AttributeSet;\n\nimport androidx.appcompat.widget.AppCompatTextView;\n\nimport org.w3c.dom.Attr;\n\npublic class TextViewBold extends AppCompatTextView {\n\n\n    public TextViewBold(Context context) {\n        super(context);\n\n        init(null);\n    }\n\n    public TextViewBold(Context context, AttributeSet attrs) {\n        super(context, attrs);\n\n        init(attrs);\n    }\n\n    public TextViewBold(Context context, AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init(attrs);\n    }\n\n    public void init(AttributeSet attributeSet){\n\n        this.setTypeface(Typeface.createFromAsset(getResources().getAssets(),\"fonts/Heebo-Bold.ttf\"));\n    }\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/controls/TextViewBold.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/controls/TextViewBold.java	(date 1614532525000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.controls;
++package com.bhuvaneswaran.tesla_restapiclient.controls;
+ 
+ import android.content.Context;
+ import android.graphics.Typeface;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.base;\n\nimport androidx.lifecycle.ViewModel;\n\nimport com.example.tesla_restapiclient.db.AppDbHelper;\nimport com.example.tesla_restapiclient.db.DbHelper;\nimport com.example.tesla_restapiclient.db.prefs.PreferencesHelper;\nimport com.example.tesla_restapiclient.network.ApiHelper;\nimport com.example.tesla_restapiclient.network.AppApiHelper;\n\nimport java.lang.ref.WeakReference;\n\nimport io.reactivex.disposables.CompositeDisposable;\n\npublic abstract class BaseViewModel<N> extends ViewModel {\n\n    public ApiHelper apiHelper;\n    public DbHelper dbHelper;\n    public PreferencesHelper preferencesHelper;\n    public CompositeDisposable compositeDisposable;\n    public WeakReference weakReference;\n\n    public N Navigator;\n    public BaseViewModel(ApiHelper apiHelper, DbHelper dbHelper, PreferencesHelper preferencesHelper ){\n        this.apiHelper = apiHelper;\n        this.dbHelper = dbHelper;\n        this.preferencesHelper = preferencesHelper;\n        this.compositeDisposable = new CompositeDisposable();\n\n    }\n\n    @Override\n    protected void onCleared() {\n        super.onCleared();\n        compositeDisposable.clear();\n    }\n\n    public CompositeDisposable getCompositeDisposable() {\n        return compositeDisposable;\n    }\n\n    public void setNavigator(N navigator) {\n        this.weakReference = new WeakReference<>(navigator);\n\n    }\n\n    public N getNavigator() {\n        return (N) this.weakReference.get();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseViewModel.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/base/BaseViewModel.java	(date 1614532522000)
+@@ -1,12 +1,12 @@
+-package com.example.tesla_restapiclient.ui.base;
++package com.bhuvaneswaran.tesla_restapiclient.ui.base;
+ 
+ import androidx.lifecycle.ViewModel;
+ 
+-import com.example.tesla_restapiclient.db.AppDbHelper;
+-import com.example.tesla_restapiclient.db.DbHelper;
+-import com.example.tesla_restapiclient.db.prefs.PreferencesHelper;
+-import com.example.tesla_restapiclient.network.ApiHelper;
+-import com.example.tesla_restapiclient.network.AppApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.AppDbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.DbHelper;
++import com.bhuvaneswaran.tesla_restapiclient.db.prefs.PreferencesHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.ApiHelper;
++import com.bhuvaneswaran.tesla_restapiclient.network.AppApiHelper;
+ 
+ import java.lang.ref.WeakReference;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/body/BodyRecyclerAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.body;\n\n\nimport android.content.Context;\nimport android.view.LayoutInflater;\nimport android.view.ViewGroup;\n\nimport androidx.annotation.NonNull;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.BodyInflateBinding;\n\nimport javax.inject.Inject;\n\npublic class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapter.BodyViewHolder>{\n\n    public BodyInflateBinding bodyInflateBinding;\n\n    public Context context;\n    @Inject\n    public BodyRecyclerAdapter(Context context){\n        this.context = context;\n    }\n    @NonNull\n    @Override\n    public BodyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n       bodyInflateBinding =  DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.body_inflate,null,false);\n        return new BodyViewHolder(bodyInflateBinding);\n    }\n\n    @Override\n    public void onBindViewHolder(@NonNull BodyViewHolder holder, int position) {\n\n    }\n    public void setNewList(){\n\n    }\n\n    @Override\n    public int getItemCount() {\n        return 0;\n    }\n\n    public class BodyViewHolder extends RecyclerView.ViewHolder{\n        public BodyInflateBinding bodyInflateBinding;\n        public BodyViewHolder(@NonNull  BodyInflateBinding binding) {\n            super(binding.getRoot());\n            this.bodyInflateBinding = binding;\n        }\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/body/BodyRecyclerAdapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/body/BodyRecyclerAdapter.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.body;
++package com.bhuvaneswaran.tesla_restapiclient.ui.body;
+ 
+ 
+ import android.content.Context;
+@@ -9,8 +9,8 @@
+ import androidx.databinding.DataBindingUtil;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.BodyInflateBinding;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.BodyInflateBinding;
+ 
+ import javax.inject.Inject;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.base;\n\nimport android.annotation.TargetApi;\nimport android.app.Activity;\nimport android.content.Context;\nimport android.content.pm.PackageManager;\nimport android.os.Build;\nimport android.os.Bundle;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.core.content.ContextCompat;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.databinding.ViewDataBinding;\nimport androidx.fragment.app.Fragment;\nimport androidx.lifecycle.ViewModel;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.view.Window;\nimport android.view.WindowManager;\nimport android.view.inputmethod.InputMethodManager;\n\nimport com.example.tesla_restapiclient.R;\n\nimport javax.inject.Inject;\n\nimport dagger.android.AndroidInjection;\nimport dagger.android.AndroidInjector;\nimport dagger.android.DispatchingAndroidInjector;\nimport dagger.android.HasFragmentInjector;\nimport dagger.android.support.AndroidSupportInjection;\nimport dagger.android.support.DaggerFragment;\nimport dagger.android.support.HasSupportFragmentInjector;\n\n\npublic abstract  class BaseFragment<T extends ViewDataBinding, N extends ViewModel> extends DaggerFragment {\n\n    public T binding;\n    public N viewmodel;\n    public BaseActivity baseActivity;\n    public View rootView;\n\n\n\n    public T getBinding() {\n        return binding;\n    }\n\n    public void setBinding(T binding) {\n        this.binding = binding;\n    }\n\n    public abstract N getViewmodel() ;\n\n\n    public void setViewmodel(N viewmodel) {\n        this.viewmodel = viewmodel;\n    }\n\n    public BaseFragment() {\n        // Required empty public constructor\n    }\n\n\n    @Override\n    public void onAttach(@NonNull Context context) {\n        //performDependencyInjection();\n        super.onAttach(context);\n        if(context instanceof  BaseActivity){\n            baseActivity = (BaseActivity)context;\n            baseActivity.onFragmentAttached();\n\n        }\n    }\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n      //  performDependencyInjection();\n        super.onCreate(savedInstanceState);\n\n       viewmodel = getViewmodel();\n        setHasOptionsMenu(false);\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n\n        binding.setVariable(getViewModel(),viewmodel);\n        binding.setLifecycleOwner(this);\n        binding.executePendingBindings();\n    }\n\n\n    protected abstract int getViewModel();\n\n\n\n\n\n\n    @Override\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\n                             Bundle savedInstanceState) {\n        // Inflate the layout for this fragment\n\n\n\n        binding = DataBindingUtil.inflate(inflater,getLayoutId(),container,false);\n        rootView = binding.getRoot();\n        return rootView;\n\n    }\n\n\n    public BaseActivity getBaseActivity(){\n        return baseActivity;\n    }\n\n    protected abstract int getLayoutId();\n\n    public void hideKeyboard() throws NullPointerException {\n        View view = getActivity().getCurrentFocus();\n        if (view != null) {\n            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);\n            if (imm != null) {\n                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);\n            }\n        }\n    }\n\n    @TargetApi(Build.VERSION_CODES.M)\n    public boolean hasPermission(String permission)  throws NullPointerException{\n        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||\n               getActivity().checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;\n    }\n\n    @TargetApi(Build.VERSION_CODES.M)\n    public void requestPermissionsSafely(String[] permissions, int requestCode) {\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {\n            requestPermissions(permissions, requestCode);\n        }\n    }\n\n\n\n    public interface Callback {\n\n        void onFragmentAttached();\n\n        void onFragmentDetached(String tag);\n    }\n\n    @Override\n    public void onDetach() {\n        super.onDetach();\n        baseActivity = null;\n\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseFragment.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/base/BaseFragment.java	(date 1614533947000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.base;
++package com.bhuvaneswaran.tesla_restapiclient.ui.base;
+ 
+ import android.annotation.TargetApi;
+ import android.app.Activity;
+@@ -22,7 +22,7 @@
+ import android.view.WindowManager;
+ import android.view.inputmethod.InputMethodManager;
+ 
+-import com.example.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.R;
+ 
+ import javax.inject.Inject;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.base;\n\nimport androidx.annotation.LayoutRes;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.core.content.ContextCompat;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.databinding.ViewDataBinding;\nimport androidx.databinding.library.baseAdapters.BR;\n\nimport android.annotation.TargetApi;\nimport android.app.ProgressDialog;\nimport android.content.Context;\nimport android.content.pm.PackageManager;\nimport android.os.Build;\nimport android.os.Bundle;\nimport android.view.View;\nimport android.view.Window;\nimport android.view.WindowManager;\nimport android.view.inputmethod.InputMethodManager;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.utils.CommonUtils;\nimport com.example.tesla_restapiclient.utils.NetworkUtils;\n\nimport dagger.android.support.DaggerAppCompatActivity;\n\npublic abstract class BaseActivity<T extends ViewDataBinding, N extends BaseViewModel> extends DaggerAppCompatActivity implements BaseFragment.Callback{\n\n    private ProgressDialog mProgressDialog;\n\n    public ProgressDialog getmProgressDialog() {\n        return mProgressDialog;\n    }\n\n    public void setmProgressDialog(ProgressDialog mProgressDialog) {\n        this.mProgressDialog = mProgressDialog;\n    }\n\n    public T getBinding() {\n        return binding;\n    }\n\n    public void setBinding(T binding) {\n        this.binding = binding;\n    }\n\n    public N getViewmodel() {\n        return viewmodel;\n    }\n\n    public void setViewmodel(N viewmodel) {\n        this.viewmodel = viewmodel;\n    }\n\n    public T binding;\n    public N viewmodel;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n       // performDependencyInjection();\n        super.onCreate(savedInstanceState);\n        performDataBinding();\n        changeStatusBarColor();\n    }\n\n    private void changeStatusBarColor() {\n        Window window = this.getWindow();\n        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);\n        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);\n        window.setStatusBarColor(ContextCompat.getColor(this, R.color.my_statusbar_color));\n    }\n\n//    protected abstract void performDependencyInjection();\n\n    private void performDataBinding() {\n        binding = DataBindingUtil.setContentView(this, getLayoutId());\n        this.viewmodel = this.viewmodel == null ? getViewModel() : viewmodel;\n        binding.setVariable(getViewModelVariable(), this.viewmodel);\n        binding.executePendingBindings();\n    }\n\n    protected abstract int getViewModelVariable();\n\n    protected abstract N getViewModel();\n\n    public void hideKeyboard() {\n        View view = this.getCurrentFocus();\n        if (view != null) {\n            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);\n            if (imm != null) {\n                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);\n            }\n        }\n    }\n\n    @TargetApi(Build.VERSION_CODES.M)\n    public boolean hasPermission(String permission) {\n        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||\n                checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;\n    }\n\n    @TargetApi(Build.VERSION_CODES.M)\n    public void requestPermissionsSafely(String[] permissions, int requestCode) {\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {\n            requestPermissions(permissions, requestCode);\n        }\n    }\n\n    public void showLoading() {\n        hideLoading();\n        mProgressDialog = CommonUtils.showLoadingDialog(this);\n    }\n\n    public void hideLoading() {\n        if (mProgressDialog != null && mProgressDialog.isShowing()) {\n            mProgressDialog.cancel();\n        }\n    }\n\n    public boolean isNetworkConnected() {\n        return NetworkUtils.isNetworkConnected(getApplicationContext());\n    }\n\n\n\n    @LayoutRes\n    public abstract int getLayoutId();\n\n    @Override\n    public void onFragmentAttached() {\n\n\n    }\n\n    @Override\n    public void onFragmentDetached(String tag) {\n\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/base/BaseActivity.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/base/BaseActivity.java	(date 1615375022000)
+@@ -1,11 +1,9 @@
+-package com.example.tesla_restapiclient.ui.base;
++package com.bhuvaneswaran.tesla_restapiclient.ui.base;
+ 
+ import androidx.annotation.LayoutRes;
+-import androidx.appcompat.app.AppCompatActivity;
+ import androidx.core.content.ContextCompat;
+ import androidx.databinding.DataBindingUtil;
+ import androidx.databinding.ViewDataBinding;
+-import androidx.databinding.library.baseAdapters.BR;
+ 
+ import android.annotation.TargetApi;
+ import android.app.ProgressDialog;
+@@ -18,9 +16,11 @@
+ import android.view.WindowManager;
+ import android.view.inputmethod.InputMethodManager;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.utils.CommonUtils;
+-import com.example.tesla_restapiclient.utils.NetworkUtils;
++
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.utils.CommonUtils;
++import com.bhuvaneswaran.tesla_restapiclient.utils.NetworkUtils;
++
+ 
+ import dagger.android.support.DaggerAppCompatActivity;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestActivityModule.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest;\n\n\nimport android.content.Context;\n\nimport com.example.tesla_restapiclient.di.qualifier.BodyAdapter;\nimport com.example.tesla_restapiclient.di.qualifier.HeaderAdapter;\nimport com.example.tesla_restapiclient.ui.body.BodyRecyclerAdapter;\nimport com.example.tesla_restapiclient.ui.header.HeadersAdapter;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;\n\nimport dagger.Module;\nimport dagger.Provides;\n\n@Module\npublic class RestActivityModule {\n\n\n    @Provides\n    public static RestFragmentAdapter provideRestFragmentAdapter(RestActivity restActivity){\n        return new RestFragmentAdapter(restActivity.getSupportFragmentManager());\n    }\n\n    @Provides\n    public static FcmAdpater provideFcmAdapter(RestActivity restActivity){\n        return new FcmAdpater(restActivity.getSupportFragmentManager());\n    }\n\n    @Provides\n    @HeaderAdapter\n    public static HeadersAdapter provideHeadersAdapter(Context context){\n        return new HeadersAdapter(context);\n    }\n\n    @Provides\n    @BodyAdapter\n    public static BodyRecyclerAdapter provideBodyAdapter(Context context){\n      return  new BodyRecyclerAdapter(context);\n    }\n\n\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestActivityModule.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/RestActivityModule.java	(date 1614532522000)
+@@ -1,13 +1,13 @@
+-package com.example.tesla_restapiclient.ui.rest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest;
+ 
+ 
+ import android.content.Context;
+ 
+-import com.example.tesla_restapiclient.di.qualifier.BodyAdapter;
+-import com.example.tesla_restapiclient.di.qualifier.HeaderAdapter;
+-import com.example.tesla_restapiclient.ui.body.BodyRecyclerAdapter;
+-import com.example.tesla_restapiclient.ui.header.HeadersAdapter;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.BodyAdapter;
++import com.bhuvaneswaran.tesla_restapiclient.di.qualifier.HeaderAdapter;
++import com.bhuvaneswaran.tesla_restapiclient.ui.body.BodyRecyclerAdapter;
++import com.bhuvaneswaran.tesla_restapiclient.ui.header.HeadersAdapter;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
+ 
+ import dagger.Module;
+ import dagger.Provides;
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/body/DialogBody.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.body;\n\nimport android.os.Bundle;\n\nimport androidx.fragment.app.DialogFragment;\nimport androidx.fragment.app.Fragment;\n\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\n\nimport com.example.tesla_restapiclient.R;\n\n\npublic class DialogBody extends DialogFragment {\n\n\n\n    public DialogBody() {\n        // Required empty public constructor\n    }\n\n\n\n    public static DialogBody newInstance() {\n        DialogBody fragment = new DialogBody();\n        Bundle args = new Bundle();\n\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n\n    }\n\n    @Override\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\n                             Bundle savedInstanceState) {\n        // Inflate the layout for this fragment\n        return inflater.inflate(R.layout.fragment_dialog_body, container, false);\n    }\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/body/DialogBody.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/body/DialogBody.java	(date 1614532524000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.body;
++package com.bhuvaneswaran.tesla_restapiclient.ui.body;
+ 
+ import android.os.Bundle;
+ 
+@@ -9,7 +9,7 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ 
+-import com.example.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.R;
+ 
+ 
+ public class DialogBody extends DialogFragment {
+Index: app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.ui.rest;\n\nimport androidx.annotation.NonNull;\nimport androidx.appcompat.app.ActionBarDrawerToggle;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.appcompat.widget.Toolbar;\nimport androidx.core.view.GravityCompat;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.databinding.library.baseAdapters.BR;\nimport androidx.drawerlayout.widget.DrawerLayout;\nimport androidx.fragment.app.Fragment;\nimport androidx.lifecycle.ViewModelProviders;\nimport androidx.viewpager.widget.ViewPager;\n\nimport android.os.Bundle;\nimport android.util.Log;\nimport android.view.MenuItem;\nimport android.view.View;\n\nimport com.example.tesla_restapiclient.R;\nimport com.example.tesla_restapiclient.databinding.ActivityRestBinding;\nimport com.example.tesla_restapiclient.di.ViewModelProviderFactory;\nimport com.example.tesla_restapiclient.ui.base.BaseActivity;\nimport com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;\nimport com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.RestFragment;\nimport com.example.tesla_restapiclient.ui.splash.SplashViewModel;\nimport com.example.tesla_restapiclient.utils.AppLogger;\nimport com.example.tesla_restapiclient.utils.ScreenUtils;\nimport com.google.android.material.navigation.NavigationView;\nimport com.google.android.material.tabs.TabLayout;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nimport javax.inject.Inject;\n\nimport dagger.android.AndroidInjection;\n\npublic class RestActivity extends BaseActivity<ActivityRestBinding, RestViewModel> implements RestNavigator {\n\n    public RestViewModel restViewModel;\n    public String selected = \"rest\";\n\n    Toolbar mToolbar;\n    DrawerLayout mDrawer;\n    NavigationView mNavigationView;\n    @Inject\n    RestFragmentAdapter restFragmentAdapter;\n\n    @Inject\n    FcmAdpater fcmAdpater;\n    ActivityRestBinding activityRestBinding;\n    @Inject\n    ViewModelProviderFactory factory;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        activityRestBinding = getBinding();\n\n        setUp();\n        setUpViewPager();\n\n    }\n\n    private void setUpViewPager() {\n\n//        setSupportActionBar(activityRestBinding.toolbar);\n//        if (getSupportActionBar() != null) {\n//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);\n//            getSupportActionBar().setDisplayShowHomeEnabled(true);\n//        }\n\n        activityRestBinding.tablayout.removeAllTabs();\n        restFragmentAdapter.setFragmentList(getFragmentList());\n        activityRestBinding.viewpager.setAdapter(restFragmentAdapter);\n        activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.request)));\n        activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.response)));\n        activityRestBinding.tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {\n            @Override\n            public void onTabSelected(TabLayout.Tab tab) {\n                activityRestBinding.viewpager.setCurrentItem(tab.getPosition());\n            }\n\n            @Override\n            public void onTabUnselected(TabLayout.Tab tab) {\n\n\n            }\n\n            @Override\n            public void onTabReselected(TabLayout.Tab tab) {\n\n            }\n        });\n\n\n        activityRestBinding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {\n            @Override\n            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {\n\n            }\n\n            @Override\n            public void onPageSelected(int position) {\n\n                activityRestBinding.tablayout.getTabAt(position).select();\n            }\n\n            @Override\n            public void onPageScrollStateChanged(int state) {\n\n            }\n        });\n    }\n\n    private List<Fragment> getFragmentList() {\n        List<Fragment> fragmentList = new ArrayList<>();\n\n        fragmentList.clear();\n        if(selected.equalsIgnoreCase(\"rest\")){\n            fragmentList.add(RestFragment.newInstance());\n            fragmentList.add(ResponseFragment.newInstance());\n        }else{\n            fragmentList.add(FcmFragment.newInstance());\n            fragmentList.add(ResponseFragment.newInstance());\n        }\n\n\n        return fragmentList;\n    }\n\n    private void setUp() {\n        mDrawer = activityRestBinding.drawerView;\n        mToolbar = activityRestBinding.toolbar;\n        mNavigationView = activityRestBinding.navigationView;\n\n\n        setSupportActionBar(mToolbar);\n        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(\n                this,\n                mDrawer,\n                mToolbar,\n                R.string.open_drawer,\n                R.string.close_drawer) {\n            @Override\n            public void onDrawerClosed(View drawerView) {\n                super.onDrawerClosed(drawerView);\n            }\n\n            @Override\n            public void onDrawerOpened(View drawerView) {\n                super.onDrawerOpened(drawerView);\n                hideKeyboard();\n            }\n        };\n        mDrawer.addDrawerListener(mDrawerToggle);\n        mDrawerToggle.setDrawerIndicatorEnabled(false);\n        mDrawerToggle.syncState();\n        mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24);\n        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                if (mDrawer.isDrawerVisible(GravityCompat.START)) {\n                    mDrawer.closeDrawer(GravityCompat.START);\n                } else {\n                    mDrawer.openDrawer(GravityCompat.START);\n                }\n            }\n        });\n        setupNavMenu();\n//        String version = getString(R.string.version) + \" \" + BuildConfig.VERSION_NAME;\n//        mMainViewModel.updateAppVersion(version);\n//        mMainViewModel.onNavMenuCreated();\n//        setupCardContainerView();\n//        subscribeToLiveData();\n\n      //  loadRestFragment();\n\n\n    }\n\n//    private void loadRestFragment() {\n//        lockDrawer();\n//        getSupportFragmentManager()\n//                .beginTransaction()\n//                .disallowAddToBackStack()\n//               // .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)\n//                .add(R.id.rly_main, RestFragment.newInstance(), RestFragment.TAG)\n//                .commit();\n//    }\n\n    private void lockDrawer() {\n        if (mDrawer != null) {\n            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);\n        }\n    }\n\n//    @Override\n//    protected void performDependencyInjection() {\n//\n//        AndroidInjection.inject(this);\n//    }\n\n    @Override\n    protected int getViewModelVariable() {\n\n        return BR.viewModel;\n    }\n\n    @Override\n    protected RestViewModel getViewModel() {\n        restViewModel = ViewModelProviders.of(this, factory).get(RestViewModel.class);\n        restViewModel.setNavigator(this);\n        return restViewModel;\n    }\n\n    @Override\n    public int getLayoutId() {\n        return R.layout.activity_rest;\n    }\n\n    private void unlockDrawer() {\n        if (mDrawer != null) {\n            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);\n        }\n    }\n\n    private void setupNavMenu() {\n//        NavHeaderMainBinding navHeaderMainBinding = DataBindingUtil.inflate(getLayoutInflater(),\n//                R.layout.nav_header_main, mActivityMainBinding.navigationView, false);\n//        mActivityMainBinding.navigationView.addHeaderView(navHeaderMainBinding.getRoot());\n//        navHeaderMainBinding.setViewModel(mMainViewModel);\n\n        mNavigationView.setNavigationItemSelectedListener(\n                new NavigationView.OnNavigationItemSelectedListener() {\n                    @Override\n                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\n                        mDrawer.closeDrawer(GravityCompat.START);\n                        switch (item.getItemId()) {\n                            case R.id.navRest:\n                                if(!selected.equalsIgnoreCase(\"rest\")){\n                                    selected = \"rest\";\n                                    setUpViewPager();\n\n                                }\n\n\n\n                                return true;\n                            case R.id.navFCM:\n\n                                if(!selected.equalsIgnoreCase(\"fcm\")){\n                                    selected = \"fcm\";\n                                    setUpViewPagerForFCM();\n\n                                }\n\n\n\n                                return true;\n//                            case R.id.navItemFeed:\n////\n//                                return true;\n//                            case R.id.navItemLogout:\n//\n//                                return true;\n                            default:\n                                return false;\n                        }\n                    }\n                });\n    }\n\n    private void setUpViewPagerForFCM() {\n\n        fcmAdpater.setListFragment(getFragmentList());\n\n        activityRestBinding.viewpager.setAdapter(fcmAdpater);\n\n        activityRestBinding.tablayout.removeAllTabs();\n        activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.fcm_request)));\n        activityRestBinding.tablayout.addTab(activityRestBinding.tablayout.newTab().setText(getString(R.string.response)));\n        activityRestBinding.tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {\n            @Override\n            public void onTabSelected(TabLayout.Tab tab) {\n                activityRestBinding.viewpager.setCurrentItem(tab.getPosition());\n            }\n\n            @Override\n            public void onTabUnselected(TabLayout.Tab tab) {\n\n\n            }\n\n            @Override\n            public void onTabReselected(TabLayout.Tab tab) {\n\n            }\n        });\n\n\n        activityRestBinding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {\n            @Override\n            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {\n\n            }\n\n            @Override\n            public void onPageSelected(int position) {\n\n                activityRestBinding.tablayout.getTabAt(position).select();\n            }\n\n            @Override\n            public void onPageScrollStateChanged(int state) {\n\n            }\n        });\n    }\n\n\n    @Override\n    public void onAttachFragment(@NonNull Fragment fragment) {\n        super.onAttachFragment(fragment);\n    }\n\n    @Override\n    public void onFragmentDetached(String tag) {\n        super.onFragmentDetached(tag);\n    }\n\n    @Override\n    public void restNavigator() {\n\n\n    }\n\n}
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/ui/rest/RestActivity.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/ui/rest/RestActivity.java	(date 1615375022000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.ui.rest;
++package com.bhuvaneswaran.tesla_restapiclient.ui.rest;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.appcompat.app.ActionBarDrawerToggle;
+@@ -17,17 +17,15 @@
+ import android.view.MenuItem;
+ import android.view.View;
+ 
+-import com.example.tesla_restapiclient.R;
+-import com.example.tesla_restapiclient.databinding.ActivityRestBinding;
+-import com.example.tesla_restapiclient.di.ViewModelProviderFactory;
+-import com.example.tesla_restapiclient.ui.base.BaseActivity;
+-import com.example.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
+-import com.example.tesla_restapiclient.ui.rest.response.ResponseFragment;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.RestFragment;
+-import com.example.tesla_restapiclient.ui.splash.SplashViewModel;
+-import com.example.tesla_restapiclient.utils.AppLogger;
+-import com.example.tesla_restapiclient.utils.ScreenUtils;
++import com.bhuvaneswaran.tesla_restapiclient.R;
++import com.bhuvaneswaran.tesla_restapiclient.databinding.ActivityRestBinding;
++import com.bhuvaneswaran.tesla_restapiclient.di.ViewModelProviderFactory;
++import com.bhuvaneswaran.tesla_restapiclient.ui.base.BaseActivity;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.fcmrequest.FcmFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.response.ResponseFragment;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.FcmAdpater;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.RestFragment;
++
+ import com.google.android.material.navigation.NavigationView;
+ import com.google.android.material.tabs.TabLayout;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/DatabaseInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.di.qualifier;\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n/**\n * Created by amitshekhar on 07/07/17.\n */\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface DatabaseInfo {\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/DatabaseInfo.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/DatabaseInfo.java	(date 1614533078000)
+@@ -14,7 +14,7 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/fcmadapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.qualifier;\n\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface fcmadapter {\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/fcmadapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/fcmadapter.java	(date 1614533079000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ 
+ import java.lang.annotation.Retention;
+Index: app/src/main/java/com/example/tesla_restapiclient/di/builder/ActivityBuilder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.builder;\n\nimport com.example.tesla_restapiclient.ui.rest.RestActivity;\nimport com.example.tesla_restapiclient.ui.rest.RestActivityModule;\nimport com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;\nimport com.example.tesla_restapiclient.ui.splash.SplashActivity;\n\nimport dagger.Module;\nimport dagger.android.ContributesAndroidInjector;\n\n@Module\npublic abstract class ActivityBuilder {\n\n//    @ContributesAndroidInjector(modules = {\n//            FeedActivityModule.class,\n//            BlogFragmentProvider.class,\n//            OpenSourceFragmentProvider.class})\n//    abstract FeedActivity bindFeedActivity();\n\n//    @ContributesAndroidInjector\n//    abstract LoginActivity bindLoginActivity();\n//\n//    @ContributesAndroidInjector(modules = {\n//            AboutFragmentProvider.class,\n//            RateUsDialogProvider.class})\n//    abstract MainActivity bindMainActivity();\n\n    @ContributesAndroidInjector(modules = {RestRequestProvider.class, RestActivityModule.class})\n    abstract RestActivity bindrestActivity();\n\n    @ContributesAndroidInjector\n    abstract SplashActivity bindSplashActivity();\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/builder/ActivityBuilder.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/builder/ActivityBuilder.java	(date 1615379615000)
+@@ -1,9 +1,9 @@
+-package com.example.tesla_restapiclient.di.builder;
++package com.bhuvaneswaran.tesla_restapiclient.di.builder;
+ 
+-import com.example.tesla_restapiclient.ui.rest.RestActivity;
+-import com.example.tesla_restapiclient.ui.rest.RestActivityModule;
+-import com.example.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
+-import com.example.tesla_restapiclient.ui.splash.SplashActivity;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.RestActivity;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.RestActivityModule;
++import com.bhuvaneswaran.tesla_restapiclient.ui.rest.restRequest.RestRequestProvider;
++
+ 
+ import dagger.Module;
+ import dagger.android.ContributesAndroidInjector;
+@@ -28,6 +28,6 @@
+     @ContributesAndroidInjector(modules = {RestRequestProvider.class, RestActivityModule.class})
+     abstract RestActivity bindrestActivity();
+ 
+-    @ContributesAndroidInjector
+-    abstract SplashActivity bindSplashActivity();
++/*    @ContributesAndroidInjector
++    abstract SplashActivity bindSplashActivity();*/
+ }
+Index: app/src/main/java/com/example/tesla_restapiclient/di/component/AppComponent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.component;\n\nimport android.app.Application;\n\nimport com.example.tesla_restapiclient.application.RestApplication;\nimport com.example.tesla_restapiclient.di.builder.ActivityBuilder;\nimport com.example.tesla_restapiclient.di.module.AppModule;\n\nimport javax.inject.Singleton;\n\nimport dagger.BindsInstance;\nimport dagger.Component;\nimport dagger.android.AndroidInjectionModule;\n\n@Singleton\n@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})\npublic interface AppComponent {\n\n    void inject(RestApplication app);\n\n    @Component.Builder\n    interface Builder {\n\n        @BindsInstance\n        Builder application(Application application);\n\n        AppComponent build();\n    }\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/component/AppComponent.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/component/AppComponent.java	(date 1614532523000)
+@@ -1,10 +1,10 @@
+-package com.example.tesla_restapiclient.di.component;
++package com.bhuvaneswaran.tesla_restapiclient.di.component;
+ 
+ import android.app.Application;
+ 
+-import com.example.tesla_restapiclient.application.RestApplication;
+-import com.example.tesla_restapiclient.di.builder.ActivityBuilder;
+-import com.example.tesla_restapiclient.di.module.AppModule;
++import com.bhuvaneswaran.tesla_restapiclient.application.RestApplication;
++import com.bhuvaneswaran.tesla_restapiclient.di.builder.ActivityBuilder;
++import com.bhuvaneswaran.tesla_restapiclient.di.module.AppModule;
+ 
+ import javax.inject.Singleton;
+ 
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/HeaderAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.qualifier;\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface HeaderAdapter {\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/HeaderAdapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/HeaderAdapter.java	(date 1614533078000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/ApiInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.di.qualifier;\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n/**\n * Created by amitshekhar on 07/07/17.\n */\n\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface ApiInfo {\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/ApiInfo.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/ApiInfo.java	(date 1615375022000)
+@@ -14,16 +14,13 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+ 
+ import javax.inject.Qualifier;
+ 
+-/**
+- * Created by amitshekhar on 07/07/17.
+- */
+ 
+ @Qualifier
+ @Retention(RetentionPolicy.RUNTIME)
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/BodyAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tesla_restapiclient.di.qualifier;\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface BodyAdapter {\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/BodyAdapter.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/BodyAdapter.java	(date 1614533078000)
+@@ -1,4 +1,4 @@
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+Index: app/src/main/java/com/example/tesla_restapiclient/di/qualifier/PreferenceInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://mindorks.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.example.tesla_restapiclient.di.qualifier;\n\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\n\nimport javax.inject.Qualifier;\n\n/**\n * Created by amitshekhar on 07/07/17.\n */\n@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface PreferenceInfo {\n\n}\n
+===================================================================
+--- app/src/main/java/com/example/tesla_restapiclient/di/qualifier/PreferenceInfo.java	(revision aabfb3a030c8a00c8fd352d1e2ccf4c060223e0d)
++++ app/src/main/java/com/bhuvaneswaran/tesla_restapiclient/di/qualifier/PreferenceInfo.java	(date 1614536051000)
+@@ -14,16 +14,14 @@
+  *  limitations under the License
+  */
+ 
+-package com.example.tesla_restapiclient.di.qualifier;
++package com.bhuvaneswaran.tesla_restapiclient.di.qualifier;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+ 
+ import javax.inject.Qualifier;
+ 
+-/**
+- * Created by amitshekhar on 07/07/17.
+- */
++
+ @Qualifier
+ @Retention(RetentionPolicy.RUNTIME)
+ public @interface PreferenceInfo {
+diff --git app/src/test/java/com/example/tesla_restapiclient/ExampleUnitTest.java app/src/test/java/com/bhuvaneswaran/tesla_restapiclient/ExampleUnitTest.java
+rename from app/src/test/java/com/example/tesla_restapiclient/ExampleUnitTest.java
+rename to app/src/test/java/com/bhuvaneswaran/tesla_restapiclient/ExampleUnitTest.java
+diff --git app/src/androidTest/java/com/example/tesla_restapiclient/ExampleInstrumentedTest.java app/src/androidTest/java/com/bhuvaneswaran/tesla_restapiclient/ExampleInstrumentedTest.java
+rename from app/src/androidTest/java/com/example/tesla_restapiclient/ExampleInstrumentedTest.java
+rename to app/src/androidTest/java/com/bhuvaneswaran/tesla_restapiclient/ExampleInstrumentedTest.java
