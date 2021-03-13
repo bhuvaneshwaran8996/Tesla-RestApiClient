@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.tesla_restapiclient",
+  "applicationId": "com.bhuvaneswaran.simple_api_client",
   "variantName": "release",
   "elements": [
     {

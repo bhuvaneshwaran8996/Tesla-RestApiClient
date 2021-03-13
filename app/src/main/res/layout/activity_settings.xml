@@ -52,20 +52,10 @@
                                     app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
                                     android:layout_width="match_parent" >
 
-
-
-
                                 </androidx.appcompat.widget.Toolbar>
-
                             </LinearLayout>
-
-
-
                         </com.google.android.material.appbar.AppBarLayout>
-
-
                     </RelativeLayout>
-
                     <FrameLayout
                         android:background="#303030"
                         android:layout_width="match_parent"
@@ -76,8 +66,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-
-                            <TextViewRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                                 android:layout_width="match_parent"
                                 android:text="Timeout Connection"
                                 android:padding="10dp"
@@ -85,7 +74,7 @@
                                 android:textColor="#fff"
                                 android:layout_height="wrap_content"/>
 
-                            <TextViewRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                                 android:layout_width="match_parent"
                                 android:textSize="16sp"
                                 android:id="@+id/timeoutseconds"
@@ -105,17 +94,7 @@
 
                         </LinearLayout>
                     </FrameLayout>
-
-
                 </LinearLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
-
     </FrameLayout>
-
-
-
-
 </layout>

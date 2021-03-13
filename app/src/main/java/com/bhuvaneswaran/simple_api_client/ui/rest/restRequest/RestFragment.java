@@ -40,6 +40,16 @@ import com.bhuvaneswaran.simple_api_client.utils.CommonUtils;
 import com.bhuvaneswaran.simple_api_client.utils.NetworkUtils;
 import com.bhuvaneswaran.simple_api_client.ui.rest.restRequest.RestRequestViewModel;
 import com.bhuvaneswaran.simple_api_client.ui.rest.restRequest.RestResquestNavigtor;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -89,6 +99,9 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     String body;
     String header;
     int postion;
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+
 
     List<Body> bodyList;
 
@@ -152,7 +165,16 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentRestBinding = getBinding();
+
         viewModel.setNavigator(this);
+        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+
+        });
+
+
         setRetainInstance(true);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
                 new IntentFilter("history"));
@@ -172,6 +194,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
         }
 
+
     }
 
 
@@ -184,16 +207,16 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
             Log.d("receiver", "Got message: " + historyModel);
             if (historyModel != null) {
 
-                if(!historyModel.requestUrl.equalsIgnoreCase("")){
+                if (!historyModel.requestUrl.equalsIgnoreCase("")) {
                     boolean containshttp = historyModel.requestUrl.contains("http://");
                     boolean containshttps = historyModel.requestUrl.contains("https://");
-                    if(containshttp){
+                    if (containshttp) {
 
-                         requestUrl = historyModel.requestUrl.split("http://")[1];
-                         binding.spinnerHttp.setSelection(0);
-                         binding.url.setText(requestUrl);
+                        requestUrl = historyModel.requestUrl.split("http://")[1];
+                        binding.spinnerHttp.setSelection(0);
+                        binding.url.setText(requestUrl);
 
-                    }else{
+                    } else {
                         requestUrl = historyModel.requestUrl.split("https://")[1];
                         binding.spinnerHttp.setSelection(1);
                         binding.url.setText(requestUrl);
@@ -209,14 +232,14 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 }
                 if (!historyModel.requestType.equalsIgnoreCase("GET") || !historyModel.requestType.equalsIgnoreCase("DELETE")) {
 
-                    if (historyModel.keyOrraw!=null&&historyModel.keyOrraw.equalsIgnoreCase("raw")) {
+                    if (historyModel.keyOrraw != null && historyModel.keyOrraw.equalsIgnoreCase("raw")) {
 
                         binding.rawcheckbox.performClick();
 //                       binding.keycheckbox.setChecked(false);
                         if (!historyModel.rawBody.equalsIgnoreCase("")) {
                             binding.editBody.setText(historyModel.rawBody);
 
-                            if(bodyList.size()>0){
+                            if (bodyList.size() > 0) {
                                 bodyList.clear();
                                 bodyRecyclerAdapter.setNewList(bodyList);
                             }
@@ -231,7 +254,6 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                         if (bodyRecyclerAdapter != null) {
 
 
-
                             try {
                                 Map<String, String> stringStringHashMap = jsonToMap(keyBody);
                                 Iterator<Map.Entry<String, String>> iterator = stringStringHashMap.entrySet().iterator();
@@ -242,20 +264,20 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //                                    bodyAdapterList.add(new Body(iterator.next().getKey(), iterator.next().getValue()));
 //
 //                                }
-                                if(bodyList!=null && bodyList.size() > 0){
+                                if (bodyList != null && bodyList.size() > 0) {
                                     bodyList.clear();
                                 }
-                                if(bodyList.size()  == 0){
-                                    for(Map.Entry<String, String> entry : stringStringHashMap.entrySet()) {
+                                if (bodyList.size() == 0) {
+                                    for (Map.Entry<String, String> entry : stringStringHashMap.entrySet()) {
                                         String key = entry.getKey();
                                         String value = entry.getValue();
-                                        bodyList.add(new Body(key,value));
+                                        bodyList.add(new Body(key, value));
 
 
                                     }
                                     bodyRecyclerAdapter.setNewList(bodyList);
                                     binding.editBody.setText("");
-                                    if(binding.recyclerbody.getVisibility() == View.GONE){
+                                    if (binding.recyclerbody.getVisibility() == View.GONE) {
                                         binding.recyclerbody.setVisibility(View.VISIBLE);
                                     }
 
@@ -271,7 +293,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 }
 
                 if (!historyModel.header.equalsIgnoreCase("")) {
-                    if(headerModelList.size() > 0){
+                    if (headerModelList.size() > 0) {
 
                         headerModelList.clear();
                         headerAdapter.setHeaderList(headerModelList);
@@ -280,7 +302,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                     try {
 
                         Map<String, String> stringStringMap = jsonToMap(historyModel.header);
-                     // Iterator<Map.Entry<String, String>> stringStringHashMap = stringStringMap.entrySet().iterator();
+                        // Iterator<Map.Entry<String, String>> stringStringHashMap = stringStringMap.entrySet().iterator();
 //                        while (iterator.hasNext()) {
 ////                               bodyAdapterList.add(iterator.next().getValue());
 ////                               bodyRecyclerAdapter.setNewList(bodyAdapterList);
@@ -291,10 +313,10 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //                            }
 //
 //                        }
-                        for(Map.Entry<String, String> entry : stringStringMap.entrySet()) {
+                        for (Map.Entry<String, String> entry : stringStringMap.entrySet()) {
                             String key = entry.getKey();
                             String value = entry.getValue();
-                            headerModelList.add(new HeaderModel(key,value));
+                            headerModelList.add(new HeaderModel(key, value));
 
 
                         }
@@ -324,7 +346,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
                 restActivity.binding.viewpager.setCurrentItem(0);
 
-               // binding.lnrfooter.performClick();
+                // binding.lnrfooter.performClick();
             }
 
         }
@@ -332,7 +354,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     public Map<String, String> jsonToMap(String t) throws JSONException {
         Map<String, String> map = new HashMap<String, String>();
-        if(t != null) {
+        if (t != null) {
 
             JSONObject jObject = new JSONObject(t);
             Iterator<?> keys = jObject.keys();
@@ -351,7 +373,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         return map;
     }
 
-@Override
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -376,10 +398,9 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
         initHeaderAdapter();
         initBodyAdapter();
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, spinnerdata);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, spinnerdata);
         spinner.setAdapter(arrayAdapter);
         spinner.setSelection(0);
-
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -407,7 +428,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         });
 
 
-        arrayAdapterhttp = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item, httpdata);
+        arrayAdapterhttp = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, httpdata);
         binding.spinnerHttp.setAdapter(arrayAdapterhttp);
         spinner.setSelection(0);
 
@@ -457,7 +478,88 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         } else {
             binding.lnrInnerBody.setVisibility(View.VISIBLE);
         }
+        loadInstrialAd();
+        loadRewardedAd();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView = binding.getRoot().findViewById(R.id.adView);
+        mAdView.loadAd(adRequest);
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+              //  Toast.makeText(getActivity(), "onAdClosed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+              //  Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+               // Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+              //  Toast.makeText(getActivity(), "onAdLeftApplication", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+              //  Toast.makeText(getActivity(), "onAdOpened", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+              //  Toast.makeText(getActivity(), "onAdLoaded", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+               // Toast.makeText(getActivity(), "onAdClicked", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdImpression() {
+                super.onAdImpression();
+              //  Toast.makeText(getActivity(), "onAdImpression", Toast.LENGTH_SHORT).show();
+            }
+        });
         binding.setViewModel(viewModel);
+
+    }
+
+    private void loadInstrialAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(getActivity(), "ca-app-pub-4299310549064965~7467487323", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                // The mInterstitialAd reference will be null until
+                // an ad is loaded.
+                mInterstitialAd = interstitialAd;
+
+                Log.i(TAG, "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error
+                Log.i(TAG, loadAdError.getMessage());
+                mInterstitialAd = null;
+            }
+        });
+
+    }
+
+    private void loadRewardedAd() {
 
     }
 
@@ -547,6 +649,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     public void processSuccessResult(String body, String header, String requestCode, String requestTime) {
 
 
+        mInterstitialAd.show(getActivity());
         try {
             this.body = body;
             this.header = header;
@@ -556,6 +659,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                 restActivity.requestCode = requestCode;
                 restActivity.requesttime = requestTime;
             }
+
             restActivity.setResponseFragmentSuccesRsult();
             restActivity.binding.viewpager.setCurrentItem(1);
 
@@ -565,12 +669,12 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
             history.requestUrl = SelectedHttp + "" + binding.url.getText().toString().trim();
             history.isRest = true;
             history.createdAt = CommonUtils.getDateTime();
-            if(binding.lnrInnerBody.getVisibility() == View.VISIBLE && binding.rawcheckbox.isChecked()  ){
+            if (binding.lnrInnerBody.getVisibility() == View.VISIBLE && binding.rawcheckbox.isChecked()) {
                 history.keyOrraw = "raw";
                 history.keyBody = "";
                 history.rawBody = binding.editBody.getText().toString();
 
-            }else if(binding.lnrInnerBody.getVisibility() == View.VISIBLE && binding.keycheckbox.isChecked()){
+            } else if (binding.lnrInnerBody.getVisibility() == View.VISIBLE && binding.keycheckbox.isChecked()) {
                 history.keyOrraw = "key";
                 history.rawBody = "";
                 history.keyBody = convertBodyMapToString(bodyRecyclerAdapter.getBodyList());
@@ -590,8 +694,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     private String convertHeaderMapToString(Map<String, String> bodyList) {
 
-        if(bodyList==null || bodyList.size() == 0){
-            return  "";
+        if (bodyList == null || bodyList.size() == 0) {
+            return "";
         }
         JsonObject jsonObject = new JsonObject();
         Iterator<Map.Entry<String, String>> iterator = bodyList.entrySet().iterator();
@@ -599,7 +703,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //            jsonObject.addProperty(iterator.next().getKey(),iterator.next().getValue());
 //        }
 
-        for(Map.Entry<String, String> entry : bodyList.entrySet()) {
+        for (Map.Entry<String, String> entry : bodyList.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
 
@@ -611,10 +715,11 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
 
     }
+
     private String convertBodyMapToString(Map<String, String> bodyList) {
 
-        if(bodyList==null || bodyList.size() == 0){
-            return  "";
+        if (bodyList == null || bodyList.size() == 0) {
+            return "";
         }
         JsonObject jsonObject = new JsonObject();
         Iterator<Map.Entry<String, String>> iterator = bodyList.entrySet().iterator();
@@ -622,7 +727,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //            jsonObject.addProperty(iterator.next().getKey(),iterator.next().getValue());
 //        }
 
-        for(Map.Entry<String, String> entry : bodyList.entrySet()) {
+        for (Map.Entry<String, String> entry : bodyList.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
 
@@ -664,7 +769,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                             return;
                         }
                         viewModel.processBodyWithKey(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), bodyRecyclerAdapter.getBodyList());
-                      //  restActivity.hideLoading();
+                        //  restActivity.hideLoading();
 
                     } else {
                         if (binding.rawcheckbox.isChecked()) {
@@ -674,7 +779,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                                 return;
                             }
                             viewModel.processBodywithRaw(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), binding.editBody.getText().toString());
-                          //  restActivity.hideLoading();
+                            //  restActivity.hideLoading();
                         }
 
                     }
@@ -693,7 +798,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                             return;
                         }
                         viewModel.processPutWithKey(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), bodyRecyclerAdapter.getBodyList());
-                     //   restActivity.hideLoading();
+                        //   restActivity.hideLoading();
 
                     } else {
                         if (binding.rawcheckbox.isChecked()) {
@@ -703,7 +808,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                                 return;
                             }
                             viewModel.processPutwithRaw(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), binding.editBody.getText().toString());
-                         //   restActivity.hideLoading();
+                            //   restActivity.hideLoading();
                         }
 
                     }
@@ -723,7 +828,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                             return;
                         }
                         viewModel.processPatchWithKey(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), bodyRecyclerAdapter.getBodyList());
-                     //   restActivity.hideLoading();
+                        //   restActivity.hideLoading();
 
                     } else {
                         if (binding.rawcheckbox.isChecked()) {
@@ -733,7 +838,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
                                 return;
                             }
                             viewModel.processPatchwithRaw(SelectedHttp + "" + binding.url.getText().toString().trim(), (HashMap<String, String>) headerAdapter.getHeaderModelList(), binding.editBody.getText().toString());
-                          //  restActivity.hideLoading();
+                            //  restActivity.hideLoading();
                         }
 
                     }
@@ -850,7 +955,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 //            //RelativeLayout.LayoutParams layoutParams  =(RelativeLayout.LayoutParams) binding.recyclerbody.getLayoutParams();
 //            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 //                    ViewGroup.LayoutParams.WRAP_CONTENT);
-         //   binding.recyclerbody.setLayoutParams(params);
+            //   binding.recyclerbody.setLayoutParams(params);
             if (headerModelList != null && headerModelList.size() > 0) {
                 binding.recyclerHeader.setVisibility(View.VISIBLE);
                 headerAdapter.setHeaderList(headerModelList);
@@ -866,9 +971,10 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
         private final int verticalSpacingHeight;
 
-        public SpaceItemDecorator(int verticalSpacingHeight){
+        public SpaceItemDecorator(int verticalSpacingHeight) {
             this.verticalSpacingHeight = verticalSpacingHeight;
         }
+
         @Override
         public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);

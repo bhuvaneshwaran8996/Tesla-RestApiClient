@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+
 
     >
 
@@ -26,7 +29,7 @@
             android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
-                android:layout_above="@id/lnrfooter"
+                android:layout_above="@id/adView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -49,7 +52,7 @@
                         android:layout_height="50dp"
                         android:gravity="center">
 
-                        <TextViewMedium
+                        <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
@@ -105,7 +108,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1">
 
-                            <EditTextRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
                                 android:id="@+id/url"
 
                                 android:layout_width="match_parent"
@@ -138,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp">
 
-                            <TextViewMedium
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                                 android:id="@+id/body"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -155,7 +158,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:buttonTint="@color/white" />
 
-                            <TextViewRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                                 android:id="@+id/raw"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -176,7 +179,7 @@
                                 android:layout_toRightOf="@+id/raw"
                                 android:buttonTint="@color/white" />
 
-                            <TextViewRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -197,7 +200,7 @@
                             android:layout_height="wrap_content">
 
 
-                                <EditTextRegular
+                                <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
                                     android:id="@+id/editBody"
                                     android:layout_width="match_parent"
                                     android:textColor="@color/white"
@@ -220,7 +223,7 @@
                             android:id="@+id/rly_key"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <TextViewMedium
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                                 android:layout_width="wrap_content"
                                 android:text="Key"
                                 android:textSize="18sp"
@@ -228,7 +231,7 @@
                                 android:textColor="@color/white"
                                 android:layout_height="wrap_content"/>
 
-                            <TextViewRegular
+                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                                 android:layout_width="wrap_content"
                                 android:text="Add new"
 
@@ -263,7 +266,7 @@
                         android:id="@+id/rly_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <TextViewMedium
+                        <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
                             android:layout_width="wrap_content"
                             android:text="Headers"
                             android:id="@+id/lblheaders"
@@ -271,7 +274,7 @@
                             android:textColor="@color/white"
                             android:layout_height="wrap_content"/>
 
-                        <TextViewRegular
+                        <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
                             android:id="@+id/txt_addheader"
                             android:layout_width="wrap_content"
                             android:text="Add new"
@@ -290,23 +293,41 @@
                             android:layout_below="@+id/lblheaders"
                             android:layout_height="wrap_content"/>
                     </RelativeLayout>
+
                 </LinearLayout>
             </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
 
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                android:layout_above="@id/lnrfooter"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                ads:adUnitId="ca-app-pub-4299310549064965/1603597185">
 
+            </com.google.android.gms.ads.AdView>
             <RelativeLayout
                 android:id="@+id/lnrfooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
-                <TextViewMedium
+
+
+
+
+                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                    android:id="@+id/txt_send"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/rounded_cornor"
                     android:padding="10dp"
                     android:text="SEND"
@@ -314,7 +335,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/orange">
 
-                </TextViewMedium>
+                </com.bhuvaneswaran.simple_api_client.controls.TextViewMedium>
 
             </RelativeLayout>
         </RelativeLayout>

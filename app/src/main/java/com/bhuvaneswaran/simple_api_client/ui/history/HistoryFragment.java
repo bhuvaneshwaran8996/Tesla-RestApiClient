@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,12 +26,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bhuvaneswaran.simple_api_client.MainActivity;
 import com.bhuvaneswaran.simple_api_client.R;
 import com.bhuvaneswaran.simple_api_client.controls.TextViewMedium;
 import com.bhuvaneswaran.simple_api_client.controls.TextViewRegular;
 import com.bhuvaneswaran.simple_api_client.db.room.dao.HistoryDao;
 import com.bhuvaneswaran.simple_api_client.model.History;
 import com.bhuvaneswaran.simple_api_client.ui.rest.RestActivity;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.rewarded.OnAdMetadataChangedListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +56,7 @@ public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryActivity";
 
 
-   // HistoryViewModel historyViewModel;
+    // HistoryViewModel historyViewModel;
 
 
     HistoryDao historyDao;
@@ -51,8 +65,9 @@ public class HistoryFragment extends Fragment {
     RecyclerView recyclerView;
     Toolbar toolbar;
     TextView lblnohostories;
+    RewardedAd mRewardedAd;
 
-    public static HistoryFragment newInstance(){
+    public static HistoryFragment newInstance() {
         HistoryFragment historyFragment = new HistoryFragment();
         return historyFragment;
     }
@@ -60,42 +75,40 @@ public class HistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.activity_history,null,false);
-         toolbar = view.findViewById(R.id.toolbar_history);
+        view = inflater.inflate(R.layout.activity_history, null, false);
+        toolbar = view.findViewById(R.id.toolbar_history);
 
-            restActivity  = (RestActivity)getActivity();
-            lblnohostories =    view.findViewById(R.id.lblnohostories);
-            view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
-            restActivity.lockDrawer();
+        restActivity = (RestActivity) getActivity();
+        lblnohostories = view.findViewById(R.id.lblnohostories);
+        view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
+        restActivity.lockDrawer();
 
-       try{
-           historyDao  = restActivity.getHistoryDao();
-           initRecylerview();
-           subscribeHistoryData();
+        try {
+            historyDao = restActivity.getHistoryDao();
+            initRecylerview();
+            subscribeHistoryData();
 
-       }catch (Exception e){
-           e.printStackTrace();
-       }
-
-
-       restActivity.binding.toolbar.setVisibility(View.GONE);
-       view.setFocusableInTouchMode(true);
-       view.requestFocus();
-       view.setOnKeyListener(new View.OnKeyListener() {
-           @Override
-           public boolean onKey(View v, int keyCode, KeyEvent event) {
-               if(event.getAction() == KeyEvent.ACTION_DOWN){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-                   backButton();
-                   return true;
-               }
-               return false;
-           }
-       });
+        restActivity.binding.toolbar.setVisibility(View.GONE);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    backButton();
+                    return true;
+                }
+                return false;
+            }
+        });
 
-        Toolbar viewById =(Toolbar) view.findViewById(R.id.toolbar_history);
+        Toolbar viewById = (Toolbar) view.findViewById(R.id.toolbar_history);
         viewById.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,34 +118,72 @@ public class HistoryFragment extends Fragment {
         });
 
 
+        loadRewardedVideo();
+
+
+
 
         return view.getRootView();
     }
 
+    private void loadRewardedVideo() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        RewardedAd.load(getActivity(), "ca-app-pub-4299310549064965~7467487323",
+                adRequest, new RewardedAdLoadCallback(){
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d(TAG, loadAdError.getMessage());
+                        mRewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        if (mRewardedAd != null) {
+                            Activity activityContext = getActivity();
+                            mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+                                @Override
+                                public void onUserEarnedReward(@NonNull com.google.android.gms.ads.rewarded.RewardItem rewardItem) {
+                                    Log.d("TAG", "The user earned the reward.");
+                                    int rewardAmount = rewardItem.getAmount();
+                                    String rewardType = rewardItem.getType();
+                                }
 
 
+                            });
+                        } else {
+                            Log.d("TAG", "The rewarded ad wasn't ready yet.");
+                        }
+                        Log.d(TAG, "onAdFailedToLoad");
+                    }
+                });
+
+    }
 
 
-    public void backButton(){
-        restActivity. binding.lnrViewpager.setVisibility(View.VISIBLE);
+    public void backButton() {
+        restActivity.binding.lnrViewpager.setVisibility(View.VISIBLE);
         restActivity.binding.lnrMain.setVisibility(GONE);
         restActivity.binding.toolbar.setVisibility(View.VISIBLE);
 
 
     }
-    public void initRecylerview(){
-         recyclerView = view.findViewById(R.id.rcvhistory);
-         recyclerView.setLayoutManager(new LinearLayoutManager(restActivity));
-         recyclerView.setHasFixedSize(true);
-         recyclerView.setAdapter(null);
+
+    public void initRecylerview() {
+        recyclerView = view.findViewById(R.id.rcvhistory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(restActivity));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(null);
     }
 
-    public void subscribeHistoryData(){
+    public void subscribeHistoryData() {
 
         historyDao.loadAll().observe(this, new Observer<List<History>>() {
             @Override
             public void onChanged(List<History> histories) {
-                if(histories!=null ){
+                if (histories != null) {
                     Collections.reverse(histories);
                     view.findViewById(R.id.rlynohistories).setVisibility(View.GONE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.VISIBLE);
@@ -141,7 +192,7 @@ public class HistoryFragment extends Fragment {
 
                     HistoryRecyclerAdapter historyRecyclerAdapter = new HistoryRecyclerAdapter(histories);
                     recyclerView.setAdapter(historyRecyclerAdapter);
-                    if(histories.size() == 0){
+                    if (histories.size() == 0) {
                         view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
 
                         view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
@@ -150,7 +201,7 @@ public class HistoryFragment extends Fragment {
                     }
 
 
-                }else{
+                } else {
                     view.findViewById(R.id.rlynohistories).setVisibility(View.VISIBLE);
                     view.findViewById(R.id.rcvhistory).setVisibility(View.GONE);
                     lblnohostories.setText("No histories found");
@@ -159,17 +210,18 @@ public class HistoryFragment extends Fragment {
         });
     }
 
-    public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.HistoryViewHolder>{
+    public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecyclerAdapter.HistoryViewHolder> {
 
         List<History> historyList;
-        public  HistoryRecyclerAdapter(List<History> historyList){
+
+        public HistoryRecyclerAdapter(List<History> historyList) {
             this.historyList = historyList;
         }
 
         @NonNull
         @Override
         public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_inflate,null,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_inflate, null, false);
             return new HistoryViewHolder(view);
         }
 
@@ -177,67 +229,64 @@ public class HistoryFragment extends Fragment {
         public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
 
             History history = historyList.get(position);
-           if(history.isRest){
-               holder.rest_request.setText("RestRequest");
-           }else{
-               holder.rest_request.setText("FCMRequest");
-           }
+            if (history.isRest) {
+                holder.rest_request.setText("RestRequest");
+            } else {
+                holder.rest_request.setText("FCMRequest");
+            }
 
-           holder.requestmethod.setText(history.requestType);
-           holder.datetime.setText(history.createdAt);
-           holder.url.setText(history.requestUrl);
-
-
-           holder.itemView.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   int adapterPosition = holder.getAdapterPosition();
-                   History history1 = historyList.get(adapterPosition);
+            holder.requestmethod.setText(history.requestType);
+            holder.datetime.setText(history.createdAt);
+            holder.url.setText(history.requestUrl);
 
 
-                   sendMessage(history1);
-
-               }
-           });
-          holder.delete_history.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int adapterPosition = holder.getAdapterPosition();
+                    History history1 = historyList.get(adapterPosition);
 
 
+                    sendMessage(history1);
+
+                }
+            });
+            holder.delete_history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-                  DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface dialog, int which) {
-                          switch (which){
-                              case DialogInterface.BUTTON_POSITIVE:
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
 
-                                  //Yes button clicked
+                                    //Yes button clicked
 
-                                  new DeleteHistory(history).execute();
-                                  dialog.dismiss();
+                                    new DeleteHistory(history).execute();
+                                    dialog.dismiss();
 
 
-                                  break;
+                                    break;
 
-                              case DialogInterface.BUTTON_NEGATIVE:
-                                  //No button clicked
-                                  dialog.dismiss();
-                                  break;
-                          }
-                      }
-                  };
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    dialog.dismiss();
+                                    break;
+                            }
+                        }
+                    };
 
-                  AlertDialog.Builder builder = new AlertDialog.Builder(restActivity);
-                  builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(restActivity);
+                    builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
 
-                          .setNegativeButton("No", dialogClickListener).show();
-              }
+                            .setNegativeButton("No", dialogClickListener).show();
+                }
                 //  new DeleteHistory(history).execute();
 
 
-
-          });
+            });
 
         }
 
@@ -257,6 +306,7 @@ public class HistoryFragment extends Fragment {
             TextViewRegular url;
             TextViewRegular datetime;
             FrameLayout delete_history;
+
             public HistoryViewHolder(@NonNull View itemView) {
                 super(itemView);
                 requestmethod = itemView.findViewById(R.id.requestmethod);
@@ -272,22 +322,24 @@ public class HistoryFragment extends Fragment {
 
     private void sendMessage(History history1) {
 
-            Log.d("sender", "Broadcasting message");
-            Intent intent = new Intent("history");
-            // You can also include some extra data.
-            intent.putExtra("historyModel", history1);
-            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-            backButton();
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("history");
+        // You can also include some extra data.
+        intent.putExtra("historyModel", history1);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        backButton();
 
     }
 
-    public class DeleteHistory extends AsyncTask<Void, Void, Void>{
+    public class DeleteHistory extends AsyncTask<Void, Void, Void> {
 
 
         History history;
-        public DeleteHistory(History history){
+
+        public DeleteHistory(History history) {
             this.history = history;
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
             historyDao.delete(history);
@@ -298,10 +350,9 @@ public class HistoryFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             Log.d(TAG, "onPreExecute: ");
-            Toast.makeText(getContext(),"History deleted ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "History deleted ", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 }

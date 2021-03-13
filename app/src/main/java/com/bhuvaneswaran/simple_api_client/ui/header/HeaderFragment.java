@@ -91,12 +91,8 @@ public class HeaderFragment extends DialogFragment {
            requestlist = (ArrayList<String>) savedInstanceState.get("spinner");
            pos = savedInstanceState.getInt("position",0);
            type = savedInstanceState.getString("type",type);
-
-
-
        }
-
-        return binding.getRoot();
+       return binding.getRoot();
     }
 
     @Override

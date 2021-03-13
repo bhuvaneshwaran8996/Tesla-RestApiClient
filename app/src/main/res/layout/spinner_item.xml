@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.android_api_client.controls.TextViewMedium android:layout_width="match_parent"
+<com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textColor="@color/orange"
     android:padding="10dp"
     android:textSize="16sp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-</com.example.android_api_client.controls.TextViewMedium>
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
