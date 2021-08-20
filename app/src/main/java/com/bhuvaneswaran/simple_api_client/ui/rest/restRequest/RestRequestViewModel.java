@@ -84,14 +84,8 @@ public class RestRequestViewModel extends BaseViewModel<com.bhuvaneswaran.simple
 
                         ms = responseBodyResponse.raw().receivedResponseAtMillis() - responseBodyResponse.raw().sentRequestAtMillis() + " ms";
                         code = String.valueOf(responseBodyResponse.code());
-
-
                         Log.d("ms", "onNext: " + ms);
-
-
                         try {
-
-
                             ResponseBody s = responseBodyResponse.body();
                             String bodyString = s.string();
 

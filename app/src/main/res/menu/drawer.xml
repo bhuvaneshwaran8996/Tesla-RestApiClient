@@ -38,7 +38,7 @@
         <item
             android:id="@+id/versionNav"
             android:checked="true"
-            android:title="V1.0.2" />
+            android:title="V1.0" />
 
 
 

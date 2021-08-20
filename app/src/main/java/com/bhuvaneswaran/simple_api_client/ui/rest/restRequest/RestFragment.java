@@ -478,60 +478,60 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         } else {
             binding.lnrInnerBody.setVisibility(View.VISIBLE);
         }
-        loadInstrialAd();
-        loadRewardedAd();
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView = binding.getRoot().findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-              //  Toast.makeText(getActivity(), "onAdClosed", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-              //  Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-               // Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-              //  Toast.makeText(getActivity(), "onAdLeftApplication", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-              //  Toast.makeText(getActivity(), "onAdOpened", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-              //  Toast.makeText(getActivity(), "onAdLoaded", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-               // Toast.makeText(getActivity(), "onAdClicked", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-              //  Toast.makeText(getActivity(), "onAdImpression", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //loadInstrialAd();
+        //loadRewardedAd();
+        //AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView = binding.getRoot().findViewById(R.id.adView);
+//        mAdView.loadAd(adRequest);
+//        mAdView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdClosed() {
+//                super.onAdClosed();
+//              //  Toast.makeText(getActivity(), "onAdClosed", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(int i) {
+//                super.onAdFailedToLoad(i);
+//              //  Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(LoadAdError loadAdError) {
+//                super.onAdFailedToLoad(loadAdError);
+//               // Toast.makeText(getActivity(), "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdLeftApplication() {
+//                super.onAdLeftApplication();
+//              //  Toast.makeText(getActivity(), "onAdLeftApplication", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                super.onAdOpened();
+//              //  Toast.makeText(getActivity(), "onAdOpened", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+//                super.onAdLoaded();
+//              //  Toast.makeText(getActivity(), "onAdLoaded", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                super.onAdClicked();
+//               // Toast.makeText(getActivity(), "onAdClicked", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onAdImpression() {
+//                super.onAdImpression();
+//              //  Toast.makeText(getActivity(), "onAdImpression", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         binding.setViewModel(viewModel);
 
     }
@@ -649,7 +649,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     public void processSuccessResult(String body, String header, String requestCode, String requestTime) {
 
 
-        mInterstitialAd.show(getActivity());
+    //    mInterstitialAd.show(getActivity());
         try {
             this.body = body;
             this.header = header;
