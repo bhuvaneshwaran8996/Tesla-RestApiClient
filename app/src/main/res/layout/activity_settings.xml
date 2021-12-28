@@ -5,7 +5,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.bhuvaneswaran.simple_api_client.ui.rest.RestViewModel" />
+            type="com.bhuvaneswaran.simple_apiclient.ui.rest.RestViewModel" />
     </data>
 
 
@@ -66,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                                 android:layout_width="match_parent"
                                 android:text="Timeout Connection"
                                 android:padding="10dp"
@@ -74,7 +74,7 @@
                                 android:textColor="#fff"
                                 android:layout_height="wrap_content"/>
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                                 android:layout_width="match_parent"
                                 android:textSize="16sp"
                                 android:id="@+id/timeoutseconds"

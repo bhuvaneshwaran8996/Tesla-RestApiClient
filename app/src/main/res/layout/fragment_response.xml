@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.bhuvaneswaran.simple_api_client.ui.rest.response.ResponseViewModel" />
+            type="com.bhuvaneswaran.simple_apiclient.ui.rest.response.ResponseViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,7 +35,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -43,7 +43,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:id="@+id/txt_requestcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -68,7 +68,7 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:id="@+id/txt_responsetime"
                         android:layout_width="wrap_content"
 
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                     android:id="@+id/header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone">
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:id="@+id/header_text"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
@@ -126,7 +126,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -153,7 +153,7 @@
 
                             tools:ignore="MissingClass" />
 
-                        <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                             android:id="@+id/jsonText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

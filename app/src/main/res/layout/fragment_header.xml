@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                 android:id="@+id/header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Type"
                         android:textSize="20sp"
@@ -65,7 +65,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Key"
                         android:textSize="20sp"
@@ -76,7 +76,7 @@
                         android:paddingRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_key"
                             android:textColor="@color/orange"
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
 
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Value"
                         android:layout_marginLeft="20dp"
@@ -104,7 +104,7 @@
                         android:paddingRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_value"
                             android:textColor="@color/orange"
@@ -120,7 +120,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Username"
                         android:textSize="20sp"
@@ -131,7 +131,7 @@
                         android:paddingRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_username"
                             android:textColor="@color/orange"
@@ -147,7 +147,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Password"
                         android:textSize="20sp"
@@ -158,7 +158,7 @@
                         android:paddingRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_password"
                             android:textColor="@color/orange"
@@ -174,7 +174,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                         android:layout_width="100dp"
                         android:text="Token"
                         android:textSize="20sp"
@@ -186,7 +186,7 @@
                         android:paddingRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                             android:layout_width="match_parent"
                             android:id="@+id/edit_token"
                             android:textColor="@color/orange"
@@ -208,7 +208,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                         android:layout_width="match_parent"
                         android:text="OK"
                         android:id="@+id/ok"
@@ -220,7 +220,7 @@
                         android:textColor="@color/black"
                         android:background="@color/white"
                         android:layout_height="wrap_content"/>
-                    <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                    <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                         android:layout_width="match_parent"
                         android:id="@+id/cancel"
                         android:text="Cancel"

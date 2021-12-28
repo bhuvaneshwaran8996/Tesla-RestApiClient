@@ -12,7 +12,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.bhuvaneswaran.simple_api_client.ui.rest.restRequest.RestRequestViewModel" />
+            type="com.bhuvaneswaran.simple_apiclient.ui.rest.restRequest.RestRequestViewModel" />
     </data>
 
 
@@ -52,7 +52,7 @@
                         android:layout_height="50dp"
                         android:gravity="center">
 
-                        <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                        <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
@@ -108,7 +108,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1">
 
-                            <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                                 android:id="@+id/url"
 
                                 android:layout_width="match_parent"
@@ -141,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp">
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                                 android:id="@+id/body"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:buttonTint="@color/white" />
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                                 android:id="@+id/raw"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                                 android:layout_toRightOf="@+id/raw"
                                 android:buttonTint="@color/white" />
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -200,7 +200,7 @@
                             android:layout_height="wrap_content">
 
 
-                                <com.bhuvaneswaran.simple_api_client.controls.EditTextRegular
+                                <com.bhuvaneswaran.simple_apiclient.controls.EditTextRegular
                                     android:id="@+id/editBody"
                                     android:layout_width="match_parent"
                                     android:textColor="@color/white"
@@ -223,7 +223,7 @@
                             android:id="@+id/rly_key"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                                 android:layout_width="wrap_content"
                                 android:text="Key"
                                 android:textSize="18sp"
@@ -231,7 +231,7 @@
                                 android:textColor="@color/white"
                                 android:layout_height="wrap_content"/>
 
-                            <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                            <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                                 android:layout_width="wrap_content"
                                 android:text="Add new"
 
@@ -266,7 +266,7 @@
                         android:id="@+id/rly_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                        <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                             android:layout_width="wrap_content"
                             android:text="Headers"
                             android:id="@+id/lblheaders"
@@ -274,7 +274,7 @@
                             android:textColor="@color/white"
                             android:layout_height="wrap_content"/>
 
-                        <com.bhuvaneswaran.simple_api_client.controls.TextViewRegular
+                        <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
                             android:id="@+id/txt_addheader"
                             android:layout_width="wrap_content"
                             android:text="Add new"
@@ -321,7 +321,7 @@
 
 
 
-                <com.bhuvaneswaran.simple_api_client.controls.TextViewMedium
+                <com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium
                     android:id="@+id/txt_send"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -335,7 +335,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/orange">
 
-                </com.bhuvaneswaran.simple_api_client.controls.TextViewMedium>
+                </com.bhuvaneswaran.simple_apiclient.controls.TextViewMedium>
 
             </RelativeLayout>
         </RelativeLayout>

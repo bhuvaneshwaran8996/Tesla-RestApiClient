@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.bhuvaneswaran.simple_api_client.ui.rest.fcmrequest.FcmViewModel" />
+            type="com.bhuvaneswaran.simple_apiclient.ui.rest.fcmrequest.FcmViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
