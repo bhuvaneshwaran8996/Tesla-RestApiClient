@@ -88,7 +88,7 @@
                     </LinearLayout>
                 </FrameLayout>
 
-                <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
+                <com.bhuvaneswaran.simple_apiclient_latest.controls.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -98,7 +98,7 @@
                     android:textColor="#fff"
                     android:textSize="16sp" />
 
-                <com.bhuvaneswaran.simple_apiclient.controls.TextViewBold
+                <com.bhuvaneswaran.simple_apiclient_latest.controls.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -108,7 +108,7 @@
                     android:textColor="#fff"
                     android:textSize="20sp" />
 
-                <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
+                <com.bhuvaneswaran.simple_apiclient_latest.controls.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -120,7 +120,7 @@
                     android:textColor="#fff"
                     android:textSize="16sp" />
 
-                <com.bhuvaneswaran.simple_apiclient.controls.TextViewBold
+                <com.bhuvaneswaran.simple_apiclient_latest.controls.TextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -130,7 +130,7 @@
                     android:textColor="#fff"
                     android:textSize="20sp" />
 
-                <com.bhuvaneswaran.simple_apiclient.controls.TextViewRegular
+                <com.bhuvaneswaran.simple_apiclient_latest.controls.TextViewRegular
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

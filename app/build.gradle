@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.bhuvaneswaran.simple_apiclient"
+        applicationId "com.bhuvaneswaran.simple_apiclient_latest"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
