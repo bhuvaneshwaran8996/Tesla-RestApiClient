@@ -17,11 +17,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.bhuvaneswaran.simple_api_client.R;
 import com.bhuvaneswaran.simple_api_client.databinding.FragmentRestBinding;
@@ -38,18 +38,6 @@ import com.bhuvaneswaran.simple_api_client.ui.header.HeadersAdapter;
 import com.bhuvaneswaran.simple_api_client.ui.rest.RestActivity;
 import com.bhuvaneswaran.simple_api_client.utils.CommonUtils;
 import com.bhuvaneswaran.simple_api_client.utils.NetworkUtils;
-import com.bhuvaneswaran.simple_api_client.ui.rest.restRequest.RestRequestViewModel;
-import com.bhuvaneswaran.simple_api_client.ui.rest.restRequest.RestResquestNavigtor;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -99,8 +87,8 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
     String body;
     String header;
     int postion;
-    private AdView mAdView;
-    private InterstitialAd mInterstitialAd;
+//    private AdView mAdView;
+//    private InterstitialAd mInterstitialAd;
 
 
     List<Body> bodyList;
@@ -114,7 +102,7 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     @Override
     protected int getViewModel() {
-        return BR.viewModel;
+        return com.bhuvaneswaran.simple_api_client.BR.viewModel;
     }
 
 
@@ -167,12 +155,12 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
         fragmentRestBinding = getBinding();
 
         viewModel.setNavigator(this);
-        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-
-        });
+//        MobileAds.initialize(getActivity(), new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {
+//            }
+//
+//        });
 
 
         setRetainInstance(true);
@@ -536,28 +524,28 @@ public class RestFragment extends BaseFragment<FragmentRestBinding, RestRequestV
 
     }
 
-    private void loadInstrialAd() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(getActivity(), "ca-app-pub-4299310549064965~7467487323", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                // The mInterstitialAd reference will be null until
-                // an ad is loaded.
-                mInterstitialAd = interstitialAd;
-
-                Log.i(TAG, "onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                // Handle the error
-                Log.i(TAG, loadAdError.getMessage());
-                mInterstitialAd = null;
-            }
-        });
-
-    }
+//    private void loadInstrialAd() {
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//
+//        InterstitialAd.load(getActivity(), "ca-app-pub-4299310549064965~7467487323", adRequest, new InterstitialAdLoadCallback() {
+//            @Override
+//            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+//                // The mInterstitialAd reference will be null until
+//                // an ad is loaded.
+//                mInterstitialAd = interstitialAd;
+//
+//                Log.i(TAG, "onAdLoaded");
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                // Handle the error
+//                Log.i(TAG, loadAdError.getMessage());
+//                mInterstitialAd = null;
+//            }
+//        });
+//
+//    }
 
     private void loadRewardedAd() {
 

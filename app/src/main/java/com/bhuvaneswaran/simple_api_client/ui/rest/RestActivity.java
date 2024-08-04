@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -299,7 +298,7 @@ public class RestActivity extends BaseActivity<ActivityRestBinding, RestViewMode
     @Override
     protected int getViewModelVariable() {
 
-        return BR.viewModel;
+        return com.bhuvaneswaran.simple_api_client.BR.viewModel;
     }
 
     @Override

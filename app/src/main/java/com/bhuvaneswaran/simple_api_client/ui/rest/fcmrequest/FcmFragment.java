@@ -2,7 +2,7 @@ package com.bhuvaneswaran.simple_api_client.ui.rest.fcmrequest;
 
 import android.os.Bundle;
 
-import androidx.databinding.library.baseAdapters.BR;
+
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bhuvaneswaran.simple_api_client.R;
@@ -33,7 +33,7 @@ public class FcmFragment extends BaseFragment<FragmentFcmBinding, FcmViewModel> 
 
     @Override
     protected int getViewModel() {
-        return BR.viewModel;
+        return com.bhuvaneswaran.simple_api_client.BR.viewModel;
     }
 
 

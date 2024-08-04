@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.util.MalformedJsonException;
 import android.view.View;
+
 
 import com.bhuvaneswaran.simple_api_client.R;
 import com.bhuvaneswaran.simple_api_client.databinding.FragmentResponseBinding;
@@ -18,7 +18,6 @@ import com.bhuvaneswaran.simple_api_client.db.AppDatabase;
 import com.bhuvaneswaran.simple_api_client.di.ViewModelProviderFactory;
 import com.bhuvaneswaran.simple_api_client.ui.base.BaseFragment;
 import com.bhuvaneswaran.simple_api_client.ui.rest.RestActivity;
-import com.bhuvaneswaran.simple_api_client.ui.rest.response.ResponseViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -113,7 +112,7 @@ public class ResponseFragment extends BaseFragment<FragmentResponseBinding, com.
 
     @Override
     protected int getViewModel() {
-        return BR.viewModel;
+        return com.bhuvaneswaran.simple_api_client.BR.viewModel;
     }
 
 
